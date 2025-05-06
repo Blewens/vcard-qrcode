@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>vCard QR Code Generator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>vCard QR Code Generator</h1>
+    <form id="vcard-form">
+      <input type="text" id="name" placeholder="Full Name" required />
+      <input type="tel" id="phone" placeholder="Phone Number" />
+      <input type="email" id="email" placeholder="Email" />
+
+      <label>QR Foreground Color: <input type="color" id="fgColor" value="#000000"></label>
+      <label>QR Background Color: <input type="color" id="bgColor" value="#ffffff"></label>
+      <label>QR Size (px): <input type="number" id="qrSize" value="200" min="100" max="500"></label>
+      <label>Upload Logo (optional): <input type="file" id="logo" accept="image/*"></label>
+
+      <button type="submit">Generate</button>
+    </form>
+
+    <canvas id="qrcode"></canvas><br/>
+    <a id="download-link" href="#" download="contact.vcf">Download vCard</a>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
