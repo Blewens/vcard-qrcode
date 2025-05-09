@@ -22,14 +22,13 @@
       <input type="url" id="twitter" placeholder="Twitter/X URL" />
       <input type="url" id="facebook" placeholder="Facebook URL" />
 
-      <div style="text-align: center;">
-        <button type="button" id="generateBtn" class="action-button black">Generate</button>
-        <button type="button" id="downloadQR" class="action-button blue">Download QR Code</button>
-        <button type="button" id="downloadVCF" class="action-button green">Download vCard</button>
-      </div>
+      <button type="button" id="generateBtn" class="action-button black">Generate QR Code</button>
+      <canvas id="qrcode" width="250" height="250"></canvas>
+
+      <button type="button" id="downloadQR" class="action-button blue">Download QR Code</button>
+      <button type="button" id="downloadVCF" class="action-button green">Download vCard</button>
     </form>
 
-    <canvas id="qrcode" width="250" height="250"></canvas>
     <textarea id="vcardData" style="display: none;"></textarea>
   </main>
 
