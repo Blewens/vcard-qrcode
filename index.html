@@ -6,6 +6,17 @@
   <title>Scan, Save, Connect — Simple QR vCards</title>
   <link rel="stylesheet" href="style.css" />
 </head>
+  <script>
+  document.getElementById('downloadQR').addEventListener('click', function () {
+    const canvas = document.getElementById('qrcode');
+    if (canvas) {
+      const link = document.createElement('a');
+      link.href = canvas.toDataURL('image/png');
+      link.download = 'vcard-qr.png';
+      link.click();
+    }
+  });
+</script>
 <body>
   <div style="text-align: center; margin-top: 1em;">
     <img src="QRVCard.PNG" alt="vCard QR Logo" style="max-width: 120px;" />
