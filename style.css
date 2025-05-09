@@ -27,3 +27,13 @@ canvas {
   margin-top: 20px;
   border: 1px solid #ccc;
 }
+#downloadQR {
+  margin-top: 10px;
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color: #2c7be5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
