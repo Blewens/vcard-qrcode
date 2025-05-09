@@ -16,11 +16,14 @@ body {
 }
 
 input, button, label {
-  display: block;
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  box-sizing: border-box;
+  margin-top: 10px;
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color: #2c7be5;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 canvas {
@@ -39,7 +42,6 @@ canvas {
 }
 #downloadVCF {
   margin-top: 10px;
-  margin-left: 10px;
   padding: 10px 16px;
   font-size: 16px;
   background-color: #28a745;
