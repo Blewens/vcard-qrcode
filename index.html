@@ -16,6 +16,16 @@
       link.click();
     }
   });
+    <script>
+      <script>
+  document.getElementById('downloadVCF').addEventListener('click', function () {
+    const vcfBlob = new Blob([document.getElementById('vcardData').value], { type: 'text/vcard' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(vcfBlob);
+    link.download = 'contact.vcf';
+    link.click();
+  });
+</script>
 
 <body>
   <div style="text-align: center; margin-top: 1em;">
@@ -40,17 +50,9 @@
 
     <canvas id="qrcode"></canvas><br/>
   <button id="downloadQR">Download QR Code</button>
-    <a id="download-link" href="#" download="contact.vcf">Download vCard</a>
-  </div>
-  <script>
-  document.getElementById('downloadVCF').addEventListener('click', function () {
-    const vcfBlob = new Blob([document.getElementById('vcardData').value], { type: 'text/vcard' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(vcfBlob);
-    link.download = 'contact.vcf';
-    link.click();
-  });
-</script>
+      <button id="downloadVCF">Download vCard</button>
+</div>
+  
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
   <script src="script.js"></script>
