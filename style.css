@@ -42,14 +42,15 @@ input[type="url"] {
 }
 
 .action-button {
-  padding: 12px 18px;
+  display: block;
+  width: 100%;
+  padding: 14px;
   font-size: 16px;
-  margin: 12px 6px;
+  margin: 12px 0;
   border: none;
   border-radius: 6px;
   color: white;
   cursor: pointer;
-  min-width: 160px;
   transition: background-color 0.2s ease-in-out;
 }
 
