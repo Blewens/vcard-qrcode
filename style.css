@@ -37,3 +37,14 @@ canvas {
   border-radius: 5px;
   cursor: pointer;
 }
+#downloadVCF {
+  margin-top: 10px;
+  margin-left: 10px;
+  padding: 10px 16px;
+  font-size: 16px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
