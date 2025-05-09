@@ -1,62 +1,126 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Scan, Save, Connect — Simple QR vCards</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <title>QR vCard Generator</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      text-align: center;
+      padding: 20px;
+    }
+    input, textarea {
+      width: 80%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .action-button {
+      padding: 12px 18px;
+      font-size: 16px;
+      margin: 10px 6px;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+      min-width: 160px;
+    }
+    .action-button.black {
+      background-color: #333;
+    }
+    .action-button.blue {
+      background-color: #2c7be5;
+    }
+    .action-button.green {
+      background-color: #28a745;
+    }
+  </style>
 </head>
+<body>
+  <h1>Scan, Save, Connect — Simple QR vCards</h1>
+
+  <form id="vcardForm">
+    <input type="text" id="fullName" placeholder="Full Name" required><br>
+    <input type="text" id="org" placeholder="Organization"><br>
+    <input type="tel" id="phone" placeholder="Phone Number"><br>
+    <input type="email" id="email" placeholder="Email Address"><br>
+    <input type="url" id="website" placeholder="Website"><br>
+
+    <!-- Optional Social Media -->
+    <input type="url" id="linkedin" placeholder="LinkedIn URL"><br>
+    <input type="url" id="twitter" placeholder="Twitter/X URL"><br>
+    <input type="url" id="facebook" placeholder="Facebook URL"><br>
+
+    <button type="button" id="generateBtn" class="action-button black">Generate</button>
+  </form>
+
+  <canvas id="qrcode" style="display: block; margin: 20px auto;"></canvas>
+
+  <div>
+    <button id="downloadQR" class="action-button blue">Download QR Code</button>
+    <button id="downloadVCF" class="action-button green">Download vCard</button>
+  </div>
+
+  <!-- Hidden vCard storage -->
+  <textarea id="vcardData" style="display:none;"></textarea>
+
+  <!-- QRious Library -->
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+
   <script>
-  document.getElementById('downloadQR').addEventListener('click', function () {
-    const canvas = document.getElementById('qrcode');
-    if (canvas) {
+    const generateBtn = document.getElementById('generateBtn');
+    const qrCanvas = document.getElementById('qrcode');
+
+    generateBtn.addEventListener('click', function () {
+      const fullName = document.getElementById('fullName').value;
+      const org = document.getElementById('org').value;
+      const phone = document.getElementById('phone').value;
+      const email = document.getElementById('email').value;
+      const website = document.getElementById('website').value;
+
+      const linkedin = document.getElementById('linkedin').value;
+      const twitter = document.getElementById('twitter').value;
+      const facebook = document.getElementById('facebook').value;
+
+      let vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${fullName}\n`;
+
+      if (org) vcard += `ORG:${org}\n`;
+      if (phone) vcard += `TEL:${phone}\n`;
+      if (email) vcard += `EMAIL:${email}\n`;
+      if (website) vcard += `URL:${website}\n`;
+      if (linkedin) vcard += `URL;TYPE=LinkedIn:${linkedin}\n`;
+      if (twitter) vcard += `URL;TYPE=Twitter:${twitter}\n`;
+      if (facebook) vcard += `URL;TYPE=Facebook:${facebook}\n`;
+
+      vcard += `END:VCARD`;
+
+      // Save to hidden textarea
+      document.getElementById('vcardData').value = vcard;
+
+      // Generate QR code
+      new QRious({
+        element: qrCanvas,
+        value: vcard,
+        size: 250
+      });
+    });
+
+    document.getElementById('downloadQR').addEventListener('click', function () {
       const link = document.createElement('a');
-      link.href = canvas.toDataURL('image/png');
+      link.href = qrCanvas.toDataURL('image/png');
       link.download = 'vcard-qr.png';
       link.click();
-    }
-  });
-    <script>
-      <script>
-  document.getElementById('downloadVCF').addEventListener('click', function () {
-    const vcfBlob = new Blob([document.getElementById('vcardData').value], { type: 'text/vcard' });
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(vcfBlob);
-    link.download = 'contact.vcf';
-    link.click();
-  });
-</script>
+    });
 
-<body>
-  <div style="text-align: center; margin-top: 1em;">
-    <img src="QRVCard.PNG" alt="vCard QR Logo" style="max-width: 120px;" />
-  </div>
- 
-
-  <h1>Scan, Save, Connect</h1>
-  <p>Simple QR vCards</p>
-    <form id="vcard-form">
-      <input type="text" id="name" placeholder="Full Name" required />
-      <input type="tel" id="phone" placeholder="Phone Number" />
-      <input type="email" id="email" placeholder="Email" />
-
-      <label>QR Foreground Color: <input type="color" id="fgColor" value="#000000"></label>
-      <label>QR Background Color: <input type="color" id="bgColor" value="#ffffff"></label>
-      <label>QR Size (px): <input type="number" id="qrSize" value="200" min="100" max="500"></label>
-      <label>Upload Logo (optional): <input type="file" id="logo" accept="image/*"></label>
-
-      <button type="submit">Generate</button>
-    </form>
-
-    <canvas id="qrcode"></canvas><br/>
-  <button id="downloadQR">Download QR Code</button>
-  <button id="downloadVCF">Download vCard</button>
-</div>
-  
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
-  <script src="script.js"></script>
-</body>
-</html>
+    document.getElementById('downloadVCF').addEventListener('click', function () {
+      const vcfData = document.getElementById('vcardData').value;
+      const blob = new Blob([vcfData], { type: 'text/vcard' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'contact.vcf';
+      link.click();
+    });
+  </script>
 </body>
 </html>
