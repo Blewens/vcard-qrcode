@@ -16,6 +16,14 @@
       link.click();
     }
   });
+<script>
+  document.getElementById('downloadVCF').addEventListener('click', function () {
+    const vcfBlob = new Blob([document.getElementById('vcardData').value], { type: 'text/vcard' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(vcfBlob);
+    link.download = 'contact.vcf';
+    link.click();
+  });
 </script>
 <body>
   <div style="text-align: center; margin-top: 1em;">
