@@ -5,49 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>QR vCard Generator</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
 </head>
 <body>
-
   <header>Scan, Save, Connect — Simple QR vCards</header>
   <a href="index.html">
-  <img src="QRVCard.PNG" alt="QR vCard Logo" class="logo" />
-</a>
+    <img src="logo.png" alt="QR vCard Logo" class="logo" />
+  </a>
 
   <main>
-    <h1>Generate Your Contact QR</h1>
     <form id="vcardForm">
-      <div class="form-group">
-        <input type="text" id="fullName" placeholder="Full Name" required />
-        <input type="text" id="org" placeholder="Organization" />
-        <input type="tel" id="phone" placeholder="Phone Number" />
-        <input type="email" id="email" placeholder="Email Address" />
-        <input type="url" id="website" placeholder="Website" />
-        <input type="url" id="linkedin" placeholder="LinkedIn URL" />
-        <input type="url" id="twitter" placeholder="Twitter/X URL" />
-        <input type="url" id="facebook" placeholder="Facebook URL" />
+      <input type="text" id="fullName" placeholder="Full Name" required />
+      <input type="text" id="org" placeholder="Organization" />
+      <input type="tel" id="phone" placeholder="Phone Number" />
+      <input type="email" id="email" placeholder="Email Address" />
+      <input type="url" id="website" placeholder="Website" />
+      <input type="url" id="linkedin" placeholder="LinkedIn Profile" />
+      <input type="url" id="twitter" placeholder="Twitter Profile" />
+      <input type="url" id="facebook" placeholder="Facebook Profile" />
+
+      <label class="button-label">Choose QR Color</label>
+      <div class="color-options">
+        <button type="button" class="color-btn" data-color="#000000" style="background-color:#000;"></button>
+        <button type="button" class="color-btn" data-color="#0066ff" style="background-color:#0066ff;"></button>
+        <button type="button" class="color-btn" data-color="#2ecc71" style="background-color:#2ecc71;"></button>
+        <button type="button" class="color-btn" data-color="#e74c3c" style="background-color:#e74c3c;"></button>
       </div>
 
-      <button type="button" id="generateBtn" class="action-button black">Generate QR Code</button>
-      <canvas id="qrcode" width="250" height="250"></canvas>
-      <button type="button" id="downloadQR" class="action-button blue">Download QR Code</button>
-      <button type="button" id="downloadVCF" class="action-button green">Download vCard</button>
+      <label class="button-label">Upload Logo (optional)</label>
+      <input type="file" id="logoUpload" accept="image/*" />
+
+      <button type="button" id="generateBtn" class="btn btn-dark">Generate QR Code</button>
     </form>
 
-    <textarea id="vcardData" style="display: none;"></textarea>
+    <br />
+    <canvas id="qrcode"></canvas>
+
+    <textarea id="vcardData" hidden></textarea>
+
+    <button id="downloadQR" class="btn btn-blue">Download QR Code</button>
+    <button id="downloadVCF" class="btn btn-green">Download vCard</button>
   </main>
 
-  <footer>
-    No data is stored or shared. Everything stays in your browser.
-  </footer>
+  <footer>&copy; 2025 QR vCard</footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
   <script>
     const qrCanvas = document.getElementById('qrcode');
     const vcardData = document.getElementById('vcardData');
+    let selectedColor = "#000000";
+    let logoImage = null;
+
+    document.querySelectorAll('.color-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedColor = btn.dataset.color;
+      });
+    });
+
+    document.getElementById('logoUpload').addEventListener('change', (e) => {
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        logoImage = new Image();
+        logoImage.src = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    });
 
     document.getElementById('generateBtn').addEventListener('click', function () {
-      const fullName = document.getElementById('fullName').value;
-      const org = document.getElementById('org').value;
+      const fullName = document.getElementById('fullName').value.trim();
+      const org = document.getElementById('org').value.trim();
       const phone = document.getElementById('phone').value;
       const email = document.getElementById('email').value;
       const website = document.getElementById('website').value;
@@ -67,25 +92,49 @@
 
       vcardData.value = vcard;
 
-      new QRious({
+      const qr = new QRious({
         element: qrCanvas,
         value: vcard,
-        size: 250
+        size: 250,
+        foreground: selectedColor
       });
+
+      if (logoImage) {
+        const ctx = qrCanvas.getContext('2d');
+        const imgSize = 50;
+        ctx.drawImage(logoImage, (qrCanvas.width - imgSize) / 2, (qrCanvas.height - imgSize) / 2, imgSize, imgSize);
+      }
     });
 
+    function sanitizeFilename(str) {
+      return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    }
+
+    function getDateStamp() {
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
+    }
+
     document.getElementById('downloadQR').addEventListener('click', function () {
+      const name = document.getElementById('fullName').value.trim();
+      const org = document.getElementById('org').value.trim();
+      const fileBase = sanitizeFilename(`${name}-${org}-${getDateStamp()}` || 'vcard');
+
       const link = document.createElement('a');
       link.href = qrCanvas.toDataURL('image/png');
-      link.download = 'vcard-qr.png';
+      link.download = `${fileBase}-qr.png`;
       link.click();
     });
 
     document.getElementById('downloadVCF').addEventListener('click', function () {
+      const name = document.getElementById('fullName').value.trim();
+      const org = document.getElementById('org').value.trim();
+      const fileBase = sanitizeFilename(`${name}-${org}-${getDateStamp()}` || 'vcard');
+
       const blob = new Blob([vcardData.value], { type: 'text/vcard' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = 'contact.vcf';
+      link.download = `${fileBase}.vcf`;
       link.click();
     });
   </script>
