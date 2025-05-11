@@ -2,141 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QR vCard Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QR vCard | Scan, Save, Connect</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/qrious@4.0.2/dist/qrious.min.js"></script>
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
-  <header>Scan, Save, Connect — Simple QR vCards</header>
-  <a href="index.html">
-    <img src="QRVCard.PNG" alt="QR vCard Logo" class="logo" />
-  </a>
+  <header>
+    <a href="index.html">
+      <img src="logo.png" alt="QR vCard Logo" class="logo" />
+    </a>
+    <h1>Scan, Save, Connect</h1>
+  </header>
 
   <main>
     <form id="vcardForm">
-      <input type="text" id="fullName" placeholder="Full Name" required />
-      <input type="text" id="org" placeholder="Organization" />
-      <input type="tel" id="phone" placeholder="Phone Number" />
-      <input type="email" id="email" placeholder="Email Address" />
-      <input type="url" id="website" placeholder="Website" />
-      <input type="url" id="linkedin" placeholder="LinkedIn Profile" />
-      <input type="url" id="twitter" placeholder="Twitter Profile" />
-      <input type="url" id="facebook" placeholder="Facebook Profile" />
+      <label for="fullName">Full Name*</label>
+      <input type="text" id="fullName" name="fullName" required />
 
-      <label class="button-label">Choose QR Color</label>
-      <div class="color-options">
-        <button type="button" class="color-btn" data-color="#000000" style="background-color:#000;"></button>
-        <button type="button" class="color-btn" data-color="#0066ff" style="background-color:#0066ff;"></button>
-        <button type="button" class="color-btn" data-color="#2ecc71" style="background-color:#2ecc71;"></button>
-        <button type="button" class="color-btn" data-color="#e74c3c" style="background-color:#e74c3c;"></button>
-      </div>
+      <label for="phone">Phone*</label>
+      <input type="tel" id="phone" name="phone" required />
 
-      <label class="button-label">Upload Logo (optional)</label>
-      <input type="file" id="logoUpload" accept="image/*" />
+      <label for="email">Email*</label>
+      <input type="email" id="email" name="email" required />
 
-      <button type="button" id="generateBtn" class="btn btn-dark">Generate QR Code</button>
+      <details>
+        <summary>Additional Details</summary>
+
+        <label for="organization">Organization</label>
+        <input type="text" id="organization" name="organization" />
+
+        <label for="title">Job Title</label>
+        <input type="text" id="title" name="title" />
+
+        <label for="address">Address</label>
+        <input type="text" id="address" name="address" />
+
+        <label for="website">Website</label>
+        <input type="url" id="website" name="website" />
+
+        <label for="linkedin">LinkedIn</label>
+        <input type="url" id="linkedin" name="linkedin" />
+
+        <label for="twitter">Twitter</label>
+        <input type="url" id="twitter" name="twitter" />
+
+        <label for="facebook">Facebook</label>
+        <input type="url" id="facebook" name="facebook" />
+
+        <label for="instagram">Instagram</label>
+        <input type="url" id="instagram" name="instagram" />
+
+        <label for="dob">Date of Birth</label>
+        <input type="date" id="dob" name="dob" />
+      </details>
+
+      <details>
+        <summary>QR Customization</summary>
+
+        <label for="qrSize">QR Code Size</label>
+        <select id="qrSize" name="qrSize">
+          <option value="128">Small</option>
+          <option value="256" selected>Medium</option>
+          <option value="512">Large</option>
+        </select>
+
+        <label for="foregroundColor">Foreground Color</label>
+        <input type="color" id="foregroundColor" name="foregroundColor" value="#000000" />
+
+        <label for="backgroundColor">Background Color</label>
+        <input type="color" id="backgroundColor" name="backgroundColor" value="#ffffff" />
+
+        <label for="qrLogo">Upload Logo</label>
+        <input type="file" id="qrLogo" accept="image/*" />
+      </details>
+
+      <button type="button" id="generateBtn">Generate QR</button>
     </form>
 
-    <br />
     <canvas id="qrcode"></canvas>
 
-    <textarea id="vcardData" hidden></textarea>
-
-    <button id="downloadQR" class="btn btn-blue">Download QR Code</button>
-    <button id="downloadVCF" class="btn btn-green">Download vCard</button>
+    <button id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</button>
+    <button id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</button>
   </main>
 
-  <footer>&copy; 2025 QR vCard</footer>
+  <footer>
+    <p>&copy; 2025 QR vCard — <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
 
-  <script>
-    const qrCanvas = document.getElementById('qrcode');
-    const vcardData = document.getElementById('vcardData');
-    let selectedColor = "#000000";
-    let logoImage = null;
-
-    document.querySelectorAll('.color-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        selectedColor = btn.dataset.color;
-      });
-    });
-
-    document.getElementById('logoUpload').addEventListener('change', (e) => {
-      const reader = new FileReader();
-      reader.onload = function (event) {
-        logoImage = new Image();
-        logoImage.src = event.target.result;
-      };
-      reader.readAsDataURL(e.target.files[0]);
-    });
-
-    document.getElementById('generateBtn').addEventListener('click', function () {
-      const fullName = document.getElementById('fullName').value.trim();
-      const org = document.getElementById('org').value.trim();
-      const phone = document.getElementById('phone').value;
-      const email = document.getElementById('email').value;
-      const website = document.getElementById('website').value;
-      const linkedin = document.getElementById('linkedin').value;
-      const twitter = document.getElementById('twitter').value;
-      const facebook = document.getElementById('facebook').value;
-
-      let vcard = `BEGIN:VCARD\nVERSION:3.0\nFN:${fullName}\n`;
-      if (org) vcard += `ORG:${org}\n`;
-      if (phone) vcard += `TEL:${phone}\n`;
-      if (email) vcard += `EMAIL:${email}\n`;
-      if (website) vcard += `URL:${website}\n`;
-      if (linkedin) vcard += `URL;TYPE=LinkedIn:${linkedin}\n`;
-      if (twitter) vcard += `URL;TYPE=Twitter:${twitter}\n`;
-      if (facebook) vcard += `URL;TYPE=Facebook:${facebook}\n`;
-      vcard += `END:VCARD`;
-
-      vcardData.value = vcard;
-
-      const qr = new QRious({
-        element: qrCanvas,
-        value: vcard,
-        size: 250,
-        foreground: selectedColor
-      });
-
-      if (logoImage) {
-        const ctx = qrCanvas.getContext('2d');
-        const imgSize = 50;
-        ctx.drawImage(logoImage, (qrCanvas.width - imgSize) / 2, (qrCanvas.height - imgSize) / 2, imgSize, imgSize);
-      }
-    });
-
-    function sanitizeFilename(str) {
-      return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-    }
-
-    function getDateStamp() {
-      const now = new Date();
-      return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;
-    }
-
-    document.getElementById('downloadQR').addEventListener('click', function () {
-      const name = document.getElementById('fullName').value.trim();
-      const org = document.getElementById('org').value.trim();
-      const fileBase = sanitizeFilename(`${name}-${org}-${getDateStamp()}` || 'vcard');
-
-      const link = document.createElement('a');
-      link.href = qrCanvas.toDataURL('image/png');
-      link.download = `${fileBase}-qr.png`;
-      link.click();
-    });
-
-    document.getElementById('downloadVCF').addEventListener('click', function () {
-      const name = document.getElementById('fullName').value.trim();
-      const org = document.getElementById('org').value.trim();
-      const fileBase = sanitizeFilename(`${name}-${org}-${getDateStamp()}` || 'vcard');
-
-      const blob = new Blob([vcardData.value], { type: 'text/vcard' });
-      const link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `${fileBase}.vcf`;
-      link.click();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
