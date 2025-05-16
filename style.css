@@ -52,17 +52,6 @@ input {
   color: #fff;
 }
 
-input[type="date"] {
-  color-scheme: dark;
-  background: #333;
-  color: #fff;
-  padding: 12px;
-  width: 100%;
-  border-radius: 8px;
-  font-size: 16px;
-  border: none;
-}
-
 details {
   margin: 10px 0;
   background: #222;
