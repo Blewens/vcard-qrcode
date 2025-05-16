@@ -1,119 +1,104 @@
-/* Base Styles */
 body {
-  background-color: #121212;
-  color: #ffffff;
-  font-family: 'Inter', 'Roboto', sans-serif;
   margin: 0;
-  padding: 0;
-}
-
-main {
-  max-width: 500px;
-  margin: 0 auto;
-  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  background: #111;
+  color: #eee;
   text-align: center;
+  padding: 20px;
 }
 
-/* Logo */
-.logo {
+header .logo {
   width: 120px;
   margin: 20px auto 10px;
   display: block;
 }
 
-/* Tagline */
-.tagline {
+h1 {
+  margin-top: 0;
   font-size: 1.5em;
-  margin-bottom: 10px;
+  color: #00ffcc;
 }
 
-/* Intro Text */
-.intro {
-  font-size: 16px;
-  color: #cccccc;
-  margin: 10px 0 30px;
-  line-height: 1.5;
+.intro p {
+  max-width: 600px;
+  margin: 10px auto 20px;
+  font-size: 1em;
+  color: #ccc;
 }
 
-/* Inputs */
-input[type="text"],
-input[type="email"],
-input[type="tel"],
-input[type="url"],
-input[type="date"],
-input[type="color"],
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input,
+button,
 select {
-  width: 100%;
   padding: 12px;
-  margin: 10px 0;
   border: none;
-  border-radius: 8px;
-  background-color: #2c2c2c;
-  color: #ffffff;
+  border-radius: 6px;
+  font-size: 1em;
+  width: 100%;
   box-sizing: border-box;
 }
 
-/* Accordion */
-details {
-  margin: 20px 0;
-  text-align: left;
-  background-color: #1e1e1e;
-  padding: 10px;
-  border-radius: 8px;
+input:focus {
+  outline: 2px solid #00ffcc;
 }
 
-summary {
+details {
+  background: #222;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 10px 0;
+  text-align: left;
+}
+
+details summary {
   font-weight: bold;
   cursor: pointer;
-  padding: 8px;
+  color: #00ffcc;
+  margin-bottom: 10px;
 }
 
-/* Buttons */
-button {
-  width: 100%;
+.btn {
+  font-weight: bold;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
   padding: 14px;
   margin-top: 10px;
-  font-size: 16px;
-  font-weight: bold;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
+  font-size: 1em;
 }
 
-.generateBtn {
-  background-color: #000000;
-  color: #ffffff;
+.btn.black {
+  background: #000;
+  color: #fff;
 }
 
 .downloadBtn {
-  background-color: #28a745;
-  color: #ffffff;
+  background: #00cc99;
+  color: #000;
 }
 
-/* QR Output */
-.qr-output {
-  margin: 30px 0 10px;
-}
-
-canvas {
+.qrcode-preview {
   margin: 20px auto;
-  display: block;
-  background-color: #ffffff;
   padding: 10px;
-  border-radius: 8px;
 }
 
-/* Footer */
 footer {
   margin-top: 40px;
+  font-size: 0.9em;
 }
 
 footer a {
-  color: #aaaaaa;
+  color: #aaa;
   text-decoration: none;
-  font-size: 14px;
 }
 
-footer a:hover {
-  text-decoration: underline;
+.footer-ad {
+  margin-top: 20px;
 }
