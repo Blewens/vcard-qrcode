@@ -1,92 +1,71 @@
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script>
-  document.getElementById("generateBtn").addEventListener("click", () => {
-    const name = document.getElementById("name").value.trim();
-    const org = document.getElementById("org").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const title = document.getElementById("title").value.trim();
-    const website = document.getElementById("website").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const dob = document.getElementById("dob").value.trim();
-    const linkedin = document.getElementById("linkedin").value.trim();
-    const twitter = document.getElementById("twitter").value.trim();
-    const facebook = document.getElementById("facebook").value.trim();
-    const instagram = document.getElementById("instagram").value.trim();
+document.getElementById("generateBtn").addEventListener("click", () => {
+  const name = document.getElementById("fullName").value.trim();
+  const org = document.getElementById("organization").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
 
-    if (!name || !email) {
-      alert("Please fill in at least Name and Email.");
-      return;
+  if (!name || !email) {
+    alert("Full Name and Email are required.");
+    return;
+  }
+
+  const fields = {
+    website: "URL",
+    jobTitle: "TITLE",
+    birthday: "BDAY",
+    address: "ADR",
+    linkedin: "URL",
+    twitter: "URL",
+    facebook: "URL",
+    instagram: "URL"
+  };
+
+  let vcard = `BEGIN:VCARD\nVERSION:3.0\nN:${name}\nORG:${org}\nTEL:${phone}\nEMAIL:${email}\n`;
+
+  for (let id in fields) {
+    const val = document.getElementById(id)?.value.trim();
+    if (val) {
+      vcard += `${fields[id]}:${val}\n`;
     }
+  }
 
-    const vCard = `
-BEGIN:VCARD
-VERSION:3.0
-FN:${name}
-ORG:${org}
-TITLE:${title}
-TEL:${phone}
-EMAIL:${email}
-URL:${website}
-ADR:${address}
-BDAY:${dob}
-X-LINKEDIN:${linkedin}
-X-TWITTER:${twitter}
-X-FACEBOOK:${facebook}
-X-INSTAGRAM:${instagram}
-END:VCARD`.trim();
+  vcard += `END:VCARD`;
 
-    // Create vCard blob
-    const blob = new Blob([vCard], { type: "text/vcard" });
-    const vCardURL = URL.createObjectURL(blob);
-    const today = new Date().toISOString().split("T")[0];
-    const safeName = name.replace(/\s+/g, "_");
-    const safeOrg = org.replace(/\s+/g, "_");
-    const filename = `vcard_${safeName}_${safeOrg}_${today}`;
+  const qrContainer = document.getElementById("qrcode");
+  qrContainer.innerHTML = "";
 
-    // Show and activate vCard download
-    const downloadVCF = document.getElementById("downloadVCF");
-    downloadVCF.style.display = "block";
-    downloadVCF.onclick = () => {
-      const a = document.createElement("a");
-      a.href = vCardURL;
-      a.download = `${filename}.vcf`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    };
+  const fgColor = document.getElementById("fgColor").value;
+  const bgColor = document.getElementById("bgColor").value;
 
-    // Generate QR code
-    const qrSize = parseInt(document.getElementById("qrSize").value);
-    const fgColor = document.getElementById("fgColor").value;
-    const bgColor = document.getElementById("bgColor").value;
-
-    const qrContainer = document.getElementById("qrcode");
-    qrContainer.innerHTML = "";
-
-    const qrCode = new QRCode(qrContainer, {
-      text: vCard,
-      width: qrSize,
-      height: qrSize,
-      colorDark: fgColor,
-      colorLight: bgColor,
-      correctLevel: QRCode.CorrectLevel.H,
-    });
-
-    // Download QR button
-    const downloadQR = document.getElementById("downloadQR");
-    downloadQR.style.display = "block";
-    downloadQR.onclick = () => {
-      setTimeout(() => {
-        const canvas = qrContainer.querySelector("canvas");
-        const image = canvas.toDataURL("image/png");
-        const a = document.createElement("a");
-        a.href = image;
-        a.download = `${filename}.png`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }, 500);
-    };
+  new QRCode(qrContainer, {
+    text: vcard,
+    width: 256,
+    height: 256,
+    colorDark: fgColor,
+    colorLight: bgColor,
+    correctLevel: QRCode.CorrectLevel.H
   });
-</script>
+
+  // Generate file name
+  const now = new Date();
+  const filenameBase = `${name.replace(/\s+/g, '_')}_${org.replace(/\s+/g, '_')}_${now.toISOString().slice(0,10)}`;
+
+  // Prepare vCard file
+  const blob = new Blob([vcard], { type: "text/vcard" });
+  const vcfUrl = URL.createObjectURL(blob);
+  const vcfLink = document.getElementById("downloadVCF");
+  vcfLink.href = vcfUrl;
+  vcfLink.download = `${filenameBase}.vcf`;
+  vcfLink.style.display = "block";
+
+  // Prepare QR code image
+  setTimeout(() => {
+    const canvas = qrContainer.querySelector("canvas");
+    if (canvas) {
+      const qrLink = document.getElementById("downloadQR");
+      qrLink.href = canvas.toDataURL("image/png");
+      qrLink.download = `${filenameBase}.png`;
+      qrLink.style.display = "block";
+    }
+  }, 300);
+});
