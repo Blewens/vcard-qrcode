@@ -52,3 +52,9 @@ canvas {
   margin: 20px 0;
   display: block;
 }
+.footer-ad {
+  margin-top: 60px;
+  padding: 20px;
+  background-color: #111;
+  border-top: 1px solid #444;
+}
