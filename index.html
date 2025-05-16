@@ -1,120 +1,68 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QR vCard | Scan, Save, Connect</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
-     crossorigin="anonymous"></script>
-</head>
 <body>
-  <header>
-    <a href="index.html">
-      <img src="QRVCard.PNG" alt="QR vCard Logo" class="logo" />
-    </a>
-    <h1>Scan, Save, Connect</h1>
-  </header>
-
   <main>
-    <section class="intro">
-  <h2>What is QR vCard?</h2>
-  <p>
-    QR vCard is a simple, privacy-focused tool that lets you create digital business cards as QR codes. 
-    Customize the appearance, add your contact details, and download both your QR code and vCard file — all securely, right in your browser.
-  </p>
-</section>
-    <form id="vcardForm">
-      <label for="fullName">Full Name*</label>
-      <input type="text" id="fullName" name="fullName" required />
+    <!-- Logo and Tagline -->
+    <a href="index.html">
+      <img src="logo.png" alt="QR vCard Logo" class="logo" />
+    </a>
+    <h1 class="tagline">Scan, Save, Connect</h1>
 
-      <label for="phone">Phone*</label>
-      <input type="tel" id="phone" name="phone" required />
+    <!-- Brief Introduction -->
+    <p class="intro">
+      Instantly generate a custom QR code that links to your downloadable vCard. Personalize it with your details, colors, and embedded logo — no data is stored or tracked.
+    </p>
 
-      <label for="email">Email*</label>
-      <input type="email" id="email" name="email" required />
+    <!-- Form Inputs -->
+    <input type="text" id="name" placeholder="Full Name*" required />
+    <input type="text" id="org" placeholder="Organization" />
+    <input type="tel" id="phone" placeholder="Phone" />
+    <input type="email" id="email" placeholder="Email*" required />
 
-      <details>
-        <summary>Additional Details</summary>
+    <!-- Accordion: Additional Details -->
+    <details>
+      <summary>Additional Details</summary>
+      <input type="text" id="title" placeholder="Job Title" />
+      <input type="url" id="website" placeholder="Website" />
+      <input type="text" id="address" placeholder="Address" />
+      <input type="date" id="dob" placeholder="Date of Birth" />
+      <!-- Social Media -->
+      <input type="url" id="linkedin" placeholder="LinkedIn" />
+      <input type="url" id="twitter" placeholder="Twitter" />
+      <input type="url" id="facebook" placeholder="Facebook" />
+      <input type="url" id="instagram" placeholder="Instagram" />
+    </details>
 
-        <label for="organization">Organization</label>
-        <input type="text" id="organization" name="organization" />
+    <!-- Accordion: QR Customization -->
+    <details>
+      <summary>QR Customization</summary>
+      <label>Foreground Color:</label>
+      <input type="color" id="fgColor" value="#000000" />
+      <label>Background Color:</label>
+      <input type="color" id="bgColor" value="#ffffff" />
+      <label>QR Size:</label>
+      <select id="qrSize">
+        <option value="256">Small</option>
+        <option value="384">Medium</option>
+        <option value="512">Large</option>
+      </select>
+      <label>Embed Logo:</label>
+      <input type="file" id="qrLogo" accept="image/*" />
+    </details>
 
-        <label for="title">Job Title</label>
-        <input type="text" id="title" name="title" />
+    <!-- Generate Button -->
+    <button id="generateBtn" class="generateBtn">Generate QRvCard</button>
 
-        <label for="address">Address</label>
-        <input type="text" id="address" name="address" />
+    <!-- Canvas Output -->
+    <div class="qr-output">
+      <canvas id="qrcode"></canvas>
+    </div>
 
-        <label for="website">Website</label>
-        <input type="url" id="website" name="website" />
-
-        <label for="linkedin">LinkedIn</label>
-        <input type="url" id="linkedin" name="linkedin" />
-
-        <label for="twitter">Twitter</label>
-        <input type="url" id="twitter" name="twitter" />
-
-        <label for="facebook">Facebook</label>
-        <input type="url" id="facebook" name="facebook" />
-
-        <label for="instagram">Instagram</label>
-        <input type="url" id="instagram" name="instagram" />
-
-        <label for="dob">Date of Birth</label>
-        <input type="date" id="dob" name="dob" />
-      </details>
-
-      <details>
-        <summary>QR Customization</summary>
-
-        <label for="qrSize">QR Code Size</label>
-        <select id="qrSize" name="qrSize">
-          <option value="128">Small</option>
-          <option value="256" selected>Medium</option>
-          <option value="512">Large</option>
-        </select>
-
-        <label for="foregroundColor">Foreground Color</label>
-        <input type="color" id="foregroundColor" name="foregroundColor" value="#000000" />
-
-        <label for="backgroundColor">Background Color</label>
-        <input type="color" id="backgroundColor" name="backgroundColor" value="#ffffff" />
-
-        <label for="qrLogo">Upload Logo</label>
-        <input type="file" id="qrLogo" accept="image/*" />
-      </details>
-
-      <button type="button" id="generateBtn">Generate QR</button>
-    </form>
-
-    <canvas id="qrcode"></canvas>
-
+    <!-- Download Buttons -->
     <button id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</button>
     <button id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</button>
+
+    <!-- Footer -->
+    <footer>
+      <a href="privacy.html">Privacy Policy</a>
+    </footer>
   </main>
-
-<footer style="text-align: center; font-size: 0.9em; margin-top: 40px;">
-  <p><a href="privacy.html" style="color: #ccc;">Privacy Policy</a></p>
-</footer>
-
-  <script src="script.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3242083190198361"
-     crossorigin="anonymous"></script>
-  
-<!-- Bottom Banner QRvCard -->
- <div class="footer-ad">
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-3242083190198361"
-     data-ad-slot="8915777463"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
-  
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
- </div> 
 </body>
-</html>
