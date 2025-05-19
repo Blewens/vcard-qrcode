@@ -38,20 +38,15 @@ main {
 }
 
 
-/* This ensures form elements align in the center */
-form {
+/* Keep full width for inputs and buttons inside centered container */
+input,
+select,
+button,
+a.downloadBtn {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-/* Keep full width for inputs and buttons inside centered container */
-form input,
-form select,
-form button,
-form a.downloadBtn {
-  width: 100%;
   margin: 10px 0;
   padding: 12px;
   border-radius: 8px;
