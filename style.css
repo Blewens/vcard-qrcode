@@ -52,6 +52,11 @@ form select,
 form button,
 form a.downloadBtn {
   width: 100%;
+  margin: 10px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
 }
 
 
