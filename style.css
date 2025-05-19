@@ -32,20 +32,28 @@ main {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-input,
-select,
-button,
-a.downloadBtn {
-  display: block;
+
+/* This ensures form elements align in the center */
+form {
   width: 100%;
-  margin: 10px 0;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
+
+/* Keep full width for inputs and buttons inside centered container */
+form input,
+form select,
+form button,
+form a.downloadBtn {
+  width: 100%;
+}
+
 
 input {
   background: #333;
@@ -80,8 +88,10 @@ summary {
   display: none;
 }
 
-.qrcode-preview {
-  margin-top: 20px;
+/* Ensures QR code and buttons are centered */
+.qrcode-preview,
+.downloadBtn {
+  text-align: center;
 }
 
 footer {
