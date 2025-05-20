@@ -124,10 +124,12 @@ summary {
   align-items: center;
   margin: 20px 0;
   width: 100%;
+  text-align: center;
 }
 
 #qrcode canvas {
   display: block;
+  margin: 0 auto;
 }
 
 /* Footer */
