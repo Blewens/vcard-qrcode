@@ -8,7 +8,7 @@
   <link rel="icon" href="favicon.ico" />
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3242083190198361"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -20,7 +20,7 @@
   </header>
 
   <main>
-    <form id="vcardForm">
+    <form id="vcardForm" class="form-block">
       <input type="text" id="fullName" placeholder="Full Name*" required />
       <input type="text" id="organization" placeholder="Organization" />
       <input type="tel" id="phone" placeholder="Phone" />
@@ -38,41 +38,42 @@
       </details>
 
       <details>
-  <summary>QR Customization</summary>
-  <label style="color: #2dd4bf; margin-top: 10px;">Foreground:</label>
-  <input type="color" name="foreground" value="#000000">
+        <summary>QR Customization</summary>
+        <label for="foreground" style="color: #2dd4bf; margin-top: 10px; display: block;">Foreground:</label>
+        <input type="color" id="foreground" name="foreground" value="#000000" />
 
-  <label style="color: #2dd4bf; margin-top: 10px;">Background:</label>
-  <input type="color" name="background" value="#ffffff">
-</details>
+        <label for="background" style="color: #2dd4bf; margin-top: 10px; display: block;">Background:</label>
+        <input type="color" id="background" name="background" value="#ffffff" />
+      </details>
 
       <button type="button" id="generateBtn">Generate QR vCard</button>
     </form>
 
     <div id="qrcode" class="qrcode-preview"></div>
 
-    <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
-    <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
+    <a id="downloadQR" class="downloadBtn">Download QR Code</a>
+    <a id="downloadVCF" class="downloadBtn">Download vCard</a>
   </main>
 
   <footer>
     <div class="footer-content">
-    <a href="privacy.html">Privacy Policy</a>
+      <a href="privacy.html">Privacy Policy</a>
 
-<!-- Ad container -->
-<div class="footer-ad" style="margin-top: 40px;">
-  <ins class="adsbygoogle"
-       style="display:block"
-        data-ad-client="ca-pub-3242083190198361"
-        data-ad-slot="8915777463"
-        data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>
-       (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+      <!-- Ad container -->
+      <div class="footer-ad">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-3242083190198361"
+             data-ad-slot="8915777463"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+
+      <p>&copy; 2025 QRvCard. All rights reserved.</p>
     </div>
-        <p>&copy; 2025 QRvCard. All rights reserved.</p>
-  </div>
   </footer>
 
   <script src="script.js"></script>
