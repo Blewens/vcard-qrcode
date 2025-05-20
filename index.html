@@ -8,7 +8,7 @@
   <link rel="icon" href="favicon.ico" />
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3242083190198361"
-    crossorigin="anonymous"></script>
+     crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -20,7 +20,7 @@
   </header>
 
   <main>
-    <form id="vcardForm" class="form-block">
+    <form id="vcardForm">
       <input type="text" id="fullName" placeholder="Full Name*" required />
       <input type="text" id="organization" placeholder="Organization" />
       <input type="tel" id="phone" placeholder="Phone" />
@@ -39,10 +39,10 @@
 
       <details>
         <summary>QR Customization</summary>
-        <label for="foreground" style="color: #2dd4bf; margin-top: 10px; display: block;">Foreground:</label>
+        <label for="foreground" style="color: #2dd4bf; margin-top: 10px; text-align: left;">Foreground:</label>
         <input type="color" id="foreground" name="foreground" value="#000000" />
 
-        <label for="background" style="color: #2dd4bf; margin-top: 10px; display: block;">Background:</label>
+        <label for="background" style="color: #2dd4bf; margin-top: 10px; text-align: left;">Background:</label>
         <input type="color" id="background" name="background" value="#ffffff" />
       </details>
 
@@ -59,7 +59,6 @@
     <div class="footer-content">
       <a href="privacy.html">Privacy Policy</a>
 
-      <!-- Ad container -->
       <div class="footer-ad">
         <ins class="adsbygoogle"
              style="display:block"
@@ -68,14 +67,84 @@
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>
-          (adsbygoogle = window.adsbygoogle || []).push({});
+             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
       </div>
-
       <p>&copy; 2025 QRvCard. All rights reserved.</p>
     </div>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+    function escapeVCardValue(value) {
+      return value.replace(/,/g, '\\,').replace(/;/g, '\\;');
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', function () {
+      const fullName = escapeVCardValue(document.getElementById('fullName').value.trim());
+      const org = escapeVCardValue(document.getElementById('organization').value.trim());
+      const phone = escapeVCardValue(document.getElementById('phone').value.trim());
+      const email = escapeVCardValue(document.getElementById('email').value.trim());
+      const website = escapeVCardValue(document.getElementById('website').value.trim());
+      const jobTitle = escapeVCardValue(document.getElementById('jobTitle').value.trim());
+      const address = escapeVCardValue(document.getElementById('address').value.trim());
+      const linkedin = escapeVCardValue(document.getElementById('linkedin').value.trim());
+      const twitter = escapeVCardValue(document.getElementById('twitter').value.trim());
+      const facebook = escapeVCardValue(document.getElementById('facebook').value.trim());
+      const instagram = escapeVCardValue(document.getElementById('instagram').value.trim());
+
+      const fgColor = document.getElementById('foreground').value;
+      const bgColor = document.getElementById('background').value;
+
+      if (!fullName || !email) {
+        alert('Full Name and Email are required!');
+        return;
+      }
+
+      let vCard = 'BEGIN:VCARD\nVERSION:3.0\n';
+      vCard += `FN:${fullName}\n`;
+      if (org) vCard += `ORG:${org}\n`;
+      if (jobTitle) vCard += `TITLE:${jobTitle}\n`;
+      if (phone) vCard += `TEL;TYPE=cell:${phone}\n`;
+      if (email) vCard += `EMAIL:${email}\n`;
+      if (address) vCard += `ADR;TYPE=home:;;${address};;;;\n`;
+      if (website) vCard += `URL:${website}\n`;
+      if (linkedin) vCard += `URL;TYPE=LinkedIn:${linkedin}\n`;
+      if (twitter) vCard += `URL;TYPE=Twitter:${twitter}\n`;
+      if (facebook) vCard += `URL;TYPE=Facebook:${facebook}\n`;
+      if (instagram) vCard += `URL;TYPE=Instagram:${instagram}\n`;
+      vCard += 'END:VCARD';
+
+      // Clear previous QR
+      document.getElementById('qrcode').innerHTML = '';
+
+      const qr = new QRCode(document.getElementById('qrcode'), {
+        text: vCard,
+        width: 256,
+        height: 256,
+        colorDark: fgColor,
+        colorLight: bgColor,
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      // Download links
+      const blob = new Blob([vCard], { type: 'text/vcard' });
+      const vcfUrl = URL.createObjectURL(blob);
+      const vcfLink = document.getElementById('downloadVCF');
+      vcfLink.href = vcfUrl;
+      vcfLink.download = `${fullName.replace(/\s+/g, '_')}.vcf`;
+      vcfLink.style.display = 'inline-block';
+
+      setTimeout(() => {
+        const canvas = document.querySelector('#qrcode canvas');
+        if (canvas) {
+          const imgData = canvas.toDataURL("image/png");
+          const downloadQR = document.getElementById('downloadQR');
+          downloadQR.href = imgData;
+          downloadQR.download = `${fullName.replace(/\s+/g, '_')}_QRCode.png`;
+          downloadQR.style.display = 'inline-block';
+        }
+      }, 500);
+    });
+  </script>
 </body>
 </html>
