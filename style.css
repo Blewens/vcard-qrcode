@@ -41,9 +41,6 @@ select,
 button,
 a.downloadBtn {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   margin: 15px 0;
   padding: 12px;
   border-radius: 8px;
