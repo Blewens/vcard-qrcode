@@ -118,6 +118,18 @@ summary {
   text-align: center;
 }
 
+#qrcode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  width: 100%;
+}
+
+#qrcode canvas {
+  display: block;
+}
+
 /* Footer */
 footer {
   margin-top: 40px;
