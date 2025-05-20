@@ -32,9 +32,6 @@ main {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 
@@ -54,6 +51,14 @@ a.downloadBtn {
   font-size: 16px;
 }
 
+input,
+select,
+button,
+details,
+summary,
+a.downloadBtn {
+  box-sizing: border-box;
+}
 
 input {
   background: #333;
@@ -101,6 +106,12 @@ summary {
   text-align: center;
   text-decoration: none;
   display: none;
+}
+
+#generateBtn,
+.downloadBtn {
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Ensures QR code and buttons are centered */
