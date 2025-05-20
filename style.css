@@ -58,7 +58,9 @@ a.downloadBtn {
 input {
   background: #333;
   color: #fff;
+  margin-bottom: 15px; /* 👈 Add space below each input */
 }
+
 
 input[type="color"] {
   background: #333;
@@ -72,6 +74,7 @@ input[type="color"] {
 
 details {
   margin: 10px 0;
+  margin-bottom: 20px;
   background: #222;
   padding: 10px;
   border-radius: 8px;
