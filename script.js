@@ -28,6 +28,15 @@ END:VCARD`;
 }
 
 document.getElementById("generateBtn").addEventListener("click", function () {
+  const fullName = document.getElementById("fullName").value.trim();
+  const email = document.getElementById("email").value.trim();
+
+  // ✅ Check required fields
+  if (!fullName || !email) {
+    alert("Please fill in both Full Name and Email before generating your QR code.");
+    return;
+  }
+
   const qrcodeContainer = document.getElementById("qrcode");
   qrcodeContainer.innerHTML = ""; // Clear previous QR
 
