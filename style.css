@@ -36,27 +36,35 @@ h1 {
   color: #ccc;
 }
 
+/* Navigation Buttons */
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.nav-btn {
+  padding: 10px 20px;
+  background-color: #333;
+  color: #2dd4bf;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s, color 0.3s;
+}
+
+.nav-btn:hover {
+  background-color: #2dd4bf;
+  color: #111;
+}
+
 /* Main Container */
 main {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
-}
-
-.button-link {
-  display: inline-block;
-  padding: 12px 20px;
-  background-color: #2dd4bf;
-  color: #111;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: bold;
-  margin: 10px;
-  transition: background 0.2s ease;
-}
-
-.button-link:hover {
-  background-color: #25bfb2;
 }
 
 /* Unified Form Block */
