@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-adsense-account" content="ca-pub-1615140404699559">
+  <title>QR vCard Generator</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" href="favicon.ico" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1615140404699559" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <a href="index.html">
+      <img src="QRVCard.PNG" alt="QR vCard Logo" class="logo" />
+    </a>
+    <h1>Scan, Save, Connect</h1>
+    <p class="intro">Create your digital business card as a downloadable QR code. Fully private. No data stored.</p>
+
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="how-it-works.html">How It Works</a>
+    </nav>
+  </header>
+
+  <main>
+    <form id="vcardForm">
+      <input type="text" id="fullName" placeholder="Full Name*" required />
+      <input type="text" id="organization" placeholder="Organization" />
+      <input type="tel" id="phone" placeholder="Phone" />
+      <input type="email" id="email" placeholder="Email*" required />
+
+      <details>
+        <summary>Additional Details</summary>
+        <input type="url" id="website" placeholder="Website" />
+        <input type="text" id="jobTitle" placeholder="Job Title" />
+        <input type="text" id="address" placeholder="Address" />
+        <input type="url" id="linkedin" placeholder="LinkedIn" />
+        <input type="url" id="twitter" placeholder="Twitter" />
+        <input type="url" id="facebook" placeholder="Facebook" />
+        <input type="url" id="instagram" placeholder="Instagram" />
+      </details>
+
+      <details>
+        <summary>QR Customization</summary>
+        <label style="color: #2dd4bf; margin-top: 10px;">Foreground:</label>
+        <input type="color" name="foreground" value="#000000" />
+
+        <label style="color: #2dd4bf; margin-top: 10px;">Background:</label>
+        <input type="color" name="background" value="#ffffff" />
+
+        <label style="color: #2dd4bf; margin-top: 10px;">Logo:</label>
+        <input type="file" id="logoUpload" accept="image/*" />
+      </details>
+
+      <button type="button" id="generateBtn">Generate QR vCard</button>
+
+      <!-- Ad appears after generate button -->
+      <div style="margin: 20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1615140404699559"
+             data-ad-slot="7477570694"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    </form>
+
+    <div id="qrcode" class="qrcode-preview"></div>
+
+    <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
+    <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 QRvCard. All rights reserved. <a href="privacy.html">Privacy Policy</a></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
