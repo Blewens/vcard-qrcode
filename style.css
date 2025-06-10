@@ -129,11 +129,19 @@ summary {
 }
 
 .downloadBtn {
-  background: green;
-  color: #fff;
+  background: #2dd4bf;
+  color: #111;
   text-align: center;
   text-decoration: none;
-  display: none;
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+.downloadBtn:hover {
+  background: #26b4a3;
 }
 
 /* QR Display Area */
