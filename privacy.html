@@ -2,62 +2,87 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Privacy Policy | QRvCard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate | QR vCard</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1615140404699559"
+     crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
     <a href="index.html">
       <img src="QRVCard.PNG" alt="QR vCard Logo" class="logo" />
     </a>
-    <h1>Privacy Policy</h1>
-    <p class="intro">Your privacy is important. Here's what we do — and what we don't do — with your data.</p>
+    <h1>Scan, Save, Connect</h1>
+    <p class="intro">Create your digital business card as a downloadable QR code. Fully private. No data stored.</p>
+
+    <!-- Consistent styled nav buttons -->
+    <nav class="nav-buttons">
+      <a href="index.html" class="navBtn">Home</a>
+      <a href="about.html" class="navBtn">About</a>
+      <a href="how-to.html" class="navBtn">How To</a>
+      <a href="privacy.html" class="navBtn">Privacy</a>
+    </nav>
   </header>
 
-  <main style="max-width: 800px; margin: 0 auto; text-align: left; padding: 20px;">
-    <h2>1. No Data Collection</h2>
-    <p>
-      QRvCard does <strong>not store, process, or transmit</strong> any personal information entered into the vCard form. 
-      All QR codes and vCard files are generated directly in your browser and remain on your device.
-    </p>
+  <main>
+    <form id="vcardForm">
+      <input type="text" id="fullName" placeholder="Full Name*" required />
+      <input type="text" id="organization" placeholder="Organization" />
+      <input type="tel" id="phone" placeholder="Phone" />
+      <input type="email" id="email" placeholder="Email*" required />
 
-    <h2>2. No User Accounts or Databases</h2>
-    <p>
-      We do not have user accounts, servers, or any backend storage. Your information is never saved or sent to us in any way.
-    </p>
+      <details>
+        <summary>Additional Details</summary>
+        <input type="url" id="website" placeholder="Website" />
+        <input type="text" id="jobTitle" placeholder="Job Title" />
+        <input type="text" id="address" placeholder="Address" />
+        <input type="url" id="linkedin" placeholder="LinkedIn" />
+        <input type="url" id="twitter" placeholder="Twitter" />
+        <input type="url" id="facebook" placeholder="Facebook" />
+        <input type="url" id="instagram" placeholder="Instagram" />
+      </details>
 
-    <h2>3. Google AdSense and Third-Party Cookies</h2>
-    <p>
-      This site uses Google AdSense to display advertising. Google may use cookies or web beacons to serve ads based on your previous visits to this and other websites.
-      <br/><br/>
-      Third-party vendors, including Google, use cookies to serve ads based on your interests.
-      You can learn more and manage your ad settings by visiting:
-    </p>
-    <ul>
-      <li><a href="https://www.google.com/settings/ads" target="_blank">Google Ads Settings</a></li>
-      <li><a href="https://policies.google.com/technologies/ads" target="_blank">Google Advertising Policies</a></li>
-    </ul>
+      <details>
+        <summary>QR Customization</summary>
+        <label style="color: #2dd4bf; margin-top: 10px;">Foreground:</label>
+        <input type="color" name="foreground" value="#000000" />
 
-    <h2>4. No Tracking or Analytics</h2>
-    <p>
-      We do not use Google Analytics or any other tracking technologies. We respect your privacy and believe your activity on this site should stay with you.
-    </p>
+        <label style="color: #2dd4bf; margin-top: 10px;">Background:</label>
+        <input type="color" name="background" value="#ffffff" />
 
-    <h2>5. Contact</h2>
-    <p>
-      If you have any questions about this privacy policy or your data, feel free to get in touch via the GitHub repository.
-    </p>
+        <label style="color: #2dd4bf; margin-top: 10px;">Logo:</label>
+        <input type="file" id="logoUpload" accept="image/*" />
+      </details>
 
-    <p><em>Last updated: June 2025</em></p>
+      <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
+
+      <!-- Ad appears after generate button -->
+      <div style="margin: 20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1615140404699559"
+             data-ad-slot="7477570694"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
+    </form>
+
+    <div id="qrcode" class="qrcode-preview"></div>
+
+    <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
+    <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
   </main>
 
   <footer>
-    <div class="footer-content">
-      <a href="index.html" style="margin-right: 10px;">Home</a>
-      <p>&copy; 2025 QRvCard. All rights reserved.</p>
-    </div>
+    <p>&copy; 2025 QRvCard. All rights reserved.</p>
   </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
