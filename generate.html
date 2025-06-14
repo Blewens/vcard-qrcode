@@ -57,6 +57,23 @@
         <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
+      <details>
+  <summary>Label QR Code (Optional)</summary>
+
+  <label for="qrLabelText" style="color: #2dd4bf; margin-top: 10px;">Text Label:</label>
+  <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
+
+  <label for="qrLabelFont" style="color: #2dd4bf; margin-top: 10px;">Font:</label>
+  <select id="qrLabelFont">
+    <option value="Arial" selected>Arial</option>
+    <option value="Georgia">Georgia</option>
+    <option value="Courier New">Courier New</option>
+    <option value="Times New Roman">Times New Roman</option>
+    <option value="Verdana">Verdana</option>
+    <option value="Custom">Custom (via CSS)</option>
+  </select>
+</details>
+
       <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
 
       <!-- Ad appears after generate button -->
