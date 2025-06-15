@@ -30,19 +30,22 @@ END:VCARD`;
 document.getElementById("generateBtn").addEventListener("click", function () {
   const fullName = document.getElementById("fullName").value.trim();
   const email = document.getElementById("email").value.trim();
+
   if (!fullName || !email) {
     alert("Please fill in both Full Name and Email before generating your QR code.");
     return;
   }
 
+  const qrcodeContainer = document.getElementById("qrcode");
+  qrcodeContainer.innerHTML = "";
+
   const vCardData = generateVCard();
   const foreground = document.querySelector('input[name="foreground"]').value;
   const background = document.querySelector('input[name="background"]').value;
   const labelText = document.getElementById("qrLabelText").value.trim();
-  const labelFont = document.getElementById("qrLabelFont").value;
+  const fontFamily = document.getElementById("qrLabelFont").value;
 
-  const tempDiv = document.createElement("div");
-  new QRCode(tempDiv, {
+  const qr = new QRCode(qrcodeContainer, {
     text: vCardData,
     width: 256,
     height: 256,
@@ -52,69 +55,63 @@ document.getElementById("generateBtn").addEventListener("click", function () {
   });
 
   setTimeout(() => {
-    const qrImg = tempDiv.querySelector("img") || tempDiv.querySelector("canvas");
-    if (!qrImg) return;
+    const canvas = qrcodeContainer.querySelector("canvas");
 
-    const canvas = document.createElement("canvas");
-    const qrSize = 256;
-    const labelHeight = labelText ? 40 : 0;
-    canvas.width = qrSize;
-    canvas.height = qrSize + labelHeight;
+    // Draw logo if provided
+    const logoInput = document.getElementById("logoUpload");
+    if (canvas && logoInput.files.length > 0) {
+      const ctx = canvas.getContext("2d");
+      const logo = new Image();
+      const size = canvas.width * 0.25;
+      logo.onload = function () {
+        ctx.drawImage(logo, (canvas.width - size) / 2, (canvas.height - size) / 2, size, size);
+      };
+      logo.src = URL.createObjectURL(logoInput.files[0]);
+    }
 
-    const ctx = canvas.getContext("2d");
+    // Draw label below QR if provided
+    if (canvas && labelText) {
+      const labelCanvas = document.createElement("canvas");
+      const labelCtx = labelCanvas.getContext("2d");
+      const padding = 10;
+      const width = canvas.width;
+      const height = canvas.height + 40;
 
-    // Fill background
-    ctx.fillStyle = background;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+      labelCanvas.width = width;
+      labelCanvas.height = height;
 
-    // Draw QR code
-    const img = new Image();
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0, qrSize, qrSize);
+      // Fill background
+      labelCtx.fillStyle = background;
+      labelCtx.fillRect(0, 0, width, height);
 
-      // Add logo if available
-      const logoInput = document.getElementById("logoUpload");
-      if (logoInput.files.length > 0) {
-        const logo = new Image();
-        const logoSize = qrSize * 0.25;
-        logo.onload = function () {
-          ctx.drawImage(
-            logo,
-            (qrSize - logoSize) / 2,
-            (qrSize - logoSize) / 2,
-            logoSize,
-            logoSize
-          );
-        };
-        logo.src = URL.createObjectURL(logoInput.files[0]);
-      }
+      // Draw QR onto new canvas
+      labelCtx.drawImage(canvas, 0, 0);
 
-      // Draw label
-      if (labelText) {
-        ctx.fillStyle = foreground;
-        ctx.font = `16px ${labelFont}`;
-        ctx.textAlign = "center";
-        ctx.fillText(labelText, qrSize / 2, qrSize + 25);
-      }
+      // Add label
+      labelCtx.fillStyle = foreground;
+      labelCtx.font = `16px '${fontFamily}'`;
+      labelCtx.textAlign = "center";
+      labelCtx.fillText(labelText, width / 2, height - padding);
 
-      // Display QR
-      const qrcodeContainer = document.getElementById("qrcode");
+      // Replace QR canvas
       qrcodeContainer.innerHTML = "";
-      qrcodeContainer.appendChild(canvas);
+      qrcodeContainer.appendChild(labelCanvas);
+    }
 
-      // Enable downloads
-      const downloadQR = document.getElementById("downloadQR");
-      const downloadVCF = document.getElementById("downloadVCF");
+    // Download Buttons
+    const downloadQR = document.getElementById("downloadQR");
+    const downloadVCF = document.getElementById("downloadVCF");
 
-      downloadQR.href = canvas.toDataURL("image/png");
+    const finalCanvas = qrcodeContainer.querySelector("canvas");
+    if (finalCanvas) {
+      downloadQR.href = finalCanvas.toDataURL("image/png");
       downloadQR.download = "qrcode.png";
       downloadQR.style.display = "block";
+    }
 
-      const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
-      downloadVCF.href = URL.createObjectURL(vcfBlob);
-      downloadVCF.download = "contact.vcf";
-      downloadVCF.style.display = "block";
-    };
-    img.src = qrImg.src || qrImg.toDataURL();
-  }, 500);
+    const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
+    downloadVCF.href = URL.createObjectURL(vcfBlob);
+    downloadVCF.download = "contact.vcf";
+    downloadVCF.style.display = "block";
+  }, 600);
 });
