@@ -6,7 +6,6 @@
   <title>Generate | QR vCard</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Pacifico&family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 </head>
 <body>
@@ -58,15 +57,14 @@
         <label for="qrLabelText" style="color: #2dd4bf;">Text Label:</label>
         <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
 
-        <label for="qrLabelFont" style="color: #2dd4bf;">Font:</label>
-        <select id="qrLabelFont">
-          <option value="Arial">Arial</option>
-          <option value="Roboto">Roboto</option>
-          <option value="Lato">Lato</option>
-          <option value="Montserrat">Montserrat</option>
-          <option value="Playfair Display">Playfair Display</option>
-          <option value="Pacifico">Pacifico</option>
-        </select>
+        <label for="qrLabelFont" style="color: #2dd4bf; margin-top: 10px;">Font:</label>
+      <select id="qrLabelFont">
+        <option value="Arial" selected>Arial</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Courier New">Courier New</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
+      </select>
       </details>
 
       <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
