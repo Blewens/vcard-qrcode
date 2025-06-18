@@ -30,19 +30,21 @@ END:VCARD`;
 document.getElementById("generateBtn").addEventListener("click", function () {
   const fullName = document.getElementById("fullName").value.trim();
   const email = document.getElementById("email").value.trim();
+
+  // ✅ Check required fields
   if (!fullName || !email) {
     alert("Please fill in both Full Name and Email before generating your QR code.");
     return;
   }
 
+  const qrcodeContainer = document.getElementById("qrcode");
+  qrcodeContainer.innerHTML = ""; // Clear previous QR
+
   const vCardData = generateVCard();
   const foreground = document.querySelector('input[name="foreground"]').value;
   const background = document.querySelector('input[name="background"]').value;
-  const labelText = document.getElementById("qrLabelText").value.trim();
-  const labelFont = document.getElementById("qrLabelFont").value;
 
-  const tempDiv = document.createElement("div");
-  new QRCode(tempDiv, {
+  const qr = new QRCode(qrcodeContainer, {
     text: vCardData,
     width: 256,
     height: 256,
@@ -51,70 +53,42 @@ document.getElementById("generateBtn").addEventListener("click", function () {
     correctLevel: QRCode.CorrectLevel.H,
   });
 
+  // Wait a moment for QR to be generated before adding logo
   setTimeout(() => {
-    const qrImg = tempDiv.querySelector("img") || tempDiv.querySelector("canvas");
-    if (!qrImg) return;
+    const canvas = qrcodeContainer.querySelector("canvas");
+    const logoInput = document.getElementById("logoUpload");
+    if (canvas && logoInput.files.length > 0) {
+      const ctx = canvas.getContext("2d");
+      const logo = new Image();
+      const size = canvas.width * 0.25; // 25% of QR code
+      logo.onload = function () {
+        ctx.drawImage(
+          logo,
+          (canvas.width - size) / 2,
+          (canvas.height - size) / 2,
+          size,
+          size
+        );
+      };
+      logo.src = URL.createObjectURL(logoInput.files[0]);
+    }
+  }, 500);
 
-    const canvas = document.createElement("canvas");
-    const qrSize = 256;
-    const labelHeight = labelText ? 40 : 0;
-    canvas.width = qrSize;
-    canvas.height = qrSize + labelHeight;
+  // Show download buttons
+  const downloadQR = document.getElementById("downloadQR");
+  const downloadVCF = document.getElementById("downloadVCF");
 
-    const ctx = canvas.getContext("2d");
-
-    // Fill background
-    ctx.fillStyle = background;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    // Draw QR code
-    const img = new Image();
-    img.onload = function () {
-      ctx.drawImage(img, 0, 0, qrSize, qrSize);
-
-      // Add logo if available
-      const logoInput = document.getElementById("logoUpload");
-      if (logoInput.files.length > 0) {
-        const logo = new Image();
-        const logoSize = qrSize * 0.25;
-        logo.onload = function () {
-          ctx.drawImage(
-            logo,
-            (qrSize - logoSize) / 2,
-            (qrSize - logoSize) / 2,
-            logoSize,
-            logoSize
-          );
-        };
-        logo.src = URL.createObjectURL(logoInput.files[0]);
-      }
-
-      // Draw label
-      if (labelText) {
-        ctx.fillStyle = foreground;
-        ctx.font = `16px ${labelFont}`;
-        ctx.textAlign = "center";
-        ctx.fillText(labelText, qrSize / 2, qrSize + 25);
-      }
-
-      // Display QR
-      const qrcodeContainer = document.getElementById("qrcode");
-      qrcodeContainer.innerHTML = "";
-      qrcodeContainer.appendChild(canvas);
-
-      // Enable downloads
-      const downloadQR = document.getElementById("downloadQR");
-      const downloadVCF = document.getElementById("downloadVCF");
-
+  setTimeout(() => {
+    const canvas = qrcodeContainer.querySelector("canvas");
+    if (canvas) {
       downloadQR.href = canvas.toDataURL("image/png");
       downloadQR.download = "qrcode.png";
       downloadQR.style.display = "block";
+    }
 
-      const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
-      downloadVCF.href = URL.createObjectURL(vcfBlob);
-      downloadVCF.download = "contact.vcf";
-      downloadVCF.style.display = "block";
-    };
-    img.src = qrImg.src || qrImg.toDataURL();
-  }, 500);
+    const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
+    downloadVCF.href = URL.createObjectURL(vcfBlob);
+    downloadVCF.download = "contact.vcf";
+    downloadVCF.style.display = "block";
+  }, 600);
 });
