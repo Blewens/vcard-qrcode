@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="icon" href="favicon.ico" />
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1615140404699559"
+    crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -15,8 +17,10 @@
     </a>
     <h1>Scan, Save, Connect</h1>
     <p class="intro">Create your digital business card as a downloadable QR code. Fully private. No data stored.</p>
+
     <nav class="nav-buttons">
       <a href="index.html" class="navBtn">Home</a>
+      <a href="about.html" class="navBtn">About</a>
       <a href="how-to.html" class="navBtn">How To</a>
       <a href="privacy.html" class="navBtn">Privacy</a>
     </nav>
@@ -42,32 +46,45 @@
 
       <details>
         <summary>QR Customization</summary>
-        <label style="color: #2dd4bf;">Foreground:</label>
+        <label style="color: #2dd4bf; margin-top: 10px;">Foreground:</label>
         <input type="color" name="foreground" value="#000000" />
 
-        <label style="color: #2dd4bf;">Background:</label>
+        <label style="color: #2dd4bf; margin-top: 10px;">Background:</label>
         <input type="color" name="background" value="#ffffff" />
 
-        <label style="color: #2dd4bf;">Logo:</label>
+        <label style="color: #2dd4bf; margin-top: 10px;">Logo:</label>
         <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
       <details>
         <summary>Label QR Code (Optional)</summary>
-        <label for="qrLabelText" style="color: #2dd4bf;">Text Label:</label>
+        <label for="qrLabelText" style="color: #2dd4bf; margin-top: 10px;">Text Label:</label>
         <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
 
         <label for="qrLabelFont" style="color: #2dd4bf; margin-top: 10px;">Font:</label>
-      <select id="qrLabelFont">
-        <option value="Arial" selected>Arial</option>
-        <option value="Georgia">Georgia</option>
-        <option value="Courier New">Courier New</option>
-        <option value="Times New Roman">Times New Roman</option>
-        <option value="Verdana">Verdana</option>
-      </select>
+        <select id="qrLabelFont">
+          <option value="Arial" selected>Arial</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Custom">Custom (via CSS)</option>
+        </select>
       </details>
 
       <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
+
+      <div style="margin: 20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-1615140404699559"
+             data-ad-slot="7477570694"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+          (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+      </div>
     </form>
 
     <div id="qrcode" class="qrcode-preview"></div>
