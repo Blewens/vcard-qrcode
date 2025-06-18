@@ -1,3 +1,4 @@
+<script>
 function generateVCard() {
   const fullName = document.getElementById("fullName").value;
   const organization = document.getElementById("organization").value;
@@ -24,6 +25,7 @@ item1.URL:${linkedin}
 item2.URL:${twitter}
 item3.URL:${facebook}
 item4.URL:${instagram}
+NOTE:Connections made easy by QRvCard.io
 END:VCARD`;
 }
 
@@ -57,7 +59,7 @@ document.getElementById("generateBtn").addEventListener("click", function () {
   setTimeout(() => {
     const canvas = qrcodeContainer.querySelector("canvas");
 
-    // Draw logo if provided
+    // Draw logo if uploaded
     const logoInput = document.getElementById("logoUpload");
     if (canvas && logoInput.files.length > 0) {
       const ctx = canvas.getContext("2d");
@@ -69,49 +71,64 @@ document.getElementById("generateBtn").addEventListener("click", function () {
       logo.src = URL.createObjectURL(logoInput.files[0]);
     }
 
-    // Draw label below QR if provided
-    if (canvas && labelText) {
+    // Prepare labeled/branded canvas
+    if (canvas) {
       const labelCanvas = document.createElement("canvas");
       const labelCtx = labelCanvas.getContext("2d");
+
       const padding = 10;
-      const width = canvas.width;
-      const height = canvas.height + 40;
+      const originalWidth = canvas.width;
+      const labelHeight = labelText ? 40 : 0;
+      const brandWidth = 40;
 
-      labelCanvas.width = width;
-      labelCanvas.height = height;
+      const totalWidth = originalWidth + brandWidth;
+      const totalHeight = originalWidth + labelHeight;
 
-      // Fill background
+      labelCanvas.width = totalWidth;
+      labelCanvas.height = totalHeight;
+
+      // Background fill
       labelCtx.fillStyle = background;
-      labelCtx.fillRect(0, 0, width, height);
+      labelCtx.fillRect(0, 0, totalWidth, totalHeight);
 
-      // Draw QR onto new canvas
-      labelCtx.drawImage(canvas, 0, 0);
+      // Draw QR code with rightward shift
+      labelCtx.drawImage(canvas, brandWidth, 0);
 
-      // Add label
+      // Vertical brand text
+      labelCtx.save();
+      labelCtx.translate(10, totalHeight / 2);
+      labelCtx.rotate(-Math.PI / 2);
       labelCtx.fillStyle = foreground;
-      labelCtx.font = `16px '${fontFamily}'`;
+      labelCtx.font = "bold 12px 'Segoe UI', sans-serif";
       labelCtx.textAlign = "center";
-      labelCtx.fillText(labelText, width / 2, height - padding);
+      labelCtx.fillText("BY QRVCARD.IO", 0, 0);
+      labelCtx.restore();
 
-      // Replace QR canvas
+      // Label below QR if provided
+      if (labelText) {
+        labelCtx.fillStyle = foreground;
+        labelCtx.font = `16px '${fontFamily}', sans-serif`;
+        labelCtx.textAlign = "center";
+        labelCtx.fillText(labelText, totalWidth / 2, totalHeight - padding);
+      }
+
+      // Replace QR with final canvas
       qrcodeContainer.innerHTML = "";
       qrcodeContainer.appendChild(labelCanvas);
-    }
 
-    // Download Buttons
-    const downloadQR = document.getElementById("downloadQR");
-    const downloadVCF = document.getElementById("downloadVCF");
-
-    const finalCanvas = qrcodeContainer.querySelector("canvas");
-    if (finalCanvas) {
-      downloadQR.href = finalCanvas.toDataURL("image/png");
+      // Download QR
+      const downloadQR = document.getElementById("downloadQR");
+      downloadQR.href = labelCanvas.toDataURL("image/png");
       downloadQR.download = "qrcode.png";
       downloadQR.style.display = "block";
     }
 
+    // Download vCard file
+    const downloadVCF = document.getElementById("downloadVCF");
     const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
     downloadVCF.href = URL.createObjectURL(vcfBlob);
     downloadVCF.download = "contact.vcf";
     downloadVCF.style.display = "block";
   }, 600);
 });
+</script>
