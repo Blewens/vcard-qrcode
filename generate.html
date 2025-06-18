@@ -8,7 +8,6 @@
   <link rel="icon" href="favicon.ico" />
   <link href="https://fonts.googleapis.com/css2?family=Lato&family=Montserrat&family=Pacifico&family=Playfair+Display&family=Roboto&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1615140404699559" crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
@@ -17,7 +16,6 @@
     </a>
     <h1>Scan, Save, Connect</h1>
     <p class="intro">Create your digital business card as a downloadable QR code. Fully private. No data stored.</p>
-
     <nav class="nav-buttons">
       <a href="index.html" class="navBtn">Home</a>
       <a href="how-to.html" class="navBtn">How To</a>
@@ -45,22 +43,22 @@
 
       <details>
         <summary>QR Customization</summary>
-        <label style="color: #2dd4bf; margin-top: 10px;">Foreground:</label>
+        <label style="color: #2dd4bf;">Foreground:</label>
         <input type="color" name="foreground" value="#000000" />
 
-        <label style="color: #2dd4bf; margin-top: 10px;">Background:</label>
+        <label style="color: #2dd4bf;">Background:</label>
         <input type="color" name="background" value="#ffffff" />
 
-        <label style="color: #2dd4bf; margin-top: 10px;">Logo:</label>
+        <label style="color: #2dd4bf;">Logo:</label>
         <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
       <details>
         <summary>Label QR Code (Optional)</summary>
-        <label for="qrLabelText" style="color: #2dd4bf; margin-top: 10px;">Text Label:</label>
+        <label for="qrLabelText" style="color: #2dd4bf;">Text Label:</label>
         <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
 
-        <label for="qrLabelFont" style="color: #2dd4bf; margin-top: 10px;">Font:</label>
+        <label for="qrLabelFont" style="color: #2dd4bf;">Font:</label>
         <select id="qrLabelFont">
           <option value="Arial">Arial</option>
           <option value="Roboto">Roboto</option>
@@ -72,18 +70,6 @@
       </details>
 
       <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
-
-      <div style="margin: 20px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1615140404699559"
-             data-ad-slot="7477570694"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
-      </div>
     </form>
 
     <div id="qrcode" class="qrcode-preview"></div>
@@ -96,6 +82,6 @@
     <p>&copy; 2025 QRvCard. All rights reserved.</p>
   </footer>
 
-  <script src="generate.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
