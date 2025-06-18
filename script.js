@@ -1,4 +1,3 @@
-<script>
 document.addEventListener("DOMContentLoaded", function () {
   function generateVCard() {
     const fullName = document.getElementById("fullName").value;
@@ -133,4 +132,3 @@ END:VCARD`;
     }, 600);
   });
 });
-</script>
