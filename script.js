@@ -1,4 +1,3 @@
-<script>
 document.addEventListener("DOMContentLoaded", function () {
   const fullName = document.getElementById("fullName");
   const email = document.getElementById("email");
@@ -100,7 +99,7 @@ END:VCARD`;
 
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Vertical label
+      // Side label: BY QRVCARD.IO
       ctx.save();
       ctx.translate(10, labelCanvas.height / 2);
       ctx.rotate(-Math.PI / 2);
@@ -110,7 +109,7 @@ END:VCARD`;
       ctx.fillText("BY QRVCARD.IO", 0, 0);
       ctx.restore();
 
-      // Optional bottom label
+      // Bottom label (if any)
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `16px ${fontFamily}`;
@@ -118,7 +117,6 @@ END:VCARD`;
         ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Optional logo
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -151,7 +149,6 @@ END:VCARD`;
         downloadVCF.download = "contact.vcf";
         downloadVCF.style.display = "block";
       }
-    }, 200); // small buffer
+    }, 500);
   }
 });
-</script>
