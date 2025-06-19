@@ -99,16 +99,21 @@ END:VCARD`;
 
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Vertical label
-      ctx.save();
-      ctx.translate(10, labelCanvas.height / 2);
-      ctx.rotate(-Math.PI / 2);
-      ctx.fillStyle = foreground;
-      ctx.font = "bold 12px Arial";
-      ctx.textAlign = "center";
-      ctx.fillText("BY QRVCARD.IO", 0, 0);
-      ctx.restore();
+      // Vertical stacked label (horizontal letters running vertically)
+ctx.save();
+ctx.fillStyle = foreground;
+ctx.font = "bold 14px Arial"; // Increase font size if desired
+ctx.textAlign = "center";
 
+const label = "BY QRVCARD.IO";
+const x = 20; // Distance from the left edge
+let y = (labelCanvas.height - label.length * 16) / 2; // Center vertically
+
+for (let i = 0; i < label.length; i++) {
+  ctx.fillText(label[i], x, y + i * 16); // 16 = line height spacing
+}
+
+ctx.restore();
       // Optional bottom label
       if (labelText) {
         ctx.fillStyle = foreground;
