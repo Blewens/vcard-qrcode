@@ -105,7 +105,7 @@ ctx.fillStyle = foreground;
 ctx.font = "bold 18px 'Courier New', monospace"; // Increase font size if desired
 ctx.textAlign = "center";
 
-const label = "BY QRVCARD.IO";
+const label = "B Y  Q R V C A R D. I O";
 const x = 20; // Distance from the left edge
 let y = (labelCanvas.height - label.length * 16) / 2; // Center vertically
 
