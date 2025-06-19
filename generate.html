@@ -4,56 +4,66 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>QRvCard Generator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet"/>
-  <link rel="stylesheet" href="style.css"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
 </head>
 <body>
+
   <header>
     <img src="logo.png" alt="QRvCard Logo" class="logo" />
-    <h1>QRvCard Generator</h1>
-    <p class="intro">Create a QR code for your digital contact card.</p>
+    <h1>QR vCard Generator</h1>
+    <p class="intro">Generate and download a QR code with your contact info</p>
   </header>
 
   <main>
     <div class="form-block">
-      <input type="text" id="fullName" placeholder="Full Name*" required />
-      <input type="email" id="email" placeholder="Email*" required />
+      <input type="text" id="fullName" placeholder="Full Name *" required />
+      <input type="email" id="email" placeholder="Email *" required />
       <input type="text" id="organization" placeholder="Organization" />
-      <input type="tel" id="phone" placeholder="Phone" />
+      <input type="tel" id="phone" placeholder="Phone Number" />
       <input type="url" id="website" placeholder="Website" />
       <input type="text" id="jobTitle" placeholder="Job Title" />
       <input type="text" id="address" placeholder="Address" />
+
       <details>
-        <summary>Social Media Links (optional)</summary>
-        <input type="url" id="linkedin" placeholder="LinkedIn" />
-        <input type="url" id="twitter" placeholder="Twitter" />
-        <input type="url" id="facebook" placeholder="Facebook" />
-        <input type="url" id="instagram" placeholder="Instagram" />
+        <summary>Social Media (optional)</summary>
+        <input type="url" id="linkedin" placeholder="LinkedIn URL" />
+        <input type="url" id="twitter" placeholder="Twitter URL" />
+        <input type="url" id="facebook" placeholder="Facebook URL" />
+        <input type="url" id="instagram" placeholder="Instagram URL" />
       </details>
-      <input type="file" id="logoUpload" accept="image/*" />
-      <input type="color" name="foreground" value="#000000" />
-      <input type="color" name="background" value="#ffffff" />
-      <input type="text" id="qrLabelText" placeholder="Optional Label Text" />
+
+      <input type="text" id="qrLabelText" placeholder="Label below QR (optional)" />
       <select id="qrLabelFont">
         <option value="Arial">Arial</option>
-        <option value="Inter" selected>Inter</option>
         <option value="Courier New">Courier New</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Times New Roman">Times New Roman</option>
+        <option value="Verdana">Verdana</option>
       </select>
+
+      <label for="foreground">QR Foreground</label>
+      <input type="color" name="foreground" value="#000000" />
+
+      <label for="background">QR Background</label>
+      <input type="color" name="background" value="#ffffff" />
+
+      <label for="logoUpload">Upload Logo (optional)</label>
+      <input type="file" id="logoUpload" accept="image/*" />
 
       <button id="generateBtn">Generate QR Code</button>
       <p id="countdownMessage"></p>
     </div>
 
-    <div id="qrcode"></div>
+    <div id="qrcode" class="qrcode-preview"></div>
 
     <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
-    <a id="downloadVCF" class="downloadBtn" style="display:none;">Download Contact File (.vcf)</a>
+    <a id="downloadVCF" class="downloadBtn" style="display:none;">Download .vcf File</a>
   </main>
 
   <footer>
-    <p>&copy; 2025 QRvCard.io — All rights reserved.</p>
-    <div class="footer-ad">Connections made easy by QRvCard.io</div>
+    <p>Powered by <a href="https://qrvcard.io" target="_blank">QRvCard.io</a></p>
+    <div class="footer-ad"></div>
   </footer>
 
   <script src="script.js"></script>
