@@ -51,8 +51,8 @@ END:VCARD`;
         countdownMsg.textContent = "Generating your QR code...";
         generateBtn.disabled = false;
 
-        proceedToGenerate(); // call QR generation logic
-        countdownMsg.textContent = ""; // clear after generation
+        proceedToGenerate();
+        countdownMsg.textContent = "";
       }
     }, 1000);
   });
@@ -99,17 +99,18 @@ END:VCARD`;
 
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Vertical label
-      ctx.save();
-      ctx.translate(10, labelCanvas.height / 2);
-      ctx.rotate(-Math.PI / 2);
+      // Draw vertically stacked label on left
       ctx.fillStyle = foreground;
-      ctx.font = "bold 12px Arial";
+      ctx.font = "bold 18px 'Courier New', monospace";
       ctx.textAlign = "center";
-      ctx.fillText("BY QRVCARD.IO", 0, 0);
-      ctx.restore();
 
-      // Optional bottom label
+      const label = "BY QRVCARD.IO";
+      const startY = (labelCanvas.height - label.length * 18) / 2;
+      for (let i = 0; i < label.length; i++) {
+        ctx.fillText(label[i], 15, startY + i * 18);
+      }
+
+      // Bottom label if present
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `16px ${fontFamily}`;
@@ -117,7 +118,7 @@ END:VCARD`;
         ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Optional logo
+      // Add logo if present
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -135,9 +136,16 @@ END:VCARD`;
         finalize();
       }
 
+      // Finalize and add download links
       function finalize() {
         qrcodeContainer.innerHTML = "";
         qrcodeContainer.appendChild(labelCanvas);
+
+        // Make canvas clickable to open QRvCard.io
+        labelCanvas.style.cursor = "pointer";
+        labelCanvas.addEventListener("click", () => {
+          window.open("https://qrvcard.io", "_blank");
+        });
 
         const downloadQR = document.getElementById("downloadQR");
         downloadQR.href = labelCanvas.toDataURL("image/png");
@@ -150,6 +158,6 @@ END:VCARD`;
         downloadVCF.download = "contact.vcf";
         downloadVCF.style.display = "block";
       }
-    }, 200); // small buffer
+    }, 200);
   }
 });
