@@ -1,3 +1,4 @@
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   const fullName = document.getElementById("fullName");
   const email = document.getElementById("email");
@@ -94,43 +95,44 @@ END:VCARD`;
       labelCanvas.width = canvas.width + leftMargin;
       labelCanvas.height = canvas.height + labelHeight;
 
-      // Background
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
 
-      // QR code image
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Left vertical stacked label: "BY QRVCARD.IO"
+      // === Left vertical stacked label ===
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
 
-      const label = "BY QRVCARD.IO";
-      const x = 20; // Distance from left edge
+      const leftLabel = "BY QRVCARD.IO";
+      const x = 20;
       const lineHeight = 16;
-      const totalHeight = label.length * lineHeight;
+      const totalHeight = leftLabel.length * lineHeight;
       let y = (labelCanvas.height - totalHeight) / 2;
 
-      for (let i = 0; i < label.length; i++) {
-        const char = label[i];
+      for (let i = 0; i < leftLabel.length; i++) {
+        const char = leftLabel[i];
         if (char !== " ") {
           ctx.fillText(char, x, y + i * lineHeight);
         }
       }
       ctx.restore();
 
-      // Optional bottom label (user-provided)
+      // === Optional bottom label ===
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
         ctx.textAlign = "center";
-        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
+
+        // Raise the bottom label to match spacing of left label
+        const bottomLabelY = canvas.height + (labelHeight - 18) / 2;
+        ctx.fillText(labelText, labelCanvas.width / 2, bottomLabelY);
       }
 
-      // Optional logo overlay
+      // === Optional logo overlay ===
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -163,6 +165,7 @@ END:VCARD`;
         downloadVCF.download = "contact.vcf";
         downloadVCF.style.display = "block";
       }
-    }, 200); // slight buffer
+    }, 200);
   }
 });
+</script>
