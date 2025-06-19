@@ -125,9 +125,9 @@ END:VCARD`;
       // Optional bottom label (user-provided)
       if (labelText) {
         ctx.fillStyle = foreground;
-        ctx.font = `16px ${fontFamily}`;
+        ctx.font = `18px ${fontFamily}`;
         ctx.textAlign = "center";
-        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
+        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 5);
       }
 
       // Optional logo overlay
