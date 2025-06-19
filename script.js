@@ -125,7 +125,7 @@ END:VCARD`;
       // Optional bottom label (user-provided)
       if (labelText) {
         ctx.fillStyle = foreground;
-        ctx.font = `16px ${fontFamily}`;
+        ctx.font = `bold 18px ${fontFamily}`;
         ctx.textAlign = "center";
         ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
       }
