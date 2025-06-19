@@ -36,7 +36,6 @@ h1 {
   color: #ccc;
 }
 
-/* Navigation Buttons */
 .nav-buttons {
   display: flex;
   justify-content: center;
@@ -68,12 +67,12 @@ main {
   padding: 20px;
 }
 
-/* Form Block */
+/* Unified Form Block */
 .form-block {
   width: 100%;
 }
 
-/* Inputs, Selects, Buttons */
+/* Input, Button, Select */
 input,
 select,
 button,
@@ -94,7 +93,7 @@ input[type="color"] {
   padding: 8px;
 }
 
-/* Accordion (Details) */
+/* Details Accordion */
 details {
   margin: 15px 0;
   background: #222;
@@ -121,7 +120,7 @@ summary {
   margin-bottom: 10px;
 }
 
-/* Generate Button */
+/* Buttons */
 #generateBtn {
   background: #000;
   color: #fff;
@@ -129,7 +128,6 @@ summary {
   cursor: pointer;
 }
 
-/* Download Button */
 .downloadBtn {
   background: #2dd4bf;
   color: #111;
@@ -147,14 +145,13 @@ summary {
   background: #26b4a3;
 }
 
-/* Label Preview */
 #qrLabelPreview {
   text-align: center;
   margin-top: 10px;
   font-size: 1.2em;
 }
 
-/* QR Display */
+/* QR Display Area */
 .qrcode-preview,
 .downloadBtn {
   text-align: center;
@@ -172,6 +169,26 @@ summary {
 #qrcode canvas {
   display: block;
   margin: 0 auto;
+}
+
+/* Countdown Message */
+#countdownMessage {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2dd4bf;
+  margin: 10px 0;
+  text-align: center;
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+/* Animation for Countdown */
+@keyframes pulse {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.6;
+  }
 }
 
 /* Footer */
