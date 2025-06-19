@@ -1,4 +1,3 @@
-<script>
 document.addEventListener("DOMContentLoaded", function () {
   const fullName = document.getElementById("fullName");
   const email = document.getElementById("email");
@@ -52,8 +51,8 @@ END:VCARD`;
         countdownMsg.textContent = "Generating your QR code...";
         generateBtn.disabled = false;
 
-        proceedToGenerate(); // call QR generation logic
-        countdownMsg.textContent = ""; // clear after generation
+        proceedToGenerate();
+        countdownMsg.textContent = "";
       }
     }, 1000);
   });
@@ -90,8 +89,8 @@ END:VCARD`;
       const labelCanvas = document.createElement("canvas");
       const ctx = labelCanvas.getContext("2d");
 
-      const labelHeight = labelText ? 40 : 0;
       const leftMargin = 40;
+      const labelHeight = labelText ? 40 : 0;
       labelCanvas.width = canvas.width + leftMargin;
       labelCanvas.height = canvas.height + labelHeight;
 
@@ -100,7 +99,7 @@ END:VCARD`;
 
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // === Left vertical stacked label ===
+      // Left vertical label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -121,18 +120,15 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // === Optional bottom label ===
+      // Bottom optional label
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
         ctx.textAlign = "center";
-
-        // Raise the bottom label to match spacing of left label
-        const bottomLabelY = canvas.height + (labelHeight - 18) / 2;
-        ctx.fillText(labelText, labelCanvas.width / 2, bottomLabelY);
+        ctx.fillText(labelText, labelCanvas.width / 2, canvas.height + 4); // Adjusted for balanced spacing
       }
 
-      // === Optional logo overlay ===
+      // Optional logo
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -168,4 +164,3 @@ END:VCARD`;
     }, 200);
   }
 });
-</script>
