@@ -36,6 +36,7 @@ h1 {
   color: #ccc;
 }
 
+/* Navigation Buttons */
 .nav-buttons {
   display: flex;
   justify-content: center;
@@ -120,7 +121,7 @@ summary {
   margin-bottom: 10px;
 }
 
-/* Buttons */
+/* Generate Button */
 #generateBtn {
   background: #000;
   color: #fff;
@@ -128,6 +129,7 @@ summary {
   cursor: pointer;
 }
 
+/* Download Buttons */
 .downloadBtn {
   background: #2dd4bf;
   color: #111;
@@ -140,11 +142,11 @@ summary {
   font-weight: bold;
   transition: background 0.3s ease;
 }
-
 .downloadBtn:hover {
   background: #26b4a3;
 }
 
+/* Label Preview Text */
 #qrLabelPreview {
   text-align: center;
   margin-top: 10px;
@@ -169,26 +171,6 @@ summary {
 #qrcode canvas {
   display: block;
   margin: 0 auto;
-}
-
-/* Countdown Message */
-#countdownMessage {
-  font-size: 18px;
-  font-weight: bold;
-  color: #2dd4bf;
-  margin: 10px 0;
-  text-align: center;
-  animation: pulse 1s ease-in-out infinite alternate;
-}
-
-/* Animation for Countdown */
-@keyframes pulse {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0.6;
-  }
 }
 
 /* Footer */
