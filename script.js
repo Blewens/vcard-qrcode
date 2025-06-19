@@ -51,8 +51,8 @@ END:VCARD`;
         countdownMsg.textContent = "Generating your QR code...";
         generateBtn.disabled = false;
 
-        proceedToGenerate(); // call QR generation logic
-        countdownMsg.textContent = ""; // clear after generation
+        proceedToGenerate();
+        countdownMsg.textContent = "";
       }
     }, 1000);
   });
@@ -86,22 +86,24 @@ END:VCARD`;
       const logoInput = document.getElementById("logoUpload");
       const size = canvas.width * 0.25;
 
+      const leftMargin = 40;
+      const verticalPadding = 10;
+      const bottomLabelHeight = labelText ? 40 : 0;
+
       const labelCanvas = document.createElement("canvas");
       const ctx = labelCanvas.getContext("2d");
 
-      const labelHeight = labelText ? 40 : 0;
-      const leftMargin = 40;
       labelCanvas.width = canvas.width + leftMargin;
-      labelCanvas.height = canvas.height + labelHeight;
+      labelCanvas.height = canvas.height + bottomLabelHeight + verticalPadding;
 
       // Background
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
 
-      // QR code image
+      // Draw QR code
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Left vertical stacked label: "BY QRVCARD.IO"
+      // Left vertical stacked label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -109,10 +111,10 @@ END:VCARD`;
       ctx.textBaseline = "top";
 
       const label = "BY QRVCARD.IO";
-      const x = 20; // Distance from left edge
+      const x = 20;
       const lineHeight = 16;
       const totalHeight = label.length * lineHeight;
-      let y = (labelCanvas.height - totalHeight) / 2;
+      let y = (labelCanvas.height - bottomLabelHeight - totalHeight) / 2;
 
       for (let i = 0; i < label.length; i++) {
         const char = label[i];
@@ -122,15 +124,16 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Optional bottom label (user-provided)
+      // Bottom optional label
       if (labelText) {
         ctx.fillStyle = foreground;
-        ctx.font = `18px ${fontFamily}`;
+        ctx.font = `bold 18px ${fontFamily}`;
         ctx.textAlign = "center";
-        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 5);
+        ctx.textBaseline = "bottom";
+        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Optional logo overlay
+      // Optional logo
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -163,6 +166,6 @@ END:VCARD`;
         downloadVCF.download = "contact.vcf";
         downloadVCF.style.display = "block";
       }
-    }, 200); // slight buffer
+    }, 200);
   }
 });
