@@ -1,4 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const fullName = document.getElementById("fullName");
+  const email = document.getElementById("email");
+  const organization = document.getElementById("organization");
+  const phone = document.getElementById("phone");
+  const website = document.getElementById("website");
+  const jobTitle = document.getElementById("jobTitle");
+  const address = document.getElementById("address");
+  const linkedin = document.getElementById("linkedin");
+  const twitter = document.getElementById("twitter");
+  const facebook = document.getElementById("facebook");
+  const instagram = document.getElementById("instagram");
+
+  const generateBtn = document.getElementById("generateBtn");
+  const countdownMsg = document.getElementById("countdownMessage");
+
   function generateVCard() {
     return `BEGIN:VCARD
 VERSION:3.0
@@ -17,24 +32,32 @@ NOTE:Connections made easy by QRvCard.io
 END:VCARD`;
   }
 
-  const fullName = document.getElementById("fullName");
-  const email = document.getElementById("email");
-  const organization = document.getElementById("organization");
-  const phone = document.getElementById("phone");
-  const website = document.getElementById("website");
-  const jobTitle = document.getElementById("jobTitle");
-  const address = document.getElementById("address");
-  const linkedin = document.getElementById("linkedin");
-  const twitter = document.getElementById("twitter");
-  const facebook = document.getElementById("facebook");
-  const instagram = document.getElementById("instagram");
-
-  document.getElementById("generateBtn").addEventListener("click", function () {
+  generateBtn.addEventListener("click", function () {
     if (!fullName.value.trim() || !email.value.trim()) {
       alert("Please fill in both Full Name and Email before generating your QR code.");
       return;
     }
 
+    let countdown = 5;
+    countdownMsg.textContent = `Generating in ${countdown}...`;
+    generateBtn.disabled = true;
+
+    const interval = setInterval(() => {
+      countdown--;
+      if (countdown > 0) {
+        countdownMsg.textContent = `Generating in ${countdown}...`;
+      } else {
+        clearInterval(interval);
+        countdownMsg.textContent = "Generating your QR code...";
+        generateBtn.disabled = false;
+
+        proceedToGenerate(); // call QR generation logic
+        countdownMsg.textContent = ""; // clear after generation
+      }
+    }, 1000);
+  });
+
+  function proceedToGenerate() {
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = "";
 
@@ -76,7 +99,7 @@ END:VCARD`;
 
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Draw side label
+      // Vertical label
       ctx.save();
       ctx.translate(10, labelCanvas.height / 2);
       ctx.rotate(-Math.PI / 2);
@@ -86,7 +109,7 @@ END:VCARD`;
       ctx.fillText("BY QRVCARD.IO", 0, 0);
       ctx.restore();
 
-      // Draw bottom label if provided
+      // Optional bottom label
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `16px ${fontFamily}`;
@@ -94,6 +117,7 @@ END:VCARD`;
         ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
       }
 
+      // Optional logo
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -126,6 +150,6 @@ END:VCARD`;
         downloadVCF.download = "contact.vcf";
         downloadVCF.style.display = "block";
       }
-    }, 500);
-  });
+    }, 200); // small buffer
+  }
 });
