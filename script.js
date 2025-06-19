@@ -1,165 +1,208 @@
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const fullName = document.getElementById("fullName");
-  const email = document.getElementById("email");
-  const organization = document.getElementById("organization");
-  const phone = document.getElementById("phone");
-  const website = document.getElementById("website");
-  const jobTitle = document.getElementById("jobTitle");
-  const address = document.getElementById("address");
-  const linkedin = document.getElementById("linkedin");
-  const twitter = document.getElementById("twitter");
-  const facebook = document.getElementById("facebook");
-  const instagram = document.getElementById("instagram");
+/* Reset & Base Styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 
-  const generateBtn = document.getElementById("generateBtn");
-  const countdownMsg = document.getElementById("countdownMessage");
+body {
+  background: #111;
+  color: #2dd4bf;
+  font-family: 'Inter', sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
 
-  function generateVCard() {
-    return `BEGIN:VCARD
-VERSION:3.0
-FN:${fullName.value}
-ORG:${organization.value}
-TEL:${phone.value}
-EMAIL:${email.value}
-URL:${website.value}
-TITLE:${jobTitle.value}
-ADR:${address.value}
-item1.URL:${linkedin.value}
-item2.URL:${twitter.value}
-item3.URL:${facebook.value}
-item4.URL:${instagram.value}
-NOTE:Connections made easy by QRvCard.io
-END:VCARD`;
+/* Header */
+header {
+  padding: 20px;
+}
+
+.logo {
+  width: 120px;
+  margin: 0 auto 10px;
+  display: block;
+}
+
+h1 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.intro {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #ccc;
+}
+
+.nav-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.navBtn {
+  background: #2dd4bf;
+  color: #111;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s ease;
+  white-space: nowrap;
+}
+
+.navBtn:hover {
+  background: #26b4a3;
+}
+
+/* Main Container */
+main {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+/* Unified Form Block */
+.form-block {
+  width: 100%;
+}
+
+/* Input, Button, Select */
+input,
+select,
+button,
+a.downloadBtn {
+  width: 100%;
+  margin: 15px 0;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  font-size: 16px;
+  background: #333;
+  color: #fff;
+}
+
+/* Color Inputs */
+input[type="color"] {
+  height: 44px;
+  padding: 8px;
+}
+
+/* Details Accordion */
+details {
+  margin: 15px 0;
+  background: #222;
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+details input {
+  width: 100%;
+  margin: 10px 0;
+  background: #333;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: #ddd;
+  margin-bottom: 10px;
+}
+
+/* Buttons */
+#generateBtn {
+  background: #000;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.downloadBtn {
+  background: #2dd4bf;
+  color: #111;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.downloadBtn:hover {
+  background: #26b4a3;
+}
+
+#qrLabelPreview {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.2em;
+}
+
+/* QR Display Area */
+.qrcode-preview,
+.downloadBtn {
+  text-align: center;
+}
+
+#qrcode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  width: 100%;
+  text-align: center;
+}
+
+#qrcode canvas {
+  display: block;
+  margin: 0 auto;
+}
+
+/* Countdown Message */
+#countdownMessage {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2dd4bf;
+  margin: 10px 0;
+  text-align: center;
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+/* Animation for Countdown */
+@keyframes pulse {
+  from {
+    opacity: 1;
   }
-
-  generateBtn.addEventListener("click", function () {
-    if (!fullName.value.trim() || !email.value.trim()) {
-      alert("Please fill in both Full Name and Email before generating your QR code.");
-      return;
-    }
-
-    let countdown = 5;
-    countdownMsg.textContent = `Generating in ${countdown}...`;
-    generateBtn.disabled = true;
-
-    const interval = setInterval(() => {
-      countdown--;
-      if (countdown > 0) {
-        countdownMsg.textContent = `Generating in ${countdown}...`;
-      } else {
-        clearInterval(interval);
-        countdownMsg.textContent = "Generating your QR code...";
-        generateBtn.disabled = false;
-
-        proceedToGenerate();
-        countdownMsg.textContent = "";
-      }
-    }, 1000);
-  });
-
-  function proceedToGenerate() {
-    const qrcodeContainer = document.getElementById("qrcode");
-    qrcodeContainer.innerHTML = "";
-
-    const vCardData = generateVCard();
-    const foreground = document.querySelector('input[name="foreground"]').value;
-    const background = document.querySelector('input[name="background"]').value;
-    const labelText = document.getElementById("qrLabelText").value.trim();
-    const fontFamily = document.getElementById("qrLabelFont").value;
-
-    const qrDiv = document.createElement("div");
-    qrcodeContainer.appendChild(qrDiv);
-
-    const qr = new QRCode(qrDiv, {
-      text: vCardData,
-      width: 256,
-      height: 256,
-      colorDark: foreground,
-      colorLight: background,
-      correctLevel: QRCode.CorrectLevel.H,
-    });
-
-    const observer = new MutationObserver(() => {
-      const canvas = qrDiv.querySelector("canvas");
-      if (!canvas) return;
-
-      observer.disconnect();
-
-      const logoInput = document.getElementById("logoUpload");
-      const size = canvas.width * 0.25;
-
-      const labelCanvas = document.createElement("canvas");
-      const ctx = labelCanvas.getContext("2d");
-
-      const labelHeight = labelText ? 40 : 0;
-      const leftMargin = 40;
-      labelCanvas.width = canvas.width + leftMargin;
-      labelCanvas.height = canvas.height + labelHeight;
-
-      ctx.fillStyle = background;
-      ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
-      ctx.drawImage(canvas, leftMargin, 0);
-
-      // Stacked "BY QRVCARD.IO" vertically
-      ctx.fillStyle = foreground;
-      ctx.font = "bold 18px 'Courier New', monospace";
-      ctx.textAlign = "center";
-
-      const label = "BY QRVCARD.IO";
-      const startY = (canvas.height - label.length * 18) / 2;
-      for (let i = 0; i < label.length; i++) {
-        ctx.fillText(label[i], 15, startY + i * 18);
-      }
-
-      // Optional bottom label
-      if (labelText) {
-        ctx.fillStyle = foreground;
-        ctx.font = `16px ${fontFamily}`;
-        ctx.textAlign = "center";
-        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
-      }
-
-      function finalize() {
-        qrcodeContainer.innerHTML = "";
-        qrcodeContainer.appendChild(labelCanvas);
-
-        labelCanvas.style.cursor = "pointer";
-        labelCanvas.addEventListener("click", () => {
-          window.open("https://qrvcard.io", "_blank");
-        });
-
-        const downloadQR = document.getElementById("downloadQR");
-        downloadQR.href = labelCanvas.toDataURL("image/png");
-        downloadQR.download = "qrcode.png";
-        downloadQR.style.display = "block";
-
-        const downloadVCF = document.getElementById("downloadVCF");
-        const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
-        downloadVCF.href = URL.createObjectURL(vcfBlob);
-        downloadVCF.download = "contact.vcf";
-        downloadVCF.style.display = "block";
-      }
-
-      if (logoInput.files.length > 0) {
-        const logo = new Image();
-        logo.onload = function () {
-          ctx.drawImage(
-            logo,
-            labelCanvas.width / 2 - size / 2,
-            (canvas.height - size) / 2,
-            size,
-            size
-          );
-          finalize();
-        };
-        logo.src = URL.createObjectURL(logoInput.files[0]);
-      } else {
-        finalize();
-      }
-    });
-
-    observer.observe(qrDiv, { childList: true, subtree: true });
+  to {
+    opacity: 0.6;
   }
-});
-</script>
+}
+
+/* Footer */
+footer {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #888;
+}
+
+footer a {
+  color: #888;
+  text-decoration: underline;
+}
+
+.footer-ad {
+  margin-top: 20px;
+}
