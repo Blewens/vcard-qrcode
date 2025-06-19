@@ -51,8 +51,8 @@ END:VCARD`;
         countdownMsg.textContent = "Generating your QR code...";
         generateBtn.disabled = false;
 
-        proceedToGenerate();
-        countdownMsg.textContent = "";
+        proceedToGenerate(); // call QR generation logic
+        countdownMsg.textContent = ""; // clear after generation
       }
     }, 1000);
   });
@@ -89,46 +89,48 @@ END:VCARD`;
       const labelCanvas = document.createElement("canvas");
       const ctx = labelCanvas.getContext("2d");
 
-      const leftMargin = 40;
       const labelHeight = labelText ? 40 : 0;
+      const leftMargin = 40;
       labelCanvas.width = canvas.width + leftMargin;
       labelCanvas.height = canvas.height + labelHeight;
 
+      // Background
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
 
+      // QR code image
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Left vertical label
+      // Left vertical stacked label: "BY QRVCARD.IO"
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
 
-      const leftLabel = "BY QRVCARD.IO";
-      const x = 20;
+      const label = "BY QRVCARD.IO";
+      const x = 20; // Distance from left edge
       const lineHeight = 16;
-      const totalHeight = leftLabel.length * lineHeight;
+      const totalHeight = label.length * lineHeight;
       let y = (labelCanvas.height - totalHeight) / 2;
 
-      for (let i = 0; i < leftLabel.length; i++) {
-        const char = leftLabel[i];
+      for (let i = 0; i < label.length; i++) {
+        const char = label[i];
         if (char !== " ") {
           ctx.fillText(char, x, y + i * lineHeight);
         }
       }
       ctx.restore();
 
-      // Bottom optional label
+      // Optional bottom label (user-provided)
       if (labelText) {
         ctx.fillStyle = foreground;
-        ctx.font = `bold 18px ${fontFamily}`;
+        ctx.font = `16px ${fontFamily}`;
         ctx.textAlign = "center";
-        ctx.fillText(labelText, labelCanvas.width / 2, canvas.height + 4); // Adjusted for balanced spacing
+        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Optional logo
+      // Optional logo overlay
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -161,6 +163,6 @@ END:VCARD`;
         downloadVCF.download = "contact.vcf";
         downloadVCF.style.display = "block";
       }
-    }, 200);
+    }, 200); // slight buffer
   }
 });
