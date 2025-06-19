@@ -120,13 +120,27 @@ for (let i = 0; i < label.length; i++) {
 }
 
 ctx.restore();
-      // Optional bottom label
-      if (labelText) {
-        ctx.fillStyle = foreground;
-        ctx.font = `16px ${fontFamily}`;
-        ctx.textAlign = "center";
-        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
-      }
+      // Vertical stacked label (horizontal letters running vertically)
+ctx.save();
+ctx.fillStyle = foreground;
+const fontFamily = document.getElementById("qrLabelFont").value;
+ctx.font = `bold 18px '${fontFamily}'`;
+ctx.textAlign = "center";
+ctx.textBaseline = "top";
+
+const label = "BY QRVCARD.IO";
+const x = 20; // Left margin
+const lineHeight = 18;
+const totalHeight = label.length * lineHeight;
+let y = (labelCanvas.height - totalHeight) / 2;
+
+for (let i = 0; i < label.length; i++) {
+  const char = label[i];
+  if (char !== " ") {
+    ctx.fillText(char, x, y + i * lineHeight);
+  }
+}
+ctx.restore();
 
       // Optional logo
       if (logoInput.files.length > 0) {
