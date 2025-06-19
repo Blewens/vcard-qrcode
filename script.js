@@ -106,7 +106,7 @@ ctx.font = "bold 14px 'Courier New', monospace"; // Slightly smaller to fit
 ctx.textAlign = "center";
 ctx.textBaseline = "top";
 
-const label = "Q R V C A R D . I O";
+const label = "BY QRVCARD .IO";
 const x = 25; // Adjusted margin from left
 const lineHeight = 16; // Tighter spacing
 const totalHeight = label.length * lineHeight;
