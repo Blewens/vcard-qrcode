@@ -102,7 +102,7 @@ END:VCARD`;
       // Vertical stacked label (horizontal letters running vertically)
 ctx.save();
 ctx.fillStyle = foreground;
-ctx.font = "bold 14px Arial"; // Increase font size if desired
+ctx.font = "bold 18px 'Courier New', monospace"; // Increase font size if desired
 ctx.textAlign = "center";
 
 const label = "BY QRVCARD.IO";
