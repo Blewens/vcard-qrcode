@@ -68,12 +68,12 @@ main {
   padding: 20px;
 }
 
-/* Unified Form Block */
+/* Form Block */
 .form-block {
   width: 100%;
 }
 
-/* Input, Button, Select */
+/* Inputs, Selects, Buttons */
 input,
 select,
 button,
@@ -94,7 +94,7 @@ input[type="color"] {
   padding: 8px;
 }
 
-/* Details Accordion */
+/* Accordion (Details) */
 details {
   margin: 15px 0;
   background: #222;
@@ -129,7 +129,7 @@ summary {
   cursor: pointer;
 }
 
-/* Download Buttons */
+/* Download Button */
 .downloadBtn {
   background: #2dd4bf;
   color: #111;
@@ -142,18 +142,19 @@ summary {
   font-weight: bold;
   transition: background 0.3s ease;
 }
+
 .downloadBtn:hover {
   background: #26b4a3;
 }
 
-/* Label Preview Text */
+/* Label Preview */
 #qrLabelPreview {
   text-align: center;
   margin-top: 10px;
   font-size: 1.2em;
 }
 
-/* QR Display Area */
+/* QR Display */
 .qrcode-preview,
 .downloadBtn {
   text-align: center;
