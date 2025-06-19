@@ -102,18 +102,21 @@ END:VCARD`;
 // Vertical stacked label (horizontal letters running vertically)
 ctx.save();
 ctx.fillStyle = foreground;
-ctx.font = "bold 18px 'Courier New', monospace";
+ctx.font = "bold 14px 'Courier New', monospace"; // Slightly smaller to fit
 ctx.textAlign = "center";
 ctx.textBaseline = "top";
 
-const label = "B Y  Q R V C A R D. I O";
-const x = 20;
-const lineHeight = 18;
+const label = "Q R V C A R D . I O";
+const x = 25; // Adjusted margin from left
+const lineHeight = 16; // Tighter spacing
 const totalHeight = label.length * lineHeight;
 let y = (labelCanvas.height - totalHeight) / 2;
 
 for (let i = 0; i < label.length; i++) {
-  ctx.fillText(label[i], x, y + i * lineHeight);
+  const char = label[i];
+  if (char !== " ") {
+    ctx.fillText(char, x, y + i * lineHeight);
+  }
 }
 
 ctx.restore();
