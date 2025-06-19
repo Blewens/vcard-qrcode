@@ -2,23 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Generate | QR vCard</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="favicon.ico" />
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="icon" href="favicon.ico"/>
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1615140404699559"
-     crossorigin="anonymous"></script>
 </head>
 <body>
   <header>
-    <a href="index.html">
-      <img src="QRVCard.PNG" alt="QR vCard Logo" class="logo" />
-    </a>
+    <a href="index.html"><img src="QRVCard.PNG" alt="QR vCard Logo" class="logo"/></a>
     <h1>Scan, Save, Connect</h1>
     <p class="intro">Create your digital business card as a downloadable QR code. Fully private. No data stored.</p>
-
-    <!-- Consistent styled nav buttons -->
     <nav class="nav-buttons">
       <a href="index.html" class="navBtn">Home</a>
       <a href="how-to.html" class="navBtn">How To</a>
@@ -46,42 +40,44 @@
 
       <details>
         <summary>QR Customization</summary>
-        <label style="color: #2dd4bf; margin-top: 10px;">Foreground:</label>
+        <label>Foreground:</label>
         <input type="color" name="foreground" value="#000000" />
-
-        <label style="color: #2dd4bf; margin-top: 10px;">Background:</label>
+        <label>Background:</label>
         <input type="color" name="background" value="#ffffff" />
-
-        <label style="color: #2dd4bf; margin-top: 10px;">Logo:</label>
+        <label>Logo:</label>
         <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
-      <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
+      <details>
+        <summary>Label QR Code (Optional)</summary>
+        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
+        <select id="qrLabelFont">
+          <option value="Arial">Arial</option>
+          <option value="Verdana">Verdana</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Tahoma">Tahoma</option>
+        </select>
+      </details>
 
-      <!-- Ad appears after generate button -->
-      <div style="margin: 20px 0;">
-        <ins class="adsbygoogle"
-             style="display:block"
-             data-ad-client="ca-pub-1615140404699559"
-             data-ad-slot="7477570694"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+      <!-- 🟧 Ad Square -->
+      <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; margin: 20px 0; text-align: center;">
+        <p><strong>Ad space:</strong> Your promotion here</p>
+        <!-- You can embed actual ad scripts here -->
       </div>
+
+      <!-- ⏳ Countdown Message -->
+      <div id="countdownMessage" style="font-weight: bold; color: #2dd4bf; margin-bottom: 10px;"></div>
+
+      <!-- ⚙️ Generate Button -->
+      <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
     </form>
 
     <div id="qrcode" class="qrcode-preview"></div>
-
     <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
     <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
   </main>
 
-  <footer>
-    <p>&copy; 2025 QRvCard. All rights reserved.</p>
-  </footer>
-
+  <footer><p>&copy; 2025 QRvCard. All rights reserved.</p></footer>
   <script src="script.js"></script>
 </body>
 </html>
