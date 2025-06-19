@@ -1,3 +1,4 @@
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   const fullName = document.getElementById("fullName");
   const email = document.getElementById("email");
@@ -153,3 +154,4 @@ END:VCARD`;
     }, 200); // small buffer
   }
 });
+</script>
