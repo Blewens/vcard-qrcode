@@ -107,7 +107,7 @@ ctx.textAlign = "center";
 ctx.textBaseline = "top";
 
 const label = "BY QRVCARD.IO";
-const x = 25; // Adjusted margin from left
+const x = 20; // Adjusted margin from left
 const lineHeight = 16; // Tighter spacing
 const totalHeight = label.length * lineHeight;
 let y = (labelCanvas.height - totalHeight) / 2;
