@@ -129,7 +129,7 @@ END:VCARD`;
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
         ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
+        ctx.textBaseline = "top";
         ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
       }
 
