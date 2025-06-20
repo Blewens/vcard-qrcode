@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
     phone: document.getElementById("phone"),
     website: document.getElementById("website"),
     jobTitle: document.getElementById("jobTitle"),
-    address: document.getElementById("address"),
     linkedin: document.getElementById("linkedin"),
     twitter: document.getElementById("twitter"),
     facebook: document.getElementById("facebook"),
@@ -29,7 +28,6 @@ TEL:${getFieldValue(fields.phone)}
 EMAIL:${getFieldValue(fields.email)}
 URL:${getFieldValue(fields.website)}
 TITLE:${getFieldValue(fields.jobTitle)}
-ADR:${getFieldValue(fields.address)}
 item1.URL:${getFieldValue(fields.linkedin)}
 item2.URL:${getFieldValue(fields.twitter)}
 item3.URL:${getFieldValue(fields.facebook)}
