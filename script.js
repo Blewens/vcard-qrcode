@@ -88,7 +88,7 @@ END:VCARD`;
 
       const leftMargin = 40;
       const bottomLabelHeight = labelText ? 40 : 0;
-      const verticalPadding = labelText ? 10 : 0;
+      const verticalPadding = labelText ? 0 : 0;
 
       const labelCanvas = document.createElement("canvas");
       const ctx = labelCanvas.getContext("2d");
