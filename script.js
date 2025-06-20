@@ -130,7 +130,7 @@ END:VCARD`;
         ctx.font = `bold 18px ${fontFamily}`;
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-        ctx.fillText(labelText, labelCanvas.width / 2, labelCanvas.height - 10);
+        ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 15);
       }
 
       // Optional logo
