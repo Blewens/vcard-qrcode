@@ -1,39 +1,45 @@
 document.addEventListener("DOMContentLoaded", function () {
-  const fullName = document.getElementById("fullName");
-  const email = document.getElementById("email");
-  const organization = document.getElementById("organization");
-  const phone = document.getElementById("phone");
-  const website = document.getElementById("website");
-  const jobTitle = document.getElementById("jobTitle");
-  const address = document.getElementById("address");
-  const linkedin = document.getElementById("linkedin");
-  const twitter = document.getElementById("twitter");
-  const facebook = document.getElementById("facebook");
-  const instagram = document.getElementById("instagram");
+  const fields = {
+    fullName: document.getElementById("fullName"),
+    email: document.getElementById("email"),
+    organization: document.getElementById("organization"),
+    phone: document.getElementById("phone"),
+    website: document.getElementById("website"),
+    jobTitle: document.getElementById("jobTitle"),
+    address: document.getElementById("address"),
+    linkedin: document.getElementById("linkedin"),
+    twitter: document.getElementById("twitter"),
+    facebook: document.getElementById("facebook"),
+    instagram: document.getElementById("instagram")
+  };
 
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
 
+  function getFieldValue(field) {
+    return field && field.offsetParent !== null ? field.value.trim() : "";
+  }
+
   function generateVCard() {
     return `BEGIN:VCARD
 VERSION:3.0
-FN:${fullName.value}
-ORG:${organization.value}
-TEL:${phone.value}
-EMAIL:${email.value}
-URL:${website.value}
-TITLE:${jobTitle.value}
-ADR:${address.value}
-item1.URL:${linkedin.value}
-item2.URL:${twitter.value}
-item3.URL:${facebook.value}
-item4.URL:${instagram.value}
+FN:${getFieldValue(fields.fullName)}
+ORG:${getFieldValue(fields.organization)}
+TEL:${getFieldValue(fields.phone)}
+EMAIL:${getFieldValue(fields.email)}
+URL:${getFieldValue(fields.website)}
+TITLE:${getFieldValue(fields.jobTitle)}
+ADR:${getFieldValue(fields.address)}
+item1.URL:${getFieldValue(fields.linkedin)}
+item2.URL:${getFieldValue(fields.twitter)}
+item3.URL:${getFieldValue(fields.facebook)}
+item4.URL:${getFieldValue(fields.instagram)}
 NOTE:Connections made easy by QRvCard.io
 END:VCARD`;
   }
 
   generateBtn.addEventListener("click", function () {
-    if (!fullName.value.trim() || !email.value.trim()) {
+    if (!getFieldValue(fields.fullName) || !getFieldValue(fields.email)) {
       alert("Please fill in both Full Name and Email before generating your QR code.");
       return;
     }
@@ -49,12 +55,18 @@ END:VCARD`;
       } else {
         clearInterval(interval);
         countdownMsg.textContent = "Generating your QR code...";
-        generateBtn.disabled = false;
-
         proceedToGenerate();
-        countdownMsg.textContent = "";
       }
     }, 1000);
+
+    // Fail-safe timeout if generation silently fails
+    setTimeout(() => {
+      if (countdownMsg.textContent.includes("Generating your QR code")) {
+        countdownMsg.textContent =
+          "Something went wrong. If your browser autofilled hidden fields (like address), please clear them or reveal the section before generating.";
+        generateBtn.disabled = false;
+      }
+    }, 7000);
   });
 
   function proceedToGenerate() {
@@ -87,8 +99,8 @@ END:VCARD`;
       const size = canvas.width * 0.25;
 
       const leftMargin = 40;
-      const bottomLabelHeight = labelText ? 40 : 0;
-      const verticalPadding = labelText ? 0 : 0;
+      const bottomLabelHeight = labelText ? 30 : 0;
+      const verticalPadding = 0;
 
       const labelCanvas = document.createElement("canvas");
       const ctx = labelCanvas.getContext("2d");
@@ -96,11 +108,11 @@ END:VCARD`;
       labelCanvas.width = canvas.width + leftMargin;
       labelCanvas.height = canvas.height + bottomLabelHeight + verticalPadding;
 
-      // Background
+      // Background fill
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
 
-      // Draw QR code
+      // QR code draw
       ctx.drawImage(canvas, leftMargin, 0);
 
       // Left vertical stacked label
@@ -114,7 +126,7 @@ END:VCARD`;
       const x = 20;
       const lineHeight = 16;
       const totalHeight = label.length * lineHeight;
-      let y = (labelCanvas.height - bottomLabelHeight - totalHeight) / 2;
+      const y = (labelCanvas.height - bottomLabelHeight - totalHeight) / 2;
 
       for (let i = 0; i < label.length; i++) {
         const char = label[i];
@@ -124,16 +136,16 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom optional label
+      // Bottom optional label centered to QR code
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-        ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 15);
+        ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Optional logo
+      // Optional logo overlay
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -165,6 +177,9 @@ END:VCARD`;
         downloadVCF.href = URL.createObjectURL(vcfBlob);
         downloadVCF.download = "contact.vcf";
         downloadVCF.style.display = "block";
+
+        countdownMsg.textContent = "";
+        generateBtn.disabled = false;
       }
     }, 200);
   }
