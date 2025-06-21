@@ -1,11 +1,12 @@
+<script>
 document.addEventListener("DOMContentLoaded", function () {
   const fields = {
     fullName: document.getElementById("fullName"),
-    email: document.getElementById("email"),
-    organization: document.getElementById("organization"),
     phone: document.getElementById("phone"),
-    website: document.getElementById("website"),
+    email: document.getElementById("email"),
     jobTitle: document.getElementById("jobTitle"),
+    organization: document.getElementById("organization"),
+    website: document.getElementById("website"),
     linkedin: document.getElementById("linkedin"),
     twitter: document.getElementById("twitter"),
     facebook: document.getElementById("facebook"),
@@ -23,16 +24,16 @@ document.addEventListener("DOMContentLoaded", function () {
     return `BEGIN:VCARD
 VERSION:3.0
 FN:${getFieldValue(fields.fullName)}
-ORG:${getFieldValue(fields.organization)}
 TEL:${getFieldValue(fields.phone)}
 EMAIL:${getFieldValue(fields.email)}
-URL:${getFieldValue(fields.website)}
+ORG:${getFieldValue(fields.organization)}
 TITLE:${getFieldValue(fields.jobTitle)}
+URL:${getFieldValue(fields.website)}
 item1.URL:${getFieldValue(fields.linkedin)}
 item2.URL:${getFieldValue(fields.twitter)}
 item3.URL:${getFieldValue(fields.facebook)}
 item4.URL:${getFieldValue(fields.instagram)}
-NOTE:Connections made easy by QRvCard.io
+NOTE:Connections made easy by https://QRvCard.io
 END:VCARD`;
   }
 
@@ -57,11 +58,11 @@ END:VCARD`;
       }
     }, 1000);
 
-    // Fail-safe timeout if generation silently fails
+    // Timeout safeguard
     setTimeout(() => {
       if (countdownMsg.textContent.includes("Generating your QR code")) {
         countdownMsg.textContent =
-          "Something went wrong. If your browser autofilled hidden fields (like address), please clear them or reveal the section before generating.";
+          "Something went wrong. If autofill added hidden data, please show all fields and check again.";
         generateBtn.disabled = false;
       }
     }, 7000);
@@ -98,22 +99,21 @@ END:VCARD`;
 
       const leftMargin = 40;
       const bottomLabelHeight = labelText ? 30 : 0;
-      const verticalPadding = 0;
 
       const labelCanvas = document.createElement("canvas");
       const ctx = labelCanvas.getContext("2d");
 
       labelCanvas.width = canvas.width + leftMargin;
-      labelCanvas.height = canvas.height + bottomLabelHeight + verticalPadding;
+      labelCanvas.height = canvas.height + bottomLabelHeight;
 
-      // Background fill
+      // Fill background
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
 
-      // QR code draw
+      // Draw QR code
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Left vertical stacked label
+      // Left vertical label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -134,7 +134,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom optional label centered to QR code
+      // Bottom optional label centered to QR
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
@@ -143,7 +143,7 @@ END:VCARD`;
         ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Optional logo overlay
+      // Logo overlay
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -182,3 +182,4 @@ END:VCARD`;
     }, 200);
   }
 });
+</script>
