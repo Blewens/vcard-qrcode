@@ -22,21 +22,24 @@
 
   <main>
     <form id="vcardForm">
+      <!-- 🔓 Always Visible Inputs -->
       <input type="text" id="fullName" placeholder="Full Name*" required />
-      <input type="text" id="organization" placeholder="Organization" />
       <input type="tel" id="phone" placeholder="Phone" />
       <input type="email" id="email" placeholder="Email*" required />
 
+      <!-- 🔒 Additional Info (Hidden by default) -->
       <details>
         <summary>Additional Details</summary>
-        <input type="url" id="website" placeholder="Website" />
         <input type="text" id="jobTitle" placeholder="Job Title" />
+        <input type="text" id="organization" placeholder="Organization" />
+        <input type="url" id="website" placeholder="Website" />
         <input type="url" id="linkedin" placeholder="LinkedIn" />
         <input type="url" id="twitter" placeholder="Twitter" />
         <input type="url" id="facebook" placeholder="Facebook" />
         <input type="url" id="instagram" placeholder="Instagram" />
       </details>
 
+      <!-- 🎨 QR Customization -->
       <details>
         <summary>QR Customization</summary>
         <label>Foreground:</label>
@@ -47,6 +50,7 @@
         <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
+      <!-- 🏷️ Label QR -->
       <details>
         <summary>Label QR Code (Optional)</summary>
         <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
@@ -61,7 +65,6 @@
       <!-- 🟧 Ad Square -->
       <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; margin: 20px 0; text-align: center;">
         <p><strong>Ad space:</strong> Your promotion here</p>
-        <!-- You can embed actual ad scripts here -->
       </div>
 
       <!-- ⏳ Countdown Message -->
@@ -71,6 +74,7 @@
       <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
     </form>
 
+    <!-- 📦 QR Output + Downloads -->
     <div id="qrcode" class="qrcode-preview"></div>
     <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
     <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
