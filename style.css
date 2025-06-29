@@ -1,4 +1,6 @@
-/* Reset & Base Styles */
+/* -----------------------------------
+   Reset & Base Styles
+----------------------------------- */
 *,
 *::before,
 *::after {
@@ -14,7 +16,9 @@ body {
   padding: 0;
 }
 
-/* Header */
+/* -----------------------------------
+   Header
+----------------------------------- */
 header {
   padding: 20px;
 }
@@ -36,6 +40,7 @@ h1 {
   color: #ccc;
 }
 
+/* Navigation Buttons */
 .nav-buttons {
   display: flex;
   justify-content: center;
@@ -60,23 +65,22 @@ h1 {
   background: #26b4a3;
 }
 
-/* Main Container */
+/* -----------------------------------
+   Main Container
+----------------------------------- */
 main {
   max-width: 400px;
   margin: 0 auto;
   padding: 20px;
 }
 
-/* Unified Form Block */
 .form-block {
   width: 100%;
 }
 
-#confirmAutofill {
-  display: none;
-}
-
-/* Input, Button, Select */
+/* -----------------------------------
+   Form Elements
+----------------------------------- */
 input,
 select,
 button,
@@ -91,13 +95,23 @@ a.downloadBtn {
   color: #fff;
 }
 
-/* Color Inputs */
 input[type="color"] {
   height: 44px;
   padding: 8px;
 }
 
-/* Details Accordion */
+#confirmAutofill {
+  display: none;
+}
+
+/* Autofill Detection Animation */
+input:-webkit-autofill {
+  animation-name: autofill-detected;
+  animation-duration: 0.01s;
+  animation-iteration-count: 1;
+}
+
+/* Accordion (Details Section) */
 details {
   margin: 15px 0;
   background: #222;
@@ -124,7 +138,9 @@ summary {
   margin-bottom: 10px;
 }
 
-/* Buttons */
+/* -----------------------------------
+   Buttons
+----------------------------------- */
 #generateBtn {
   background: #000;
   color: #fff;
@@ -149,13 +165,15 @@ summary {
   background: #26b4a3;
 }
 
+/* -----------------------------------
+   QR Code Display
+----------------------------------- */
 #qrLabelPreview {
   text-align: center;
   margin-top: 10px;
   font-size: 1.2em;
 }
 
-/* QR Display Area */
 .qrcode-preview,
 .downloadBtn {
   text-align: center;
@@ -175,7 +193,9 @@ summary {
   margin: 0 auto;
 }
 
-/* Countdown Message */
+/* -----------------------------------
+   Countdown Message
+----------------------------------- */
 #countdownMessage {
   font-size: 18px;
   font-weight: bold;
@@ -185,23 +205,14 @@ summary {
   animation: pulse 1s ease-in-out infinite alternate;
 }
 
-/* Animation for Countdown */
 @keyframes pulse {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0.6;
-  }
+  from { opacity: 1; }
+  to { opacity: 0.6; }
 }
 
-input:-webkit-autofill {
-  animation-name: autofill-detected;
-  animation-duration: 0.01s;
-  animation-iteration-count: 1;
-}
-
-/* Footer */
+/* -----------------------------------
+   Footer
+----------------------------------- */
 footer {
   margin-top: 40px;
   font-size: 14px;
