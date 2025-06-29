@@ -72,6 +72,10 @@ main {
   width: 100%;
 }
 
+#confirmAutofill {
+  display: none;
+}
+
 /* Input, Button, Select */
 input,
 select,
