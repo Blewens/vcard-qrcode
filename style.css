@@ -191,6 +191,12 @@ summary {
   }
 }
 
+input:-webkit-autofill {
+  animation-name: autofill-detected;
+  animation-duration: 0.01s;
+  animation-iteration-count: 1;
+}
+
 /* Footer */
 footer {
   margin-top: 40px;
