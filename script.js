@@ -14,6 +14,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
+  const confirmAutofill = document.getElementById("confirmAutofill");
+  const confirmAutofillContainer = document.getElementById("confirmAutofillContainer");
+
+  // Show confirmation checkbox when autofill is detected
+  document.addEventListener("animationstart", function (event) {
+    if (event.animationName === "autofill-detected") {
+      confirmAutofillContainer.style.display = "block";
+    }
+  }, { passive: true });
 
   function getFieldValue(field) {
     return field && field.offsetParent !== null ? field.value.trim() : "";
@@ -39,6 +48,12 @@ END:VCARD`;
   generateBtn.addEventListener("click", function () {
     if (!getFieldValue(fields.fullName) || !getFieldValue(fields.email)) {
       alert("Please fill in both Full Name and Email before generating your QR code.");
+      return;
+    }
+
+    // If checkbox is visible, require it to be checked
+    if (confirmAutofillContainer.style.display !== "none" && !confirmAutofill.checked) {
+      alert("Please confirm autofilled data is correct before generating.");
       return;
     }
 
