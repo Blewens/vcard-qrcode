@@ -1,4 +1,3 @@
-<script>
 document.addEventListener("DOMContentLoaded", function () {
   const fields = {
     fullName: document.getElementById("fullName"),
@@ -182,4 +181,3 @@ END:VCARD`;
     }, 200);
   }
 });
-</script>
