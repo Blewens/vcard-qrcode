@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const confirmAutofill = document.getElementById("confirmAutofill");
   const confirmAutofillContainer = document.getElementById("confirmAutofillContainer");
 
-  // Show confirmation checkbox when autofill is detected
+  // 🔍 Autofill detection using CSS animation trigger
   document.addEventListener("animationstart", function (event) {
     if (event.animationName === "autofill-detected") {
       confirmAutofillContainer.style.display = "block";
@@ -51,7 +51,7 @@ END:VCARD`;
       return;
     }
 
-    // If checkbox is visible, require it to be checked
+    // 🛑 Require checkbox confirmation if autofill container is visible
     if (confirmAutofillContainer.style.display !== "none" && !confirmAutofill.checked) {
       alert("Please confirm autofilled data is correct before generating.");
       return;
@@ -72,11 +72,10 @@ END:VCARD`;
       }
     }, 1000);
 
-    // Timeout safeguard
+    // Safety timeout
     setTimeout(() => {
       if (countdownMsg.textContent.includes("Generating your QR code")) {
-        countdownMsg.textContent =
-          "Something went wrong. If autofill added hidden data, please show all fields and check again.";
+        countdownMsg.textContent = "Something went wrong. If autofill added hidden data, please show all fields and check again.";
         generateBtn.disabled = false;
       }
     }, 7000);
@@ -120,14 +119,12 @@ END:VCARD`;
       labelCanvas.width = canvas.width + leftMargin;
       labelCanvas.height = canvas.height + bottomLabelHeight;
 
-      // Fill background
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
 
-      // Draw QR code
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Left vertical label
+      // Vertical label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -148,7 +145,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom optional label centered to QR
+      // Bottom label
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
