@@ -26,38 +26,63 @@
   <main>
     <form id="vcardForm" autocomplete="off">
       <!-- Required Fields -->
-      <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="off" />
-      <input type="tel" id="phone" placeholder="Phone" autocomplete="off" />
-      <input type="email" id="email" placeholder="Email*" required autocomplete="off" />
+      <label for="fullName">Full Name*</label>
+      <input type="text" id="fullName" name="fullName" placeholder="Full Name*" required />
+
+      <label for="phone">Phone</label>
+      <input type="tel" id="phone" name="phone" placeholder="Phone" />
+
+      <label for="email">Email*</label>
+      <input type="email" id="email" name="email" placeholder="Email*" required />
 
       <!-- Optional Fields -->
       <details>
         <summary>Additional Details</summary>
-        <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="off" />
-        <input type="text" id="organization" placeholder="Organization" autocomplete="off" />
-        <input type="url" id="website" placeholder="Website" autocomplete="off" />
-        <input type="url" id="linkedin" placeholder="LinkedIn" autocomplete="off" />
-        <input type="url" id="twitter" placeholder="Twitter" autocomplete="off" />
-        <input type="url" id="facebook" placeholder="Facebook" autocomplete="off" />
-        <input type="url" id="instagram" placeholder="Instagram" autocomplete="off" />
+
+        <label for="jobTitle">Job Title</label>
+        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" />
+
+        <label for="organization">Organization</label>
+        <input type="text" id="organization" name="organization" placeholder="Organization" />
+
+        <label for="website">Website</label>
+        <input type="url" id="website" name="website" placeholder="Website" />
+
+        <label for="linkedin">LinkedIn</label>
+        <input type="url" id="linkedin" name="linkedin" placeholder="LinkedIn" />
+
+        <label for="twitter">Twitter</label>
+        <input type="url" id="twitter" name="twitter" placeholder="Twitter" />
+
+        <label for="facebook">Facebook</label>
+        <input type="url" id="facebook" name="facebook" placeholder="Facebook" />
+
+        <label for="instagram">Instagram</label>
+        <input type="url" id="instagram" name="instagram" placeholder="Instagram" />
       </details>
 
       <!-- QR Customization -->
       <details>
         <summary>QR Customization</summary>
-        <label>Foreground:</label>
-        <input type="color" name="foreground" value="#000000" />
-        <label>Background:</label>
-        <input type="color" name="background" value="#ffffff" />
-        <label>Logo:</label>
-        <input type="file" id="logoUpload" accept="image/*" />
+        <label for="foreground">Foreground:</label>
+        <input type="color" id="foreground" name="foreground" value="#000000" />
+
+        <label for="background">Background:</label>
+        <input type="color" id="background" name="background" value="#ffffff" />
+
+        <label for="logoUpload">Logo:</label>
+        <input type="file" id="logoUpload" name="logoUpload" accept="image/*" />
       </details>
 
       <!-- Optional Label -->
       <details>
         <summary>Label QR Code (Optional)</summary>
-        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" autocomplete="off" />
-        <select id="qrLabelFont">
+
+        <label for="qrLabelText">QR Label</label>
+        <input type="text" id="qrLabelText" name="qrLabelText" placeholder="e.g. John Doe vCard" />
+
+        <label for="qrLabelFont">Font</label>
+        <select id="qrLabelFont" name="qrLabelFont">
           <option value="Arial">Arial</option>
           <option value="Georgia">Georgia</option>
           <option value="Tahoma">Tahoma</option>
