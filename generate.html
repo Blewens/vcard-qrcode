@@ -24,39 +24,39 @@
   </header>
 
   <main>
-    <form id="vcardForm">
+    <form id="vcardForm" autocomplete="on">
       <!-- Required Fields -->
-      <input type="text" id="fullName" name="fullName" placeholder="Full Name*" required autocomplete="name" />
-      <input type="tel" id="phone" name="phone" placeholder="Phone" autocomplete="tel" />
-      <input type="email" id="email" name="email" placeholder="Email*" required autocomplete="email" />
+      <input type="text" id="fullName" placeholder="Full Name*" required name="name" />
+      <input type="tel" id="phone" placeholder="Phone" name="tel" />
+      <input type="email" id="email" placeholder="Email*" required name="email" />
 
       <!-- Optional Fields -->
       <details>
         <summary>Additional Details</summary>
-        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
-        <input type="text" id="organization" name="organization" placeholder="Organization" autocomplete="organization" />
-        <input type="url" id="website" name="website" placeholder="Website" autocomplete="url" />
-        <input type="url" id="linkedin" name="linkedin" placeholder="LinkedIn" autocomplete="url" />
-        <input type="url" id="twitter" name="twitter" placeholder="Twitter" autocomplete="url" />
-        <input type="url" id="facebook" name="facebook" placeholder="Facebook" autocomplete="url" />
-        <input type="url" id="instagram" name="instagram" placeholder="Instagram" autocomplete="url" />
+        <input type="text" id="jobTitle" placeholder="Job Title" name="job-title" />
+        <input type="text" id="organization" placeholder="Organization" name="organization" />
+        <input type="url" id="website" placeholder="Website" name="url" />
+        <input type="url" id="linkedin" placeholder="LinkedIn" name="linkedin" />
+        <input type="url" id="twitter" placeholder="Twitter" name="twitter" />
+        <input type="url" id="facebook" placeholder="Facebook" name="facebook" />
+        <input type="url" id="instagram" placeholder="Instagram" name="instagram" />
       </details>
 
       <!-- QR Customization -->
       <details>
         <summary>QR Customization</summary>
-        <label for="foreground">Foreground:</label>
-        <input type="color" name="foreground" id="foreground" value="#000000" />
-        <label for="background">Background:</label>
-        <input type="color" name="background" id="background" value="#ffffff" />
-        <label for="logoUpload">Logo:</label>
+        <label>Foreground:</label>
+        <input type="color" name="foreground" value="#000000" />
+        <label>Background:</label>
+        <input type="color" name="background" value="#ffffff" />
+        <label>Logo:</label>
         <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
-      <!-- Optional Label -->
+      <!-- QR Labeling -->
       <details>
         <summary>Label QR Code (Optional)</summary>
-        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" autocomplete="off" />
+        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
         <select id="qrLabelFont">
           <option value="Arial">Arial</option>
           <option value="Georgia">Georgia</option>
@@ -65,7 +65,7 @@
         </select>
       </details>
 
-      <!-- Ad Space -->
+      <!-- Ad Block -->
       <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; margin: 20px 0; text-align: center;">
         <p><strong>Ad space:</strong> Your promotion here</p>
       </div>
@@ -73,11 +73,11 @@
       <!-- Countdown Message -->
       <div id="countdownMessage" style="font-weight: bold; color: #2dd4bf; margin-bottom: 10px;"></div>
 
-      <!-- Generate Button -->
+      <!-- Generate -->
       <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
     </form>
 
-    <!-- Output Area -->
+    <!-- Output -->
     <div id="qrcode" class="qrcode-preview"></div>
     <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
     <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
