@@ -15,27 +15,27 @@ document.addEventListener("DOMContentLoaded", function () {
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
 
-  // Force all <details> elements to expand (to access hidden autofilled fields)
-  function expandAllDetails() {
-    document.querySelectorAll("details").forEach((el) => (el.open = true));
+  function getFieldValue(field) {
+    return field && field.offsetParent !== null ? field.value.trim() : "";
   }
 
-  // Normalize field values and re-assign to break autofill binding
   function normalizeFields() {
     for (const key in fields) {
       const field = fields[key];
       if (field) {
         const clean = field.value.trim();
-        field.value = ""; // clear to break stale binding
-        field.value = clean;
+
+        field.value = "";              // Clear to break autofill binding
+        field.offsetHeight;            // Force reflow
+        field.value = clean;           // Reset clean value
         field.dispatchEvent(new Event("input", { bubbles: true }));
+        field.dispatchEvent(new Event("change", { bubbles: true }));
       }
     }
   }
 
-  function getFieldValue(field) {
-    return field && field.offsetParent !== null ? field.value.trim() : "";
-  }
+  // Normalize on load in case autofill happens before DOMContentLoaded
+  window.addEventListener("load", normalizeFields);
 
   function generateVCard() {
     return `BEGIN:VCARD
@@ -55,7 +55,6 @@ END:VCARD`;
   }
 
   generateBtn.addEventListener("click", function () {
-    expandAllDetails();
     normalizeFields();
 
     if (!getFieldValue(fields.fullName) || !getFieldValue(fields.email)) {
@@ -78,7 +77,7 @@ END:VCARD`;
       }
     }, 1000);
 
-    // Failsafe timeout
+    // Timeout safeguard
     setTimeout(() => {
       if (countdownMsg.textContent.includes("Generating your QR code")) {
         countdownMsg.textContent =
@@ -154,7 +153,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom label
+      // Bottom optional label centered
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
@@ -163,7 +162,7 @@ END:VCARD`;
         ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Add logo if uploaded
+      // Logo overlay
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
