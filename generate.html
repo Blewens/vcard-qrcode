@@ -24,65 +24,40 @@
   </header>
 
   <main>
-    <form id="vcardForm" autocomplete="off">
+    <form id="vcardForm">
       <!-- Required Fields -->
-      <label for="fullName">Full Name*</label>
-      <input type="text" id="fullName" name="fullName" placeholder="Full Name*" required />
-
-      <label for="phone">Phone</label>
-      <input type="tel" id="phone" name="phone" placeholder="Phone" />
-
-      <label for="email">Email*</label>
-      <input type="email" id="email" name="email" placeholder="Email*" required />
+      <input type="text" id="fullName" name="fullName" placeholder="Full Name*" required autocomplete="name" />
+      <input type="tel" id="phone" name="phone" placeholder="Phone" autocomplete="tel" />
+      <input type="email" id="email" name="email" placeholder="Email*" required autocomplete="email" />
 
       <!-- Optional Fields -->
       <details>
         <summary>Additional Details</summary>
-
-        <label for="jobTitle">Job Title</label>
-        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" />
-
-        <label for="organization">Organization</label>
-        <input type="text" id="organization" name="organization" placeholder="Organization" />
-
-        <label for="website">Website</label>
-        <input type="url" id="website" name="website" placeholder="Website" />
-
-        <label for="linkedin">LinkedIn</label>
-        <input type="url" id="linkedin" name="linkedin" placeholder="LinkedIn" />
-
-        <label for="twitter">Twitter</label>
-        <input type="url" id="twitter" name="twitter" placeholder="Twitter" />
-
-        <label for="facebook">Facebook</label>
-        <input type="url" id="facebook" name="facebook" placeholder="Facebook" />
-
-        <label for="instagram">Instagram</label>
-        <input type="url" id="instagram" name="instagram" placeholder="Instagram" />
+        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
+        <input type="text" id="organization" name="organization" placeholder="Organization" autocomplete="organization" />
+        <input type="url" id="website" name="website" placeholder="Website" autocomplete="url" />
+        <input type="url" id="linkedin" name="linkedin" placeholder="LinkedIn" autocomplete="url" />
+        <input type="url" id="twitter" name="twitter" placeholder="Twitter" autocomplete="url" />
+        <input type="url" id="facebook" name="facebook" placeholder="Facebook" autocomplete="url" />
+        <input type="url" id="instagram" name="instagram" placeholder="Instagram" autocomplete="url" />
       </details>
 
       <!-- QR Customization -->
       <details>
         <summary>QR Customization</summary>
         <label for="foreground">Foreground:</label>
-        <input type="color" id="foreground" name="foreground" value="#000000" />
-
+        <input type="color" name="foreground" id="foreground" value="#000000" />
         <label for="background">Background:</label>
-        <input type="color" id="background" name="background" value="#ffffff" />
-
+        <input type="color" name="background" id="background" value="#ffffff" />
         <label for="logoUpload">Logo:</label>
-        <input type="file" id="logoUpload" name="logoUpload" accept="image/*" />
+        <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
       <!-- Optional Label -->
       <details>
         <summary>Label QR Code (Optional)</summary>
-
-        <label for="qrLabelText">QR Label</label>
-        <input type="text" id="qrLabelText" name="qrLabelText" placeholder="e.g. John Doe vCard" />
-
-        <label for="qrLabelFont">Font</label>
-        <select id="qrLabelFont" name="qrLabelFont">
+        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" autocomplete="off" />
+        <select id="qrLabelFont">
           <option value="Arial">Arial</option>
           <option value="Georgia">Georgia</option>
           <option value="Tahoma">Tahoma</option>
