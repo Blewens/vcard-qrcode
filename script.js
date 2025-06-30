@@ -14,24 +14,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
-  const confirmAutofill = document.getElementById("confirmAutofill");
-  const confirmAutofillContainer = document.getElementById("confirmAutofillContainer");
-
-  // 🔍 Autofill detection using CSS animation event
-  document.addEventListener("animationstart", function (event) {
-    if (event.animationName === "autofill-detected") {
-      confirmAutofillContainer.style.display = "block";
-    }
-  }, { passive: true });
-
-  // 🩹 Fallback detection for autofill (in case animation doesn't trigger)
-  setTimeout(() => {
-    const nameFilled = fields.fullName && fields.fullName.value !== "";
-    const emailFilled = fields.email && fields.email.value !== "";
-    if (nameFilled && emailFilled) {
-      confirmAutofillContainer.style.display = "block";
-    }
-  }, 500);
 
   function getFieldValue(field) {
     return field && field.offsetParent !== null ? field.value.trim() : "";
@@ -60,15 +42,6 @@ END:VCARD`;
       return;
     }
 
-    // 🛑 Block generation if autofill was detected but checkbox not ticked
-    if (
-      confirmAutofillContainer.style.display !== "none" &&
-      !confirmAutofill.checked
-    ) {
-      alert("Please confirm your autofilled details are correct before continuing.");
-      return;
-    }
-
     let countdown = 5;
     countdownMsg.textContent = `Generating in ${countdown}...`;
     generateBtn.disabled = true;
@@ -83,14 +56,6 @@ END:VCARD`;
         proceedToGenerate();
       }
     }, 1000);
-
-    // ⏱️ Safety fallback
-    setTimeout(() => {
-      if (countdownMsg.textContent.includes("Generating")) {
-        countdownMsg.textContent = "Something went wrong. Please check your inputs.";
-        generateBtn.disabled = false;
-      }
-    }, 7000);
   });
 
   function proceedToGenerate() {
@@ -136,7 +101,7 @@ END:VCARD`;
 
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Vertical "BY QRVCARD.IO" branding
+      // Vertical label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -157,7 +122,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom label text
+      // Bottom label
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
@@ -166,7 +131,7 @@ END:VCARD`;
         ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Optional logo overlay
+      // Logo overlay
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
