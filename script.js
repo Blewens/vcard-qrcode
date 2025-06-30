@@ -17,12 +17,21 @@ document.addEventListener("DOMContentLoaded", function () {
   const confirmAutofill = document.getElementById("confirmAutofill");
   const confirmAutofillContainer = document.getElementById("confirmAutofillContainer");
 
-  // 🔍 Autofill detection using CSS animation trigger
+  // 🔍 Autofill detection using CSS animation event
   document.addEventListener("animationstart", function (event) {
     if (event.animationName === "autofill-detected") {
       confirmAutofillContainer.style.display = "block";
     }
   }, { passive: true });
+
+  // 🩹 Fallback detection for autofill (in case animation doesn't trigger)
+  setTimeout(() => {
+    const nameFilled = fields.fullName && fields.fullName.value !== "";
+    const emailFilled = fields.email && fields.email.value !== "";
+    if (nameFilled && emailFilled) {
+      confirmAutofillContainer.style.display = "block";
+    }
+  }, 500);
 
   function getFieldValue(field) {
     return field && field.offsetParent !== null ? field.value.trim() : "";
@@ -51,9 +60,12 @@ END:VCARD`;
       return;
     }
 
-    // 🛑 Require checkbox confirmation if autofill container is visible
-    if (confirmAutofillContainer.style.display !== "none" && !confirmAutofill.checked) {
-      alert("Please confirm autofilled data is correct before generating.");
+    // 🛑 Block generation if autofill was detected but checkbox not ticked
+    if (
+      confirmAutofillContainer.style.display !== "none" &&
+      !confirmAutofill.checked
+    ) {
+      alert("Please confirm your autofilled details are correct before continuing.");
       return;
     }
 
@@ -72,10 +84,10 @@ END:VCARD`;
       }
     }, 1000);
 
-    // Safety timeout
+    // ⏱️ Safety fallback
     setTimeout(() => {
-      if (countdownMsg.textContent.includes("Generating your QR code")) {
-        countdownMsg.textContent = "Something went wrong. If autofill added hidden data, please show all fields and check again.";
+      if (countdownMsg.textContent.includes("Generating")) {
+        countdownMsg.textContent = "Something went wrong. Please check your inputs.";
         generateBtn.disabled = false;
       }
     }, 7000);
@@ -124,7 +136,7 @@ END:VCARD`;
 
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Vertical label
+      // Vertical "BY QRVCARD.IO" branding
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -145,7 +157,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom label
+      // Bottom label text
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
@@ -154,7 +166,7 @@ END:VCARD`;
         ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Logo overlay
+      // Optional logo overlay
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
