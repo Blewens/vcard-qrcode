@@ -25,12 +25,12 @@
 
   <main>
     <form id="vcardForm" autocomplete="off">
-      <!-- 🔓 Always Visible Inputs -->
+      <!-- Required Fields -->
       <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="off" />
       <input type="tel" id="phone" placeholder="Phone" autocomplete="off" />
       <input type="email" id="email" placeholder="Email*" required autocomplete="off" />
 
-      <!-- 🔒 Additional Info (Hidden by default) -->
+      <!-- Optional Fields -->
       <details>
         <summary>Additional Details</summary>
         <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="off" />
@@ -42,22 +42,22 @@
         <input type="url" id="instagram" placeholder="Instagram" autocomplete="off" />
       </details>
 
-      <!-- 🎨 QR Customization -->
+      <!-- QR Customization -->
       <details>
         <summary>QR Customization</summary>
         <label>Foreground:</label>
-        <input type="color" name="foreground" value="#000000" autocomplete="off" />
+        <input type="color" name="foreground" value="#000000" />
         <label>Background:</label>
-        <input type="color" name="background" value="#ffffff" autocomplete="off" />
+        <input type="color" name="background" value="#ffffff" />
         <label>Logo:</label>
-        <input type="file" id="logoUpload" accept="image/*" autocomplete="off" />
+        <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
-      <!-- 🏷️ Label QR -->
+      <!-- Optional Label -->
       <details>
         <summary>Label QR Code (Optional)</summary>
         <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" autocomplete="off" />
-        <select id="qrLabelFont" autocomplete="off">
+        <select id="qrLabelFont">
           <option value="Arial">Arial</option>
           <option value="Georgia">Georgia</option>
           <option value="Tahoma">Tahoma</option>
@@ -65,19 +65,19 @@
         </select>
       </details>
 
-      <!-- 🟧 Ad Square -->
+      <!-- Ad Space -->
       <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; margin: 20px 0; text-align: center;">
         <p><strong>Ad space:</strong> Your promotion here</p>
       </div>
 
-      <!-- ⏳ Countdown Message -->
+      <!-- Countdown Message -->
       <div id="countdownMessage" style="font-weight: bold; color: #2dd4bf; margin-bottom: 10px;"></div>
 
-      <!-- ⚙️ Generate Button -->
+      <!-- Generate Button -->
       <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
     </form>
 
-    <!-- 📦 QR Output + Downloads -->
+    <!-- Output Area -->
     <div id="qrcode" class="qrcode-preview"></div>
     <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
     <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
