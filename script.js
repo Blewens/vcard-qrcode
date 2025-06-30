@@ -19,6 +19,18 @@ document.addEventListener("DOMContentLoaded", function () {
     return field && field.offsetParent !== null ? field.value.trim() : "";
   }
 
+  function normalizeFields() {
+    for (const key in fields) {
+      const field = fields[key];
+      if (field) {
+        const clean = field.value.trim();
+        field.value = "";     // Clear value to break autofill binding
+        field.value = clean;  // Reset value as plain text
+        field.dispatchEvent(new Event("input")); // Trigger any bound events
+      }
+    }
+  }
+
   function generateVCard() {
     return `BEGIN:VCARD
 VERSION:3.0
@@ -37,6 +49,8 @@ END:VCARD`;
   }
 
   generateBtn.addEventListener("click", function () {
+    normalizeFields();
+
     if (!getFieldValue(fields.fullName) || !getFieldValue(fields.email)) {
       alert("Please fill in both Full Name and Email before generating your QR code.");
       return;
@@ -133,7 +147,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom optional label centered to QR
+      // Bottom optional label centered
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
