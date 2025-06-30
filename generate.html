@@ -6,9 +6,9 @@
   <title>Generate | QR vCard</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 </head>
 <body>
@@ -24,39 +24,39 @@
   </header>
 
   <main>
-    <form id="vcardForm">
+    <form id="vcardForm" autocomplete="off">
       <!-- 🔓 Always Visible Inputs -->
-      <input type="text" id="fullName" placeholder="Full Name*" required />
-      <input type="tel" id="phone" placeholder="Phone" />
-      <input type="email" id="email" placeholder="Email*" required />
+      <input type="text" id="fullName" placeholder="Full Name*" autocomplete="name" required />
+      <input type="tel" id="phone" placeholder="Phone" autocomplete="tel" />
+      <input type="email" id="email" placeholder="Email*" autocomplete="email" required />
 
       <!-- 🔒 Additional Info (Hidden by default) -->
       <details>
         <summary>Additional Details</summary>
-        <input type="text" id="jobTitle" placeholder="Job Title" />
-        <input type="text" id="organization" placeholder="Organization" />
-        <input type="url" id="website" placeholder="Website" />
-        <input type="url" id="linkedin" placeholder="LinkedIn" />
-        <input type="url" id="twitter" placeholder="Twitter" />
-        <input type="url" id="facebook" placeholder="Facebook" />
-        <input type="url" id="instagram" placeholder="Instagram" />
+        <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
+        <input type="text" id="organization" placeholder="Organization" autocomplete="organization" />
+        <input type="url" id="website" placeholder="Website" autocomplete="url" />
+        <input type="url" id="linkedin" placeholder="LinkedIn" autocomplete="off" />
+        <input type="url" id="twitter" placeholder="Twitter" autocomplete="off" />
+        <input type="url" id="facebook" placeholder="Facebook" autocomplete="off" />
+        <input type="url" id="instagram" placeholder="Instagram" autocomplete="off" />
       </details>
 
       <!-- 🎨 QR Customization -->
       <details>
         <summary>QR Customization</summary>
-        <label>Foreground:</label>
-        <input type="color" name="foreground" value="#000000" />
-        <label>Background:</label>
-        <input type="color" name="background" value="#ffffff" />
-        <label>Logo:</label>
+        <label for="foreground">Foreground:</label>
+        <input type="color" name="foreground" id="foreground" value="#000000" />
+        <label for="background">Background:</label>
+        <input type="color" name="background" id="background" value="#ffffff" />
+        <label for="logoUpload">Logo:</label>
         <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
       <!-- 🏷️ Label QR -->
       <details>
         <summary>Label QR Code (Optional)</summary>
-        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
+        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" autocomplete="off" />
         <select id="qrLabelFont">
           <option value="Arial">Arial</option>
           <option value="Georgia">Georgia</option>
@@ -85,7 +85,5 @@
 
   <footer><p>&copy; 2025 QRvCard. All rights reserved.</p></footer>
   <script src="script.js"></script>
-
-
 </body>
 </html>
