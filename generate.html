@@ -6,9 +6,9 @@
   <title>Generate | QR vCard</title>
   <link rel="stylesheet" href="style.css"/>
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="manifest" href="/site.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 </head>
 <body>
@@ -24,62 +24,39 @@
   </header>
 
   <main>
-    <form id="vcardForm" autocomplete="off">
+    <form id="vcardForm">
       <!-- 🔓 Always Visible Inputs -->
-      <label for="fullName">Full Name*</label>
-      <input type="text" id="fullName" name="fullName" placeholder="Full Name*" required autocomplete="name"/>
+      <input type="text" id="fullName" placeholder="Full Name*" required />
+      <input type="tel" id="phone" placeholder="Phone" />
+      <input type="email" id="email" placeholder="Email*" required />
 
-      <label for="phone">Phone</label>
-      <input type="tel" id="phone" name="phone" placeholder="Phone" autocomplete="tel"/>
-
-      <label for="email">Email*</label>
-      <input type="email" id="email" name="email" placeholder="Email*" required autocomplete="email"/>
-
-      <!-- 🔒 Additional Info -->
+      <!-- 🔒 Additional Info (Hidden by default) -->
       <details>
         <summary>Additional Details</summary>
-        <label for="jobTitle">Job Title</label>
-        <input type="text" id="jobTitle" name="jobTitle" placeholder="Job Title" autocomplete="off"/>
-
-        <label for="organization">Organization</label>
-        <input type="text" id="organization" name="organization" placeholder="Organization" autocomplete="organization"/>
-
-        <label for="website">Website</label>
-        <input type="url" id="website" name="website" placeholder="Website" autocomplete="url"/>
-
-        <label for="linkedin">LinkedIn</label>
-        <input type="url" id="linkedin" name="linkedin" placeholder="LinkedIn" autocomplete="off"/>
-
-        <label for="twitter">Twitter</label>
-        <input type="url" id="twitter" name="twitter" placeholder="Twitter" autocomplete="off"/>
-
-        <label for="facebook">Facebook</label>
-        <input type="url" id="facebook" name="facebook" placeholder="Facebook" autocomplete="off"/>
-
-        <label for="instagram">Instagram</label>
-        <input type="url" id="instagram" name="instagram" placeholder="Instagram" autocomplete="off"/>
+        <input type="text" id="jobTitle" placeholder="Job Title" />
+        <input type="text" id="organization" placeholder="Organization" />
+        <input type="url" id="website" placeholder="Website" />
+        <input type="url" id="linkedin" placeholder="LinkedIn" />
+        <input type="url" id="twitter" placeholder="Twitter" />
+        <input type="url" id="facebook" placeholder="Facebook" />
+        <input type="url" id="instagram" placeholder="Instagram" />
       </details>
 
       <!-- 🎨 QR Customization -->
       <details>
         <summary>QR Customization</summary>
-        <label for="foreground">Foreground:</label>
-        <input type="color" id="foreground" name="foreground" value="#000000"/>
-
-        <label for="background">Background:</label>
-        <input type="color" id="background" name="background" value="#ffffff"/>
-
-        <label for="logoUpload">Logo:</label>
-        <input type="file" id="logoUpload" accept="image/*"/>
+        <label>Foreground:</label>
+        <input type="color" name="foreground" value="#000000" />
+        <label>Background:</label>
+        <input type="color" name="background" value="#ffffff" />
+        <label>Logo:</label>
+        <input type="file" id="logoUpload" accept="image/*" />
       </details>
 
       <!-- 🏷️ Label QR -->
       <details>
         <summary>Label QR Code (Optional)</summary>
-        <label for="qrLabelText">Label Text</label>
-        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard"/>
-
-        <label for="qrLabelFont">Font</label>
+        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" />
         <select id="qrLabelFont">
           <option value="Arial">Arial</option>
           <option value="Georgia">Georgia</option>
@@ -108,5 +85,7 @@
 
   <footer><p>&copy; 2025 QRvCard. All rights reserved.</p></footer>
   <script src="script.js"></script>
+
+
 </body>
 </html>
