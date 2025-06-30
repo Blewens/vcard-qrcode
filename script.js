@@ -15,20 +15,26 @@ document.addEventListener("DOMContentLoaded", function () {
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
 
-  function getFieldValue(field) {
-    return field && field.offsetParent !== null ? field.value.trim() : "";
+  // Force all <details> elements to expand (to access hidden autofilled fields)
+  function expandAllDetails() {
+    document.querySelectorAll("details").forEach((el) => (el.open = true));
   }
 
+  // Normalize field values and re-assign to break autofill binding
   function normalizeFields() {
     for (const key in fields) {
       const field = fields[key];
       if (field) {
         const clean = field.value.trim();
-        field.value = "";     // Clear value to break autofill binding
-        field.value = clean;  // Reset value as plain text
-        field.dispatchEvent(new Event("input")); // Trigger any bound events
+        field.value = ""; // clear to break stale binding
+        field.value = clean;
+        field.dispatchEvent(new Event("input", { bubbles: true }));
       }
     }
+  }
+
+  function getFieldValue(field) {
+    return field && field.offsetParent !== null ? field.value.trim() : "";
   }
 
   function generateVCard() {
@@ -49,6 +55,7 @@ END:VCARD`;
   }
 
   generateBtn.addEventListener("click", function () {
+    expandAllDetails();
     normalizeFields();
 
     if (!getFieldValue(fields.fullName) || !getFieldValue(fields.email)) {
@@ -71,7 +78,7 @@ END:VCARD`;
       }
     }, 1000);
 
-    // Timeout safeguard
+    // Failsafe timeout
     setTimeout(() => {
       if (countdownMsg.textContent.includes("Generating your QR code")) {
         countdownMsg.textContent =
@@ -147,7 +154,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom optional label centered
+      // Bottom label
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
@@ -156,7 +163,7 @@ END:VCARD`;
         ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 10);
       }
 
-      // Logo overlay
+      // Add logo if uploaded
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
