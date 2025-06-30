@@ -56,6 +56,15 @@ END:VCARD`;
         proceedToGenerate();
       }
     }, 1000);
+
+    // Timeout safeguard
+    setTimeout(() => {
+      if (countdownMsg.textContent.includes("Generating your QR code")) {
+        countdownMsg.textContent =
+          "Something went wrong. If autofill added hidden data, please show all fields and check again.";
+        generateBtn.disabled = false;
+      }
+    }, 7000);
   });
 
   function proceedToGenerate() {
@@ -96,12 +105,14 @@ END:VCARD`;
       labelCanvas.width = canvas.width + leftMargin;
       labelCanvas.height = canvas.height + bottomLabelHeight;
 
+      // Fill background
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
 
+      // Draw QR code
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Vertical label
+      // Left vertical label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -122,7 +133,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom label
+      // Bottom optional label centered to QR
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
