@@ -2,98 +2,83 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QRvCard Generator</title>
-  <style>
-    body {
-      font-family: sans-serif;
-      padding: 2rem;
-      background: #f9f9f9;
-    }
-    label {
-      display: block;
-      margin: 1rem 0 0.25rem;
-    }
-    input, select {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    button {
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-    }
-    #qrcode {
-      margin-top: 2rem;
-    }
-    #downloadQR, #downloadVCF {
-      display: none;
-      margin-top: 1rem;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Generate | QR vCard</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 </head>
 <body>
-  <h1>QRvCard Generator</h1>
-  <form id="contactForm" autocomplete="on">
-    <label for="fullName">Full Name</label>
-    <input id="fullName" name="fullName" type="text" autocomplete="name" required />
+  <header>
+    <a href="index.html"><img src="QRVCard.PNG" alt="QR vCard Logo" class="logo"/></a>
+    <h1>Scan, Save, Connect</h1>
+    <p class="intro">Create your digital business card as a downloadable QR code. Fully private. No data stored.</p>
+    <nav class="nav-buttons">
+      <a href="index.html" class="navBtn">Home</a>
+      <a href="how-to.html" class="navBtn">How To</a>
+      <a href="privacy.html" class="navBtn">Privacy</a>
+    </nav>
+  </header>
 
-    <label for="phone">Phone</label>
-    <input id="phone" name="phone" type="tel" autocomplete="tel" />
+  <main>
+    <form id="vcardForm" autocomplete="on">
+      <!-- Required Fields -->
+      <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
+      <input type="tel" id="phone" placeholder="Phone" autocomplete="tel" />
+      <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
 
-    <label for="email">Email</label>
-    <input id="email" name="email" type="email" autocomplete="email" required />
+      <!-- Optional Fields (all visible now) -->
+      <hr>
+      <h3>Additional Info</h3>
+      <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
+      <input type="text" id="organization" placeholder="Organization" autocomplete="organization" />
+      <input type="url" id="website" placeholder="Website" autocomplete="url" />
+      <input type="url" id="linkedin" placeholder="LinkedIn" autocomplete="url" />
+      <input type="url" id="twitter" placeholder="Twitter" autocomplete="url" />
+      <input type="url" id="facebook" placeholder="Facebook" autocomplete="url" />
+      <input type="url" id="instagram" placeholder="Instagram" autocomplete="url" />
 
-    <label for="jobTitle">Job Title</label>
-    <input id="jobTitle" name="jobTitle" type="text" autocomplete="organization-title" />
+      <hr>
+      <h3>QR Customization</h3>
+      <label for="foreground">Foreground:</label>
+      <input type="color" name="foreground" id="foreground" value="#000000" />
+      <label for="background">Background:</label>
+      <input type="color" name="background" id="background" value="#ffffff" />
+      <label for="logoUpload">Logo:</label>
+      <input type="file" id="logoUpload" accept="image/*" />
 
-    <label for="organization">Organization</label>
-    <input id="organization" name="organization" type="text" autocomplete="organization" />
+      <hr>
+      <h3>QR Code Label (Optional)</h3>
+      <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" autocomplete="off" />
+      <select id="qrLabelFont">
+        <option value="Arial">Arial</option>
+        <option value="Georgia">Georgia</option>
+        <option value="Tahoma">Tahoma</option>
+        <option value="Verdana">Verdana</option>
+      </select>
 
-    <label for="website">Website</label>
-    <input id="website" name="website" type="url" autocomplete="url" />
+      <!-- Ad Space -->
+      <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; margin: 20px 0; text-align: center;">
+        <p><strong>Ad space:</strong> Your promotion here</p>
+      </div>
 
-    <label for="linkedin">LinkedIn</label>
-    <input id="linkedin" name="linkedin" type="url" />
+      <!-- Countdown Message -->
+      <div id="countdownMessage" style="font-weight: bold; color: #2dd4bf; margin-bottom: 10px;"></div>
 
-    <label for="twitter">Twitter</label>
-    <input id="twitter" name="twitter" type="url" />
+      <!-- Generate Button -->
+      <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
+    </form>
 
-    <label for="facebook">Facebook</label>
-    <input id="facebook" name="facebook" type="url" />
+    <!-- Output Area -->
+    <div id="qrcode" class="qrcode-preview"></div>
+    <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
+    <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
+  </main>
 
-    <label for="instagram">Instagram</label>
-    <input id="instagram" name="instagram" type="url" />
-
-    <label for="qrLabelText">QR Label Text</label>
-    <input id="qrLabelText" name="qrLabelText" type="text" />
-
-    <label for="qrLabelFont">QR Label Font</label>
-    <select id="qrLabelFont" name="qrLabelFont">
-      <option value="Arial">Arial</option>
-      <option value="Courier New">Courier New</option>
-      <option value="Georgia">Georgia</option>
-      <option value="Times New Roman">Times New Roman</option>
-    </select>
-
-    <label for="foreground">QR Foreground Color</label>
-    <input type="color" name="foreground" value="#000000" />
-
-    <label for="background">QR Background Color</label>
-    <input type="color" name="background" value="#ffffff" />
-
-    <label for="logoUpload">Optional Logo (centered in QR)</label>
-    <input type="file" id="logoUpload" name="logoUpload" accept="image/*" />
-
-    <button type="button" id="generateBtn">Generate QR Code</button>
-    <p id="countdownMessage"></p>
-  </form>
-
-  <div id="qrcode"></div>
-  <a id="downloadQR">Download QR Code</a>
-  <a id="downloadVCF">Download vCard (.vcf)</a>
-
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+  <footer><p>&copy; 2025 QRvCard. All rights reserved.</p></footer>
   <script src="script.js"></script>
 </body>
 </html>
