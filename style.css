@@ -1,158 +1,292 @@
-/* Global Styles */
-body {
-  font-family: Arial, sans-serif;
-  margin: 0;
-  padding: 0;
-  background-color: #000; /* Black background */
-  color: #fff;
-  line-height: 1.6;
+/* -----------------------------------
+   Reset & Base Styles
+----------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-header, footer {
-  text-align: center;
+body {
+  background: #111;
+  color: #2dd4bf;
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: left; /* ✅ Set base alignment to left */
+}
+
+/* -----------------------------------
+   Header
+----------------------------------- */
+header {
   padding: 20px;
-  background-color: #111;
+  text-align: center; /* ✅ Keep header centered */
 }
 
 .logo {
-  max-width: 120px;
-  margin: 10px auto;
+  width: 120px;
+  margin: 0 auto 10px;
   display: block;
 }
 
-h1, h2, h3 {
-  text-align: center;
-  color: #2dd4bf; /* Teal headings */
-  margin-bottom: 10px;
-}
-
-p, li {
-  text-align: left;
-  margin-bottom: 10px;
+h1,
+h2,
+h3 {
+  margin: 0;
+  font-size: 24px;
+  text-align: center; /* ✅ Center headings */
 }
 
 .intro {
-  max-width: 600px;
-  margin: 0 auto 20px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #ccc;
+  text-align: left; /* ✅ Paragraph-style text aligned left */
 }
 
-/* Navigation */
+/* -----------------------------------
+   Navigation Buttons
+----------------------------------- */
 .nav-buttons {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .navBtn {
-  display: inline-block;
-  background-color: #2dd4bf;
-  color: #000;
-  padding: 10px 20px;
-  border: none;
+  background: #2dd4bf;
+  color: #111;
+  text-align: center;
+  padding: 12px 20px;
+  border-radius: 8px;
   text-decoration: none;
   font-weight: bold;
-  border-radius: 5px;
-  transition: background-color 0.3s;
-  text-align: center;
+  transition: background 0.3s ease;
+  white-space: nowrap;
 }
 
 .navBtn:hover {
-  background-color: #22b8a0;
+  background: #26b4a3;
 }
 
-/* Main Sections */
+/* -----------------------------------
+   Main Container
+----------------------------------- */
 main {
-  padding: 20px;
-  max-width: 800px;
+  max-width: 600px;
   margin: 0 auto;
+  padding: 20px;
 }
 
-.section {
-  padding: 30px 20px;
-  border-bottom: 1px solid white;
-  margin-bottom: 30px;
-}
-
-/* Forms and Inputs */
-form input,
-form select,
-form label,
-form input[type="color"] {
-  display: block;
+.form-block {
   width: 100%;
-  max-width: 100%;
-  margin: 10px 0;
-  padding: 10px;
-  border-radius: 5px;
+}
+
+/* -----------------------------------
+   Form Elements
+----------------------------------- */
+input,
+select,
+button,
+a.downloadBtn {
+  width: 100%;
+  margin: 15px 0;
+  padding: 12px;
+  border-radius: 8px;
   border: none;
-  background-color: #222;
+  font-size: 16px;
+  background: #333;
   color: #fff;
 }
 
-form input[type="file"] {
-  padding: 6px;
-  background-color: transparent;
+input[type="color"] {
+  height: 44px;
+  padding: 8px;
 }
 
-form label {
-  margin-top: 15px;
-}
-
-/* Buttons */
-button, .downloadBtn {
-  display: block;
-  margin: 20px auto;
-  background-color: #2dd4bf;
-  color: #000;
-  padding: 10px 20px;
-  font-weight: bold;
+textarea {
+  width: 100%;
+  padding: 12px;
+  margin: 15px 0;
+  border-radius: 8px;
+  background: #333;
+  color: #fff;
+  font-size: 16px;
   border: none;
-  border-radius: 5px;
+  resize: vertical;
+  min-height: 150px;
+}
+
+#confirmAutofill {
+  display: none;
+}
+
+input:-webkit-autofill {
+  animation-name: autofill-detected;
+  animation-duration: 0.01s;
+  animation-iteration-count: 1;
+}
+
+/* -----------------------------------
+   Accordion (Details Section)
+----------------------------------- */
+details {
+  margin: 15px 0;
+  background: #222;
+  padding: 10px;
+  border-radius: 8px;
+  width: 100%;
+}
+
+details input {
+  width: 100%;
+  margin: 10px 0;
+  background: #333;
+  color: #fff;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+summary {
+  cursor: pointer;
+  font-weight: bold;
+  color: #ddd;
+  margin-bottom: 10px;
+}
+
+/* -----------------------------------
+   Buttons
+----------------------------------- */
+#generateBtn {
+  background: #000;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.downloadBtn {
+  background: #2dd4bf;
+  color: #111;
+  text-align: center;
   text-decoration: none;
+  display: inline-block;
+  padding: 12px 20px;
+  margin: 10px;
+  border-radius: 8px;
+  font-weight: bold;
+  transition: background 0.3s ease;
+}
+
+.downloadBtn:hover {
+  background: #26b4a3;
+}
+
+/* -----------------------------------
+   QR Code Display
+----------------------------------- */
+#qrLabelPreview {
   text-align: center;
-  transition: background-color 0.3s;
+  margin-top: 10px;
+  font-size: 1.2em;
 }
 
-button:hover, .downloadBtn:hover {
-  background-color: #22b8a0;
-}
-
-/* QR Output */
-.qrcode-preview {
-  margin-top: 30px;
+.qrcode-preview,
+.downloadBtn {
   text-align: center;
 }
 
-/* Footer */
-footer {
-  font-size: 0.9rem;
-  padding: 20px;
-  color: #aaa;
-}
-
-/* Ad block placeholder */
-#adSquare {
-  background-color: #111;
-  border: 1px solid #444;
-  padding: 15px;
+#qrcode {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+  width: 100%;
   text-align: center;
-  border-radius: 5px;
 }
 
-/* Countdown message */
+#qrcode canvas {
+  display: block;
+  margin: 0 auto;
+}
+
+/* -----------------------------------
+   Countdown Message
+----------------------------------- */
 #countdownMessage {
+  font-size: 18px;
+  font-weight: bold;
+  color: #2dd4bf;
+  margin: 10px 0;
+  text-align: center;
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 1; }
+  to { opacity: 0.6; }
+}
+
+/* -----------------------------------
+   How-To Page Specific Styles
+----------------------------------- */
+.section {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+
+.section:last-of-type {
+  border-bottom: none;
+}
+
+.section h2 {
+  margin-bottom: 0.75rem;
+  margin-top: 0;
   text-align: center;
 }
 
-/* Responsive */
-@media screen and (max-width: 600px) {
-  .nav-buttons {
-    flex-direction: column;
-  }
+ol,
+ul {
+  margin: 0 0 1rem 1.25rem;
+  padding: 0;
+  text-align: left;
+}
 
-  .logo {
-    max-width: 100px;
-  }
+.contact-help {
+  background-color: #1a1a1a;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-top: 2rem;
+  text-align: left;
+}
+
+.contact-help h2 {
+  margin-top: 0;
+  text-align: center;
+}
+
+/* -----------------------------------
+   Footer
+----------------------------------- */
+footer {
+  margin-top: 40px;
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+}
+
+footer a {
+  color: #888;
+  text-decoration: underline;
+}
+
+.footer-ad {
+  margin-top: 20px;
 }
