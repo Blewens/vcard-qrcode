@@ -11,9 +11,9 @@ body {
   background: #111;
   color: #2dd4bf;
   font-family: 'Inter', sans-serif;
+  text-align: left;
   margin: 0;
   padding: 0;
-  text-align: left; /* ✅ Set base alignment to left */
 }
 
 /* -----------------------------------
@@ -21,7 +21,7 @@ body {
 ----------------------------------- */
 header {
   padding: 20px;
-  text-align: center; /* ✅ Keep header centered */
+  text-align: center;
 }
 
 .logo {
@@ -30,31 +30,26 @@ header {
   display: block;
 }
 
-h1,
-h2,
-h3 {
+h1 {
   margin: 0;
   font-size: 24px;
-  text-align: center; /* ✅ Center headings */
+  text-align: center;
 }
 
 .intro {
   font-size: 16px;
   margin-bottom: 10px;
   color: #ccc;
-  text-align: left; /* ✅ Paragraph-style text aligned left */
+  text-align: center;
 }
 
-/* -----------------------------------
-   Navigation Buttons
------------------------------------ */
+/* Navigation Buttons */
 .nav-buttons {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 20px;
-  text-align: center;
 }
 
 .navBtn {
@@ -67,6 +62,7 @@ h3 {
   font-weight: bold;
   transition: background 0.3s ease;
   white-space: nowrap;
+  display: inline-block;
 }
 
 .navBtn:hover {
@@ -125,15 +121,14 @@ textarea {
   display: none;
 }
 
+/* Autofill Detection Animation */
 input:-webkit-autofill {
   animation-name: autofill-detected;
   animation-duration: 0.01s;
   animation-iteration-count: 1;
 }
 
-/* -----------------------------------
-   Accordion (Details Section)
------------------------------------ */
+/* Accordion (Details Section) */
 details {
   margin: 15px 0;
   background: #222;
@@ -233,12 +228,12 @@ summary {
 }
 
 /* -----------------------------------
-   How-To Page Specific Styles
+   Section Layout & Typography
 ----------------------------------- */
 .section {
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid #ccc;
   text-align: left;
 }
 
@@ -247,16 +242,22 @@ summary {
 }
 
 .section h2 {
-  margin-bottom: 0.75rem;
-  margin-top: 0;
   text-align: center;
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+}
+
+.section p,
+.section ol,
+.section ul {
+  text-align: left;
+  margin-bottom: 1rem;
 }
 
 ol,
 ul {
-  margin: 0 0 1rem 1.25rem;
+  margin-left: 1.25rem;
   padding: 0;
-  text-align: left;
 }
 
 .contact-help {
@@ -265,6 +266,7 @@ ul {
   border-radius: 8px;
   margin-top: 2rem;
   text-align: left;
+  border-bottom: 1px solid #ccc;
 }
 
 .contact-help h2 {
