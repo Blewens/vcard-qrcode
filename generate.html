@@ -25,60 +25,73 @@
 
   <main>
     <form id="vcardForm" autocomplete="on">
-      <!-- Required Fields -->
-      <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
-      <input type="tel" id="phone" placeholder="Phone" autocomplete="tel" />
-      <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
+      <section class="section">
+        <h2>Your Info</h2>
+        <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
+        <input type="tel" id="phone" placeholder="Phone" autocomplete="tel" />
+        <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
+      </section>
 
-      <!-- Optional Fields (all visible now) -->
-      <hr>
-      <h3>Additional Info</h3>
-      <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
-      <input type="text" id="organization" placeholder="Organization" autocomplete="organization" />
-      <input type="url" id="website" placeholder="Website" autocomplete="url" />
-      <input type="url" id="linkedin" placeholder="LinkedIn" autocomplete="url" />
-      <input type="url" id="twitter" placeholder="Twitter" autocomplete="url" />
-      <input type="url" id="facebook" placeholder="Facebook" autocomplete="url" />
-      <input type="url" id="instagram" placeholder="Instagram" autocomplete="url" />
+      <section class="section">
+        <h2>Additional Info</h2>
+        <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
+        <input type="text" id="organization" placeholder="Organization" autocomplete="organization" />
+        <input type="url" id="website" placeholder="Website" autocomplete="url" />
+        <input type="url" id="linkedin" placeholder="LinkedIn" autocomplete="url" />
+        <input type="url" id="twitter" placeholder="Twitter" autocomplete="url" />
+        <input type="url" id="facebook" placeholder="Facebook" autocomplete="url" />
+        <input type="url" id="instagram" placeholder="Instagram" autocomplete="url" />
+      </section>
 
-      <hr>
-      <h3>QR Customization</h3>
-      <label for="foreground">Foreground:</label>
-      <input type="color" name="foreground" id="foreground" value="#000000" />
-      <label for="background">Background:</label>
-      <input type="color" name="background" id="background" value="#ffffff" />
-      <label for="logoUpload">Logo:</label>
-      <input type="file" id="logoUpload" accept="image/*" />
+      <section class="section">
+        <h2>QR Customization</h2>
+        <label for="foreground">Foreground:</label>
+        <input type="color" name="foreground" id="foreground" value="#000000" />
+        <label for="background">Background:</label>
+        <input type="color" name="background" id="background" value="#ffffff" />
+        <label for="logoUpload">Logo:</label>
+        <input type="file" id="logoUpload" accept="image/*" />
+      </section>
 
-      <hr>
-      <h3>QR Code Label (Optional)</h3>
-      <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" autocomplete="off" />
-      <select id="qrLabelFont">
-        <option value="Arial">Arial</option>
-        <option value="Georgia">Georgia</option>
-        <option value="Tahoma">Tahoma</option>
-        <option value="Verdana">Verdana</option>
-      </select>
+      <section class="section">
+        <h2>QR Code Label (Optional)</h2>
+        <input type="text" id="qrLabelText" placeholder="e.g. John Doe vCard" autocomplete="off" />
+        <select id="qrLabelFont">
+          <option value="Arial">Arial</option>
+          <option value="Georgia">Georgia</option>
+          <option value="Tahoma">Tahoma</option>
+          <option value="Verdana">Verdana</option>
+        </select>
+      </section>
 
-      <!-- Ad Space -->
-      <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; margin: 20px 0; text-align: center;">
-        <p><strong>Ad space:</strong> Your promotion here</p>
-      </div>
+      <section class="section">
+        <h2>Generate</h2>
+        <!-- Ad Space -->
+        <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+          <p><strong>Ad space:</strong> Your promotion here</p>
+        </div>
 
-      <!-- Countdown Message -->
-      <div id="countdownMessage" style="font-weight: bold; color: #2dd4bf; margin-bottom: 10px;"></div>
+        <!-- Countdown Message -->
+        <div id="countdownMessage"></div>
 
-      <!-- Generate Button -->
-      <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
+        <!-- Generate Button -->
+        <div style="text-align: center;">
+          <button type="button" id="generateBtn" class="navBtn">Generate QR vCard</button>
+        </div>
+      </section>
     </form>
 
     <!-- Output Area -->
     <div id="qrcode" class="qrcode-preview"></div>
-    <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
-    <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
+    <div style="text-align: center;">
+      <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
+      <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
+    </div>
   </main>
 
-  <footer><p>&copy; 2025 QRvCard. All rights reserved.</p></footer>
+  <footer>
+    <p>&copy; 2025 QRvCard. All rights reserved.</p>
+  </footer>
   <script src="script.js"></script>
 </body>
 </html>
