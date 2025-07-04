@@ -11,9 +11,9 @@ body {
   background: #111;
   color: #2dd4bf;
   font-family: 'Inter', sans-serif;
-  text-align: center;
   margin: 0;
   padding: 0;
+  text-align: left; /* ✅ Set base alignment to left */
 }
 
 /* -----------------------------------
@@ -21,6 +21,7 @@ body {
 ----------------------------------- */
 header {
   padding: 20px;
+  text-align: center; /* ✅ Keep header centered */
 }
 
 .logo {
@@ -29,24 +30,31 @@ header {
   display: block;
 }
 
-h1 {
+h1,
+h2,
+h3 {
   margin: 0;
   font-size: 24px;
+  text-align: center; /* ✅ Center headings */
 }
 
 .intro {
   font-size: 16px;
   margin-bottom: 10px;
   color: #ccc;
+  text-align: left; /* ✅ Paragraph-style text aligned left */
 }
 
-/* Navigation Buttons */
+/* -----------------------------------
+   Navigation Buttons
+----------------------------------- */
 .nav-buttons {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
   gap: 10px;
   margin-top: 20px;
+  text-align: center;
 }
 
 .navBtn {
@@ -117,14 +125,15 @@ textarea {
   display: none;
 }
 
-/* Autofill Detection Animation */
 input:-webkit-autofill {
   animation-name: autofill-detected;
   animation-duration: 0.01s;
   animation-iteration-count: 1;
 }
 
-/* Accordion (Details Section) */
+/* -----------------------------------
+   Accordion (Details Section)
+----------------------------------- */
 details {
   margin: 15px 0;
   background: #222;
@@ -240,6 +249,7 @@ summary {
 .section h2 {
   margin-bottom: 0.75rem;
   margin-top: 0;
+  text-align: center;
 }
 
 ol,
@@ -259,6 +269,7 @@ ul {
 
 .contact-help h2 {
   margin-top: 0;
+  text-align: center;
 }
 
 /* -----------------------------------
@@ -268,6 +279,7 @@ footer {
   margin-top: 40px;
   font-size: 14px;
   color: #888;
+  text-align: center;
 }
 
 footer a {
