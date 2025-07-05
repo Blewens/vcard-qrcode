@@ -242,8 +242,8 @@ summary {
 .section {
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
-  position: relative;
-  border-bottom: none; /* remove original full-width line */
+  padding-inline: 20px; /* Add this to inset both content and the line */
+  border-bottom: 1px solid #fff;
 }
 
 .section:not(:last-of-type)::after {
