@@ -241,13 +241,18 @@ summary {
 ----------------------------------- */
 .section {
   margin-bottom: 2.5rem;
-  padding: 0 20px 1.5rem; /* 👈 added left/right padding */
-  border-bottom: 1px solid #fff;
-  text-align: left;
+  padding-bottom: 1.5rem;
+  position: relative;
+  border-bottom: none; /* remove original full-width line */
 }
 
-.section:last-of-type {
-  border-bottom: none;
+.section:not(:last-of-type)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 5%;              /* adjust to set inset */
+  width: 90%;            /* line takes 90% of section width */
+  border-bottom: 1px solid #fff;
 }
 
 .section h2 {
