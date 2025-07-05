@@ -20,8 +20,8 @@ body {
    Header
 ----------------------------------- */
 header {
-  padding: 20px;
-  text-align: center; /* ✅ Keep header centered */
+  padding: 20px 20px 0 20px; /* Top, Right, Bottom, Left */
+  text-align: center;
 }
 
 .logo {
