@@ -244,15 +244,7 @@ summary {
   padding: 0 20px 1.5rem; /* top right/left bottom */
   text-align: left;
 }
-
-.section:not(:last-of-type)::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  left: 5%;              /* adjust to set inset */
-  width: 90%;            /* line takes 90% of section width */
-  border-bottom: 1px solid #fff;
-}
+  
 
 .section h2 {
   margin-bottom: 0.75rem;
