@@ -241,9 +241,9 @@ summary {
 ----------------------------------- */
 .section {
   margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
-  padding-inline: 20px; /* Add this to inset both content and the line */
+  padding: 0 20px 1.5rem; /* top right/left bottom */
   border-bottom: 1px solid #fff;
+  text-align: left;
 }
 
 .section:not(:last-of-type)::after {
