@@ -241,7 +241,7 @@ summary {
 ----------------------------------- */
 .section {
   margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
+  padding: 0 20px 1.5rem; /* 👈 added left/right padding */
   border-bottom: 1px solid #fff;
   text-align: left;
 }
