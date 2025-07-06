@@ -13,7 +13,7 @@ body {
   font-family: 'Inter', sans-serif;
   margin: 0;
   padding: 0;
-  text-align: left; /* ✅ Set base alignment to left */
+  text-align: left;
 }
 
 main {
@@ -24,7 +24,7 @@ main {
    Header
 ----------------------------------- */
 header {
-  padding: 20px 20px 0 20px; /* Top, Right, Bottom, Left */
+  padding: 20px 20px 0 20px;
   text-align: center;
 }
 
@@ -39,14 +39,14 @@ h2,
 h3 {
   margin: 0;
   font-size: 24px;
-  text-align: center; /* ✅ Center headings */
+  text-align: center;
 }
 
 .intro {
   font-size: 16px;
   margin-bottom: 10px;
   color: #ccc;
-  text-align: left; /* ✅ Paragraph-style text aligned left */
+  text-align: left;
 }
 
 /* -----------------------------------
@@ -73,6 +73,7 @@ h3 {
   align-items: center;
   justify-content: center;
 }
+
 .navBtn:hover {
   background: #26b4a3;
 }
@@ -94,6 +95,7 @@ h3 {
   width: 100%;
   max-width: 420px;
 }
+
 /* -----------------------------------
    Form Elements
 ----------------------------------- */
@@ -181,147 +183,4 @@ summary {
   font-weight: bold;
   font-size: 1.1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
-  display: inline-block;
-  text-align: center;
-  overflow: hidden;
-  z-index: 1;
-  box-shadow: 0 0 0 0 #2dd4bf;
-  animation: pulseGlow 3s ease-in-out infinite;
-}
-
-#generateBtn:hover {
-  background: #2dd4bf;
-  color: #000;
-}
-
-/* Pulsing glow effect */
-@keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
-  }
-  50% {
-    box-shadow: 0 0 10px 4px rgba(45, 212, 191, 0.75);
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
-  }
-}
-
-.downloadBtn {
-  background: #2dd4bf;
-  color: #111;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  padding: 12px 20px;
-  margin: 10px;
-  border-radius: 8px;
-  font-weight: bold;
-  transition: background 0.3s ease;
-}
-
-.downloadBtn:hover {
-  background: #26b4a3;
-}
-
-/* -----------------------------------
-   QR Code Display
------------------------------------ */
-#qrLabelPreview {
-  text-align: center;
-  margin-top: 10px;
-  font-size: 1.2em;
-}
-
-.qrcode-preview,
-.downloadBtn {
-  text-align: center;
-}
-
-#qrcode {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px 0;
-  width: 100%;
-  text-align: center;
-}
-
-#qrcode canvas {
-  display: block;
-  margin: 0 auto;
-}
-
-/* -----------------------------------
-   Countdown Message
------------------------------------ */
-#countdownMessage {
-  font-size: 18px;
-  font-weight: bold;
-  color: #2dd4bf;
-  margin: 10px 0;
-  text-align: center;
-  animation: pulse 1s ease-in-out infinite alternate;
-}
-
-@keyframes pulse {
-  from { opacity: 1; }
-  to { opacity: 0.6; }
-}
-
-/* -----------------------------------
-   How-To Page Specific Styles
------------------------------------ */
-.section {
-  margin-bottom: 2.5rem;
-  padding: 0 20px 1.5rem; /* top right/left bottom */
-  text-align: left;
-  border-bottom: 1px solid #fff;
-}
-  
-
-.section h2 {
-  margin-bottom: 0.75rem;
-  margin-top: 0;
-  text-align: center;
-}
-
-ol,
-ul {
-  margin: 0 0 1rem 1.25rem;
-  padding: 0;
-  text-align: left;
-}
-
-.contact-help {
-  background-color: #1a1a1a;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-top: 2rem;
-  text-align: left;
-}
-
-.contact-help h2 {
-  margin-top: 0;
-  text-align: center;
-}
-
-/* -----------------------------------
-   Footer
------------------------------------ */
-footer {
-  margin-top: 40px;
-  font-size: 14px;
-  color: #888;
-  text-align: center;
-}
-
-footer a {
-  color: #888;
-  text-decoration: underline;
-}
-
-.footer-ad {
-  margin-top: 20px;
-}
+  transition: all 0.3s
