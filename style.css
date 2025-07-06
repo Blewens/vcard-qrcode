@@ -172,6 +172,7 @@ summary {
    Buttons
 ----------------------------------- */
 #generateBtn {
+  position: relative;
   background: #000;
   color: #fff;
   border: 2px solid #2dd4bf;
@@ -183,11 +184,41 @@ summary {
   transition: all 0.3s ease;
   display: inline-block;
   text-align: center;
+  overflow: hidden; /* needed for animation */
+  z-index: 1;
+}
+
+#generateBtn::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 6px;
+  background: linear-gradient(120deg, transparent, #2dd4bf, transparent);
+  z-index: -1;
+  background-size: 200% 200%;
+  animation: borderChase 2s linear infinite;
+  opacity: 0.6;
 }
 
 #generateBtn:hover {
   background: #2dd4bf;
   color: #000;
+}
+
+/* Keyframes for animated border */
+@keyframes borderChase {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .downloadBtn {
