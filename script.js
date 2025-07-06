@@ -81,7 +81,7 @@ END:VCARD`;
     setTimeout(() => {
       if (countdownMsg.textContent.includes("Generating your QR code")) {
         countdownMsg.textContent =
-          "Something went wrong. If autofill added hidden data, please show all fields and check again.";
+          "Sorry! Something went wrong. If autofill added any data, please clear fields and type in any required details";
         generateBtn.disabled = false;
       }
     }, 7000);
