@@ -184,23 +184,10 @@ summary {
   transition: all 0.3s ease;
   display: inline-block;
   text-align: center;
-  overflow: hidden; /* needed for animation */
+  overflow: hidden;
   z-index: 1;
-}
-
-#generateBtn::before {
-  content: "";
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 6px;
-  background: linear-gradient(120deg, transparent, #2dd4bf, transparent);
-  z-index: -1;
-  background-size: 200% 200%;
-  animation: borderChase 2s linear infinite;
-  opacity: 0.6;
+  box-shadow: 0 0 0 0 #2dd4bf;
+  animation: pulseGlow 3s ease-in-out infinite;
 }
 
 #generateBtn:hover {
@@ -208,16 +195,16 @@ summary {
   color: #000;
 }
 
-/* Keyframes for animated border */
-@keyframes borderChase {
+/* Pulsing glow effect */
+@keyframes pulseGlow {
   0% {
-    background-position: 0% 50%;
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
   }
   50% {
-    background-position: 100% 50%;
+    box-shadow: 0 0 10px 4px rgba(45, 212, 191, 0.75);
   }
   100% {
-    background-position: 0% 50%;
+    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
   }
 }
 
