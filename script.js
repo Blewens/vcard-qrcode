@@ -9,14 +9,20 @@ document.addEventListener("DOMContentLoaded", function () {
     linkedin: document.getElementById("linkedin"),
     twitter: document.getElementById("twitter"),
     facebook: document.getElementById("facebook"),
-    instagram: document.getElementById("instagram")
+    instagram: document.getElementById("instagram"),
   };
 
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
 
   function getFieldValue(field) {
-    return field && field.offsetParent !== null ? field.value.trim() : "";
+    if (!field || field.offsetParent === null) return "";
+
+    return field.value
+      .trim()
+      .replace(/\r?\n|\r/g, " ")    // Remove line breaks
+      .replace(/,/g, "\\,")         // Escape commas
+      .replace(/;/g, "\\;");        // Escape semicolons
   }
 
   function normalizeFields() {
@@ -38,20 +44,35 @@ document.addEventListener("DOMContentLoaded", function () {
   window.addEventListener("load", normalizeFields);
 
   function generateVCard() {
-    return `BEGIN:VCARD
+    const fullName = getFieldValue(fields.fullName);
+    const email = getFieldValue(fields.email);
+    const phone = getFieldValue(fields.phone);
+    const jobTitle = getFieldValue(fields.jobTitle);
+    const organization = getFieldValue(fields.organization);
+    const website = getFieldValue(fields.website);
+    const linkedin = getFieldValue(fields.linkedin);
+    const twitter = getFieldValue(fields.twitter);
+    const facebook = getFieldValue(fields.facebook);
+    const instagram = getFieldValue(fields.instagram);
+
+    let vcard = `BEGIN:VCARD
 VERSION:3.0
-FN:${getFieldValue(fields.fullName)}
-TEL:${getFieldValue(fields.phone)}
-EMAIL:${getFieldValue(fields.email)}
-ORG:${getFieldValue(fields.organization)}
-TITLE:${getFieldValue(fields.jobTitle)}
-URL:${getFieldValue(fields.website)}
-item1.URL:${getFieldValue(fields.linkedin)}
-item2.URL:${getFieldValue(fields.twitter)}
-item3.URL:${getFieldValue(fields.facebook)}
-item4.URL:${getFieldValue(fields.instagram)}
-NOTE:Connections made easy by https://QRvCard.io
+FN:${fullName}
+EMAIL:${email}`;
+
+    if (phone) vcard += `\nTEL:${phone}`;
+    if (organization) vcard += `\nORG:${organization}`;
+    if (jobTitle) vcard += `\nTITLE:${jobTitle}`;
+    if (website) vcard += `\nURL:${website}`;
+    if (linkedin) vcard += `\nitem1.URL:${linkedin}`;
+    if (twitter) vcard += `\nitem2.URL:${twitter}`;
+    if (facebook) vcard += `\nitem3.URL:${facebook}`;
+    if (instagram) vcard += `\nitem4.URL:${instagram}`;
+
+    vcard += `\nNOTE:Connections made easy by https://QRvCard.io
 END:VCARD`;
+
+    return vcard;
   }
 
   generateBtn.addEventListener("click", function () {
