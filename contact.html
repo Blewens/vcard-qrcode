@@ -39,7 +39,6 @@
       align-self: flex-start;
     }
 
-    /* Success/error message styles */
     #formStatus {
       opacity: 0;
       transform: scale(0.95);
@@ -69,42 +68,47 @@
 </head>
 <body>
   <header>
-    <a href="index.html"><img src="QRVCard.PNG" alt="QR vCard Logo" class="logo"/></a>
-    <h1>Contact Us</h1>
-    <p class="intro">If you’ve run into trouble or have feedback, we’d love to hear from you. Please fill out the form below and we’ll get back to you shortly.</p>
-    <div class="nav-buttons">
-      <a href="index.html" class="navBtn small">Home</a>
-      <a href="how-to.html" class="navBtn small">How To</a>
-    </div>
-
-    <div class="generate-wrapper">
-      <a href="privacy.html" class="navBtn full">Privacy & Terms</a>
+    <div class="container">
+      <a href="index.html"><img src="QRVCard.PNG" alt="QR vCard Logo" class="logo"/></a>
+      <h1>Contact Us</h1>
+      <p class="intro">If you’ve run into trouble or have feedback, we’d love to hear from you. Please fill out the form below and we’ll get back to you shortly.</p>
+      <div class="nav-buttons">
+        <a href="index.html" class="navBtn small">Home</a>
+        <a href="how-to.html" class="navBtn small">How To</a>
+      </div>
+      <div class="generate-wrapper">
+        <a href="privacy.html" class="navBtn full">Privacy & Terms</a>
+      </div>
     </div>
   </header>
 
   <main>
-    <form id="contactForm" action="https://formspree.io/f/xeokdoel" method="POST" class="contact-form">
-      <label for="name">Name (optional):</label>
-      <input type="text" id="name" name="name" placeholder="Your name" />
+    <div class="container">
+      <form id="contactForm" action="https://formspree.io/f/xeokdoel" method="POST" class="contact-form">
+        <label for="name">Name (optional):</label>
+        <input type="text" id="name" name="name" placeholder="Your name" />
 
-      <label for="email">Your Email:</label>
-      <input type="email" id="email" name="email" required placeholder="you@example.com" />
+        <label for="email">Your Email:</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com" />
 
-      <label for="message">Message:</label>
-      <textarea id="message" name="message" required placeholder="Describe the issue or leave feedback..."></textarea>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required placeholder="Describe the issue or leave feedback..."></textarea>
 
-      <button type="submit" class="navBtn">Send Message</button>
-    </form>
+        <button type="submit" class="navBtn">Send Message</button>
+      </form>
 
-    <p id="formStatus">✅ Message sent! We’ll be in touch soon.</p>
+      <p id="formStatus">✅ Message sent! We’ll be in touch soon.</p>
 
-    <p style="text-align:center; margin-top:1.5rem; font-size: 0.9em;">
-      You’ll receive a reply within 1–2 business days. Your email address is never shared.
-    </p>
+      <p style="text-align:center; margin-top:1.5rem; font-size: 0.9em;">
+        You’ll receive a reply within 1–2 business days. Your email address is never shared.
+      </p>
+    </div>
   </main>
 
   <footer>
-    <p>&copy; 2025 QRvCard. All rights reserved.</p>
+    <div class="container">
+      <p>&copy; 2025 QRvCard. All rights reserved.</p>
+    </div>
   </footer>
 
   <script>
@@ -133,7 +137,7 @@
         status.textContent = "⚠️ Network error. Please try again later.";
         status.classList.add("show");
       }
-      // Hide after 5s
+
       setTimeout(() => status.classList.remove("show"), 5000);
     });
   </script>
