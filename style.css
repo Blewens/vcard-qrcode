@@ -7,6 +7,17 @@
   box-sizing: border-box;
 }
 
+/* -----------------------------------
+   Layout Container (Desktop Responsive)
+----------------------------------- */
+.container {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
 body {
   background: #111;
   color: #2dd4bf;
