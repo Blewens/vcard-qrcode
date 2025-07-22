@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
 
-  // Dynamically add downloadZip if not in DOM yet
   let downloadZip = document.getElementById("downloadZip");
   if (!downloadZip) {
     downloadZip = document.createElement("a");
@@ -117,11 +116,15 @@ END:VCARD`;
     const background = document.querySelector('input[name="background"]').value;
     const labelText = document.getElementById("qrLabelText").value.trim();
     const fontFamily = document.getElementById("qrLabelFont").value;
+    const logoInput = document.getElementById("logoUpload");
 
+    // Force canvas rendering
+    const canvas = document.createElement("canvas");
     const qrDiv = document.createElement("div");
+    qrDiv.appendChild(canvas);
     qrcodeContainer.appendChild(qrDiv);
 
-    const qr = new QRCode(qrDiv, {
+    const qr = new QRCode(canvas, {
       text: vCardData,
       width: 256,
       height: 256,
@@ -131,26 +134,23 @@ END:VCARD`;
     });
 
     setTimeout(() => {
-      const canvas = qrDiv.querySelector("canvas");
-      if (!canvas) return;
+      const originalCanvas = qrDiv.querySelector("canvas");
+      if (!originalCanvas) return;
 
-      const logoInput = document.getElementById("logoUpload");
-      const size = canvas.width * 0.25;
-
+      const size = originalCanvas.width * 0.25;
       const leftMargin = 40;
       const bottomLabelHeight = labelText ? 30 : 0;
 
       const labelCanvas = document.createElement("canvas");
+      labelCanvas.width = originalCanvas.width + leftMargin;
+      labelCanvas.height = originalCanvas.height + bottomLabelHeight;
+
       const ctx = labelCanvas.getContext("2d");
-
-      labelCanvas.width = canvas.width + leftMargin;
-      labelCanvas.height = canvas.height + bottomLabelHeight;
-
       ctx.fillStyle = background;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
-      ctx.drawImage(canvas, leftMargin, 0);
+      ctx.drawImage(originalCanvas, leftMargin, 0);
 
-      // Add vertical "BY QRVCARD.IO" label
+      // Vertical label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -169,13 +169,13 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Add bottom label if present
+      // Bottom label (if set)
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
         ctx.textAlign = "center";
         ctx.textBaseline = "bottom";
-        ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 10);
+        ctx.fillText(labelText, leftMargin + originalCanvas.width / 2, labelCanvas.height - 10);
       }
 
       function finalize() {
@@ -206,7 +206,7 @@ END:VCARD`;
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
-          ctx.drawImage(logo, labelCanvas.width / 2 - size / 2, (canvas.height - size) / 2, size, size);
+          ctx.drawImage(logo, labelCanvas.width / 2 - size / 2, (originalCanvas.height - size) / 2, size, size);
           finalize();
         };
         logo.src = URL.createObjectURL(logoInput.files[0]);
