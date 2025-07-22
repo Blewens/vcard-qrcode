@@ -9,7 +9,12 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
+
+  <!-- QR Code Generator Library -->
   <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
+
+  <!-- JSZip Library for zipping files -->
+  <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 </head>
 <body>
   <header>
@@ -93,8 +98,8 @@
       <!-- Output Area -->
       <div id="qrcode" class="qrcode-preview"></div>
       <div style="text-align: center;">
-        <a id="downloadQR" class="downloadBtn" style="display:none;">Download QR Code</a>
-        <a id="downloadVCF" class="downloadBtn" style="display:none;">Download vCard</a>
+        <!-- New: Download ZIP with QR, VCF & README -->
+        <a id="downloadZip" class="downloadBtn" style="display:none;">Download All (ZIP)</a>
       </div>
     </div>
   </main>
