@@ -14,7 +14,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
-  const downloadZip = document.getElementById("downloadZip");
+
+  // Dynamically add downloadZip if not in DOM yet
+  let downloadZip = document.getElementById("downloadZip");
+  if (!downloadZip) {
+    downloadZip = document.createElement("a");
+    downloadZip.id = "downloadZip";
+    downloadZip.className = "downloadBtn";
+    downloadZip.style.display = "none";
+    document.getElementById("qrcode").after(downloadZip);
+  }
 
   function getFieldValue(field) {
     if (!field || field.offsetParent === null) return "";
@@ -141,7 +150,7 @@ END:VCARD`;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Add side label
+      // Add vertical "BY QRVCARD.IO" label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
@@ -160,7 +169,7 @@ END:VCARD`;
       }
       ctx.restore();
 
-      // Bottom label
+      // Add bottom label if present
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
