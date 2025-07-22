@@ -65,6 +65,10 @@ h3 {
   text-align: center;
 }
 
+.not-home .welcome-text {
+  font-style: italic;
+}
+
 .intro {
   font-size: 16px;
   margin-bottom: 10px;
