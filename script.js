@@ -202,23 +202,31 @@ END:VCARD`;
       }
 
       function finalize() {
-        qrcodeContainer.innerHTML = "";
-        qrcodeContainer.appendChild(labelCanvas);
+  qrcodeContainer.innerHTML = "";
+  qrcodeContainer.appendChild(labelCanvas);
 
-        const downloadQR = document.getElementById("downloadQR");
-        downloadQR.href = labelCanvas.toDataURL("image/png");
-        downloadQR.download = "qrcode.png";
-        downloadQR.style.display = "block";
+  const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
 
-        const downloadVCF = document.getElementById("downloadVCF");
-        const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
-        downloadVCF.href = URL.createObjectURL(vcfBlob);
-        downloadVCF.download = "contact.vcf";
-        downloadVCF.style.display = "block";
+  labelCanvas.toBlob(async function (qrBlob) {
+    const zip = new JSZip();
+    zip.file("QRCode.png", qrBlob);
+    zip.file("Contact.vcf", vcfBlob);
 
-        countdownMsg.textContent = "";
-        generateBtn.disabled = false;
-      }
-    }, 200);
+    // Optional: Add a simple readme
+    const fullName = getFieldValue(fields.fullName);
+    const readme = `This ZIP contains a QR code and vCard file for ${fullName}.\nScan the QR or import the Contact.vcf to save the contact.`;
+    zip.file("README.txt", readme);
+
+    const content = await zip.generateAsync({ type: "blob" });
+
+    const zipLink = document.createElement("a");
+    zipLink.href = URL.createObjectURL(content);
+    zipLink.download = `${fullName.replace(/\s+/g, "_")}_QRvCard.zip`;
+    zipLink.click();
+
+    countdownMsg.textContent = "";
+    generateBtn.disabled = false;
+  }, "image/png");
+}
   }
 });
