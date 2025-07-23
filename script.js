@@ -15,15 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
   const downloadZipBtn = document.getElementById("downloadZip");
+
   let zipBlob = null;
   let zipFilename = "QRvCard.zip";
 
   function getFieldValue(field) {
     if (!field || field.offsetParent === null) return "";
-    return field.value.trim()
-      .replace(/\r?\n|\r/g, " ")
-      .replace(/,/g, "\\,")
-      .replace(/;/g, "\\;");
+    return field.value.trim().replace(/\r?\n|\r/g, " ").replace(/,/g, "\\,").replace(/;/g, "\\;");
   }
 
   function normalizeFields() {
@@ -32,15 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
       if (field) {
         const clean = field.value.trim();
         field.value = "";
-        field.offsetHeight;
+        field.offsetHeight; // Force reflow
         field.value = clean;
         field.dispatchEvent(new Event("input", { bubbles: true }));
         field.dispatchEvent(new Event("change", { bubbles: true }));
       }
     }
   }
-
-  window.addEventListener("load", normalizeFields);
 
   function generateVCard() {
     const fullName = getFieldValue(fields.fullName);
@@ -58,7 +54,6 @@ document.addEventListener("DOMContentLoaded", function () {
 VERSION:3.0
 FN:${fullName}
 EMAIL:${email}`;
-
     if (phone) vcard += `\nTEL:${phone}`;
     if (organization) vcard += `\nORG:${organization}`;
     if (jobTitle) vcard += `\nTITLE:${jobTitle}`;
@@ -67,25 +62,21 @@ EMAIL:${email}`;
     if (twitter) vcard += `\nitem2.URL:${twitter}`;
     if (facebook) vcard += `\nitem3.URL:${facebook}`;
     if (instagram) vcard += `\nitem4.URL:${instagram}`;
-
     vcard += `\nNOTE:Connections made easy by https://QRvCard.io
 END:VCARD`;
-
     return vcard;
   }
 
   generateBtn.addEventListener("click", function () {
     normalizeFields();
+    downloadZipBtn.style.display = "none";
 
-    const fullName = getFieldValue(fields.fullName);
-    const email = getFieldValue(fields.email);
-
-    if (!fullName || !email) {
+    if (!getFieldValue(fields.fullName) || !getFieldValue(fields.email)) {
       alert("Please fill in both Full Name and Email before generating your QR code.");
       return;
     }
 
-    let countdown = 3;
+    let countdown = 5;
     countdownMsg.textContent = `Generating in ${countdown}...`;
     generateBtn.disabled = true;
 
@@ -99,18 +90,35 @@ END:VCARD`;
         proceedToGenerate();
       }
     }, 1000);
+
+    setTimeout(() => {
+      if (countdownMsg.textContent.includes("Generating your QR code")) {
+        countdownMsg.textContent = "Sorry! Something went wrong. Please try again.";
+        generateBtn.disabled = false;
+      }
+    }, 7000);
   });
 
-  async function proceedToGenerate() {
+  downloadZipBtn.addEventListener("click", function () {
+    if (zipBlob && zipFilename) {
+      const zipLink = document.createElement("a");
+      zipLink.href = URL.createObjectURL(zipBlob);
+      zipLink.download = zipFilename;
+      document.body.appendChild(zipLink);
+      zipLink.click();
+      document.body.removeChild(zipLink);
+    }
+  });
+
+  function proceedToGenerate() {
     const qrcodeContainer = document.getElementById("qrcode");
     qrcodeContainer.innerHTML = "";
 
     const vCardData = generateVCard();
-    const foreground = document.getElementById("foreground").value || "#000000";
-    const background = document.getElementById("background").value || "#ffffff";
+    const foreground = document.querySelector('input[name="foreground"]').value;
+    const background = document.querySelector('input[name="background"]').value;
     const labelText = document.getElementById("qrLabelText").value.trim();
     const fontFamily = document.getElementById("qrLabelFont").value;
-    const logoInput = document.getElementById("logoUpload");
 
     const qrDiv = document.createElement("div");
     qrcodeContainer.appendChild(qrDiv);
@@ -128,13 +136,13 @@ END:VCARD`;
       const canvas = qrDiv.querySelector("canvas");
       if (!canvas) return;
 
+      const logoInput = document.getElementById("logoUpload");
       const size = canvas.width * 0.25;
       const leftMargin = 40;
       const bottomLabelHeight = labelText ? 30 : 0;
 
       const labelCanvas = document.createElement("canvas");
       const ctx = labelCanvas.getContext("2d");
-
       labelCanvas.width = canvas.width + leftMargin;
       labelCanvas.height = canvas.height + bottomLabelHeight;
 
@@ -142,26 +150,26 @@ END:VCARD`;
       ctx.fillRect(0, 0, labelCanvas.width, labelCanvas.height);
       ctx.drawImage(canvas, leftMargin, 0);
 
-      // Vertical text
+      // Side label
       ctx.save();
       ctx.fillStyle = foreground;
       ctx.font = "bold 18px 'Courier New', monospace";
       ctx.textAlign = "center";
       ctx.textBaseline = "top";
-      const label = "BY QRVCARD.IO";
+      const sideLabel = "BY QRVCARD.IO";
       const x = 20;
       const lineHeight = 16;
-      const totalHeight = label.length * lineHeight;
+      const totalHeight = sideLabel.length * lineHeight;
       const y = (labelCanvas.height - bottomLabelHeight - totalHeight) / 2;
-
-      for (let i = 0; i < label.length; i++) {
-        const char = label[i];
+      for (let i = 0; i < sideLabel.length; i++) {
+        const char = sideLabel[i];
         if (char !== " ") {
           ctx.fillText(char, x, y + i * lineHeight);
         }
       }
       ctx.restore();
 
+      // Bottom label
       if (labelText) {
         ctx.fillStyle = foreground;
         ctx.font = `bold 18px ${fontFamily}`;
@@ -170,6 +178,7 @@ END:VCARD`;
         ctx.fillText(labelText, leftMargin + canvas.width / 2, labelCanvas.height - 10);
       }
 
+      // Logo overlay
       if (logoInput.files.length > 0) {
         const logo = new Image();
         logo.onload = function () {
@@ -190,17 +199,25 @@ END:VCARD`;
   }
 
   function finalize(canvas, vCardData) {
-    const fullName = getFieldValue(fields.fullName);
+    const fullName = getFieldValue(fields.fullName) || "Contact";
+    const baseName = fullName.replace(/\s+/g, "_");
+
     canvas.toBlob(async function (qrBlob) {
       const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
 
       const zip = new JSZip();
-      zip.file("QRCode.png", qrBlob);
-      zip.file("Contact.vcf", vcfBlob);
-      zip.file("README.txt", `This ZIP contains:\n- A QR code image for ${fullName}\n- A vCard file (Contact.vcf)\n\nScan or import to save the contact.`);
+      zip.file(`${baseName}_QR.png`, qrBlob);
+      zip.file(`${baseName}.vcf`, vcfBlob);
+      zip.file("README.txt", `This ZIP contains:
+- ${baseName}_QR.png — QR code image
+- ${baseName}.vcf — vCard contact file
+
+You can scan the QR code or import the .vcf file into your contacts.
+
+Generated via https://QRvCard.io`);
 
       zipBlob = await zip.generateAsync({ type: "blob" });
-      zipFilename = `${fullName.replace(/\s+/g, "_") || "QRvCard"}_Files.zip`;
+      zipFilename = `${baseName}_QRvCard.zip`;
 
       const qrcodeContainer = document.getElementById("qrcode");
       qrcodeContainer.innerHTML = "";
@@ -212,18 +229,6 @@ END:VCARD`;
     }, "image/png");
   }
 
-  // Download on user click
-  downloadZipBtn.addEventListener("click", function () {
-    if (!zipBlob) {
-      alert("Please generate a QR code first.");
-      return;
-    }
-
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(zipBlob);
-    link.download = zipFilename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  });
+  // Normalize on load
+  window.addEventListener("load", normalizeFields);
 });
