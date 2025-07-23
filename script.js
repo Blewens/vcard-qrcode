@@ -201,7 +201,7 @@ END:VCARD`;
         finalize();
       }
 
-      function finalize() {
+     function finalize() {
   qrcodeContainer.innerHTML = "";
   qrcodeContainer.appendChild(labelCanvas);
 
@@ -212,17 +212,19 @@ END:VCARD`;
     zip.file("QRCode.png", qrBlob);
     zip.file("Contact.vcf", vcfBlob);
 
-    // Optional: Add a simple readme
+    // Optional README file
     const fullName = getFieldValue(fields.fullName);
-    const readme = `This ZIP contains a QR code and vCard file for ${fullName}.\nScan the QR or import the Contact.vcf to save the contact.`;
+    const readme = `This ZIP contains:\n- A QR code image for ${fullName}\n- A vCard file (Contact.vcf)\n\nScan or import to save the contact.`;
     zip.file("README.txt", readme);
 
-    const content = await zip.generateAsync({ type: "blob" });
+    const zipContent = await zip.generateAsync({ type: "blob" });
 
     const zipLink = document.createElement("a");
-    zipLink.href = URL.createObjectURL(content);
-    zipLink.download = `${fullName.replace(/\s+/g, "_")}_QRvCard.zip`;
+    zipLink.href = URL.createObjectURL(zipContent);
+    zipLink.download = `${fullName.replace(/\s+/g, "_") || "QRvCard"}_Files.zip`;
+    document.body.appendChild(zipLink);
     zipLink.click();
+    document.body.removeChild(zipLink);
 
     countdownMsg.textContent = "";
     generateBtn.disabled = false;
