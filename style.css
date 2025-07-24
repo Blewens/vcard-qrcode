@@ -1,230 +1,209 @@
-/* -----------------------------------
-   Reset & Base Styles
------------------------------------ */
-*,
-*::before,
-*::after {
+/* Reset and base styles */
+* {
   box-sizing: border-box;
-}
-
-/* -----------------------------------
-   Layout Container (Desktop Responsive)
------------------------------------ */
-.container {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: #111;
-  color: #2dd4bf;
-  font-family: 'Inter', sans-serif;
-  margin: 0;
-  padding: 0;
-  text-align: left;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  background-color: #0a0a0a;
+  color: #ffffff;
+  line-height: 1.6;
+  min-height: 100vh;
 }
 
-main {
-  padding: 0 20px;
-}
-
-.section {
-  margin-bottom: 2.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #fff;
-  text-align: left;
+/* Layout containers */
+.container {
   max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  padding-left: 20px;
-  padding-right: 20px;
+  margin: 0 auto;
+  padding: 1.5rem;
 }
 
-/* -----------------------------------
-   Header
------------------------------------ */
+/* Header styles */
 header {
-  padding: 20px 20px 0 20px;
+  background-color: #111;
+  padding: 2rem 0 1rem 0;
   text-align: center;
 }
 
 .logo {
-  width: 120px;
-  margin: 0 auto 10px;
+  max-width: 120px;
+  margin: 0 auto 1rem;
   display: block;
 }
 
-h1,
-h2,
-h3 {
-  margin: 0;
-  font-size: 24px;
-  text-align: center;
-}
-
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
 }
 
 .intro {
-  font-size: 16px;
-  margin-bottom: 10px;
-  color: #ccc;
-  text-align: left;
+  font-size: 1rem;
+  color: #cccccc;
+  margin-bottom: 2rem;
 }
 
-/* -----------------------------------
-   Navigation Buttons
------------------------------------ */
+/* Navigation buttons */
 .nav-buttons {
   display: flex;
+  gap: 1rem;
   justify-content: center;
-  gap: 10px;
+  margin-bottom: 1.5rem;
   flex-wrap: wrap;
-  margin-top: 20px;
 }
 
 .navBtn {
-  background: #2dd4bf;
-  color: #111;
-  text-align: center;
-  padding: 12px 20px;
-  border-radius: 8px;
+  display: inline-block;
+  background-color: #0077ff;
+  color: white;
+  padding: 0.6rem 1.2rem;
   text-decoration: none;
-  font-weight: bold;
-  transition: background 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  transition: background-color 0.3s ease;
+  text-align: center;
 }
 
 .navBtn:hover {
-  background: #26b4a3;
-}
-
-.navBtn.small {
-  flex: 1;
-  min-width: 130px;
-  max-width: 200px;
-}
-
-.generate-wrapper {
-  margin-top: 15px;
-  display: flex;
-  justify-content: center;
-  padding: 0 20px;
+  background-color: #005fd4;
 }
 
 .navBtn.full {
   width: 100%;
-  max-width: 420px;
+  margin-top: 1rem;
 }
 
-/* -----------------------------------
-   Form Elements
------------------------------------ */
-input,
-select,
-button,
-a.downloadBtn {
+.navBtn.small {
+  font-size: 0.9rem;
+  padding: 0.4rem 1rem;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 2rem;
+}
+
+.section h2 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+/* Form inputs */
+form input[type="text"],
+form input[type="email"],
+form input[type="tel"],
+form input[type="url"],
+form input[type="color"],
+form input[type="file"],
+form select {
+  display: block;
   width: 100%;
-  margin: 15px 0;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  background: #333;
+  padding: 0.7rem;
+  margin-bottom: 1rem;
+  background-color: #1a1a1a;
+  border: 1px solid #333;
+  border-radius: 4px;
   color: #fff;
+  font-size: 1rem;
 }
 
-input[type="color"] {
-  height: 44px;
-  padding: 8px;
+form input[type="color"] {
+  padding: 0.3rem;
+  height: 3rem;
 }
 
-textarea {
-  width: 100%;
-  padding: 12px;
-  margin: 15px 0;
-  border-radius: 8px;
-  background: #333;
-  color: #fff;
-  font-size: 16px;
+form select {
+  background-color: #1a1a1a;
+}
+
+/* Generate Button */
+button#generateBtn {
+  background-color: #28a745;
   border: none;
-  resize: vertical;
-  min-height: 150px;
-}
-
-#confirmAutofill {
-  display: none;
-}
-
-input:-webkit-autofill {
-  animation-name: autofill-detected;
-  animation-duration: 0.01s;
-  animation-iteration-count: 1;
-}
-
-/* -----------------------------------
-   Accordion (Details Section)
------------------------------------ */
-details {
-  margin: 15px 0;
-  background: #222;
-  padding: 10px;
-  border-radius: 8px;
-  width: 100%;
-}
-
-details input {
-  width: 100%;
-  margin: 10px 0;
-  background: #333;
-  color: #fff;
-  padding: 12px;
-  border: none;
-  border-radius: 8px;
-  font-size: 16px;
-}
-
-summary {
+  color: white;
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  border-radius: 5px;
   cursor: pointer;
-  font-weight: bold;
-  color: #ddd;
-  margin-bottom: 10px;
+  transition: background-color 0.3s ease;
 }
 
-/* -----------------------------------
-   Buttons
------------------------------------ */
-#generateBtn {
-  position: relative;
-  background: #000;
-  color: #fff;
-  border: 2px solid #2dd4bf;
-  padding: 1rem 1.5rem;
-  border-radius: 6px;
-  font-weight: bold;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
+button#generateBtn:hover {
+  background-color: #218838;
+}
+
+/* Download Button */
+.downloadBtn {
   display: inline-block;
-  text-align: center;
-  overflow: hidden;
-  z-index: 1;
-  box-shadow: 0 0 0 0 #2dd4bf;
-  animation: pulseGlow 3s ease-in-out infinite;
+  background-color: #17a2b8;
+  color: white;
+  padding: 0.6rem 1.2rem;
+  margin-top: 1rem;
+  text-decoration: none;
+  border-radius: 5px;
+  font-size: 1rem;
 }
 
-@keyframes pulseGlow {
-  0% {
-    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
+.downloadBtn:hover {
+  background-color: #138496;
+}
+
+/* QR Code Display */
+.qrcode-preview {
+  margin-top: 2rem;
+  text-align: center;
+}
+
+#qrcode canvas {
+  margin: 0 auto;
+  border-radius: 4px;
+}
+
+/* Countdown */
+#countdownMessage {
+  font-size: 1rem;
+  margin: 1rem 0;
+  color: #ffa500;
+  text-align: center;
+}
+
+/* Ad Placeholder */
+#adSquare {
+  background-color: #1a1a1a;
+  border: 1px solid #444;
+  padding: 1rem;
+  color: #bbb;
+  font-size: 0.9rem;
+  margin-top: 2rem;
+}
+
+/* Footer */
+footer {
+  background-color: #111;
+  padding: 1.5rem 0;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #888;
+  margin-top: 3rem;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .nav-buttons {
+    flex-direction: column;
   }
-  50% {
-    box-shadow: 0 0 10px 4px rgba(45, 212, 191, 0.75);
+
+  .logo {
+    max-width: 80px;
   }
-  100% {
-    box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
+
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .section h2 {
+    font-size: 1.1rem;
   }
 }
