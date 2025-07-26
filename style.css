@@ -21,7 +21,7 @@ main {
 }
 
 .container {
-  max-width: 800px; /* ✅ Limits width on larger screens */
+  max-width: 800px;
   margin: 0 auto;
   padding: 0 20px;
 }
@@ -57,12 +57,12 @@ h3 {
 }
 
 h1 {
-  margin-bottom: 10px; /* ✅ Fix for spacing issue with .intro */
+  margin-bottom: 10px;
 }
 
 .intro {
-  color: #fff;            /* Force white text */
-  text-align: center;     /* Center the text */
+  color: #fff;
+  text-align: center;
   font-size: 16px;
   margin: 10px auto 20px;
   max-width: 700px;
@@ -190,9 +190,9 @@ summary {
 }
 
 /* -----------------------------------
-   Buttons
+   Action Buttons (Generate & Download)
 ----------------------------------- */
-#generateBtn {
+.actionBtn {
   position: relative;
   background: #000;
   color: #fff;
@@ -209,6 +209,18 @@ summary {
   z-index: 1;
   box-shadow: 0 0 0 0 #2dd4bf;
   animation: pulseGlow 3s ease-in-out infinite;
+  text-decoration: none;
+}
+
+.actionBtn:hover {
+  background-color: #111;
+  transform: translateY(-1px);
+  box-shadow: 0 0 10px rgba(45, 212, 191, 0.5);
+}
+
+.actionBtn span {
+  display: inline-block;
+  padding-left: 4px;
 }
 
 @keyframes pulseGlow {
@@ -220,57 +232,5 @@ summary {
   }
   100% {
     box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.5);
-  }
-}
-
-.downloadBtn {
-  background-color: #009688;
-  color: #ffffff;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 2rem;
-  text-decoration: none;
-  display: inline-block;
-  transition: all 0.3s ease;
-  font-weight: bold;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
-  position: relative;
-  text-align: center;
-}
-
-.downloadBtn:hover {
-  background-color: #00796b;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
-}
-
-.downloadBtn span {
-  display: inline-block;
-  padding-left: 4px;
-}
-
-.downloadBtn.zipPulse::after {
-  content: "";
-  position: absolute;
-  top: -6px;
-  left: -6px;
-  right: -6px;
-  bottom: -6px;
-  border-radius: 2.5rem;
-  background: rgba(0, 150, 136, 0.4);
-  opacity: 0;
-  animation: zipGlow 1.2s ease-out 1 forwards;
-  z-index: -1;
-}
-
-@keyframes zipGlow {
-  0% {
-    opacity: 0.6;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(1.6);
   }
 }
