@@ -107,6 +107,9 @@ END:VCARD`;
       document.body.appendChild(zipLink);
       zipLink.click();
       document.body.removeChild(zipLink);
+
+      // Optional: Keep pulse or stop pulse on click
+      // downloadZipBtn.classList.remove("pulse");
     }
   });
 
@@ -203,12 +206,12 @@ END:VCARD`;
     const baseName = fullName.replace(/\s+/g, "_");
 
     canvas.toBlob(async function (qrBlob) {
-  const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
+      const vcfBlob = new Blob([vCardData], { type: "text/vcard" });
 
-  const zip = new JSZip();
-  zip.file(`${baseName}_QR.png`, qrBlob);
-  zip.file(`${baseName}.vcf`, vcfBlob);
-  zip.file("README.txt", `This ZIP contains:
+      const zip = new JSZip();
+      zip.file(`${baseName}_QR.png`, qrBlob);
+      zip.file(`${baseName}.vcf`, vcfBlob);
+      zip.file("README.txt", `This ZIP contains:
 - ${baseName}_QR.png — QR code image
 - ${baseName}.vcf — vCard contact file
 
@@ -216,24 +219,24 @@ You can scan the QR code or import the .vcf file into your contacts.
 
 Generated via https://QRvCard.io`);
 
-  zipBlob = await zip.generateAsync({ type: "blob" });
-  zipFilename = `${baseName}_QRvCard.zip`;
+      zipBlob = await zip.generateAsync({ type: "blob" });
+      zipFilename = `${baseName}_QRvCard.zip`;
 
-  const qrcodeContainer = document.getElementById("qrcode");
-  qrcodeContainer.innerHTML = "";
-  qrcodeContainer.appendChild(canvas);
+      const qrcodeContainer = document.getElementById("qrcode");
+      qrcodeContainer.innerHTML = "";
+      qrcodeContainer.appendChild(canvas);
 
-  countdownMsg.textContent = "";
-  generateBtn.disabled = false;
+      countdownMsg.textContent = "";
+      generateBtn.disabled = false;
 
-  // Reset download button animation
-  downloadZipBtn.classList.remove("zipPulse");
-  void downloadZipBtn.offsetWidth; // Force reflow
-  downloadZipBtn.classList.add("zipPulse");
+      // Reset and re-apply pulse animation
+      downloadZipBtn.classList.remove("pulse");
+      void downloadZipBtn.offsetWidth;
+      downloadZipBtn.classList.add("pulse");
 
-  // Show download button
-  downloadZipBtn.style.display = "inline-block";
-}, "image/png");
+      // Show download button
+      downloadZipBtn.style.display = "inline-block";
+    }, "image/png");
   }
 
   // Normalize on load
