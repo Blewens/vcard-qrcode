@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
     twitter: document.getElementById("twitter"),
     facebook: document.getElementById("facebook"),
     instagram: document.getElementById("instagram"),
+    bluesky: document.getElementById("bluesky"),
   };
 
   const generateBtn = document.getElementById("generateBtn");
