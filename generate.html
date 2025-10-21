@@ -11,17 +11,8 @@
   <link rel="manifest" href="/site.webmanifest">
 
   <!-- Essential libraries (functional, not tracking) -->
-  <!-- Using reliable CDNJS links to avoid 404s -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" referrerpolicy="no-referrer"></script>
-
-  <!-- Quick sanity check so missing libs don't fail silently -->
-  <script>
-    window.addEventListener('DOMContentLoaded', function () {
-      if (typeof QRCode === 'undefined') alert('QR library failed to load. Check the QRCode.js script URL.');
-      if (typeof JSZip === 'undefined') alert('JSZip failed to load. Check the JSZip script URL.');
-    });
-  </script>
 </head>
 <body>
   <header>
@@ -88,16 +79,14 @@
         <section class="section">
           <h2>Generate</h2>
 
-          <!-- Countdown Message -->
           <div id="countdownMessage"></div>
 
-          <!-- Generate Button -->
           <div style="text-align: center;">
             <button type="button" id="generateBtn" class="navBtn pulse">Generate QR vCard</button>
           </div>
 
-          <!-- Ad Space (no scripts yet; placeholder only) -->
-          <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; text-align: center;">
+          <!-- Ad Space placeholder -->
+          <div id="adSquare" style="border:1px solid #ccc;padding:10px;text-align:center;">
             <p><strong>Ad space:</strong> Your promotion here</p>
           </div>
         </section>
@@ -106,10 +95,7 @@
       <!-- Output Area -->
       <div id="qrcode" class="qrcode-preview"></div>
       <div style="text-align: center;">
-        <!-- Download ZIP with QR, VCF & README -->
-        <a id="downloadZip" class="navBtn pulse" style="display:none;">
-          Download QR & Contact (ZIP)
-        </a>
+        <a id="downloadZip" class="navBtn pulse" style="display:none;">Download QR & Contact (ZIP)</a>
       </div>
     </div>
   </main>
@@ -127,18 +113,8 @@
     </div>
   </footer>
 
-  <!-- Your custom script file (must remain a normal script; do NOT gate it) -->
+  <!-- App logic -->
   <script src="script.js"></script>
-
-  <!-- OPTIONAL placeholders (wrap any future third-party scripts so they don't run before consent) -->
-  <!--
-  <script type="text/plain" data-cookie-category="analytics">
-    // e.g., GA4 loader (only runs after consent)
-  </script>
-  <script type="text/plain" data-cookie-category="ads">
-    // e.g., AdSense / Funding Choices snippet after approval
-  </script>
-  -->
 
   <!-- CONSENT BAR (temporary — replace with Google CMP after AdSense approval) -->
   <div id="consent" style="position:fixed;left:0;right:0;bottom:0;background:#111;color:#fff;padding:12px;border-top:1px solid #262626;display:none;z-index:9999">
@@ -151,31 +127,29 @@
   </div>
 
   <script>
-  // Footer control: reopen cookie settings (simple reset + reload)
-  document.getElementById('manage-consent')?.addEventListener('click', ()=>{
-    localStorage.removeItem('qrvcard_consent_v1');
-    location.reload();
-  });
-
-  // Consent bar logic (prior consent for analytics/ads)
-  (()=>{const KEY='qrvcard_consent_v1', bar=document.getElementById('consent'),
-  ana=document.getElementById('c-ana'), ads=document.getElementById('c-ads');
-  let st; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){st={}}
-  function runHeld(cat){
-    document.querySelectorAll(`script[type="text/plain"][data-cookie-category="${cat}"]`).forEach(src=>{
-      const s=document.createElement('script');
-      if(src.src) s.src=src.src;
-      s.text=src.textContent;
-      if(src.async) s.async=true;
-      if(src.defer) s.defer=true;
-      src.replaceWith(s);
+    document.getElementById('manage-consent')?.addEventListener('click', ()=>{
+      localStorage.removeItem('qrvcard_consent_v1');
+      location.reload();
     });
-  }
-  function apply(){ if(st.analytics) runHeld('analytics'); if(st.ads) runHeld('ads'); }
-  if(!st.set){ bar.style.display='block'; } else { apply(); }
-  document.getElementById('c-yes').onclick=()=>{st={set:1,analytics:true,ads:true}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
-  document.getElementById('c-save').onclick=()=>{st={set:1,analytics:!!ana?.checked,ads:!!ads?.checked}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
-  })();
+
+    (()=>{const KEY='qrvcard_consent_v1', bar=document.getElementById('consent'),
+    ana=document.getElementById('c-ana'), ads=document.getElementById('c-ads');
+    let st; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){st={}}
+    function runHeld(cat){
+      document.querySelectorAll(`script[type="text/plain"][data-cookie-category="${cat}"]`).forEach(src=>{
+        const s=document.createElement('script');
+        if(src.src) s.src=src.src;
+        s.text=src.textContent;
+        if(src.async) s.async=true;
+        if(src.defer) s.defer=true;
+        src.replaceWith(s);
+      });
+    }
+    function apply(){ if(st.analytics) runHeld('analytics'); if(st.ads) runHeld('ads'); }
+    if(!st.set){ bar.style.display='block'; } else { apply(); }
+    document.getElementById('c-yes').onclick=()=>{st={set:1,analytics:true,ads:true}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+    document.getElementById('c-save').onclick=()=>{st={set:1,analytics:!!ana?.checked,ads:!!ads?.checked}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+    })();
   </script>
 </body>
 </html>
