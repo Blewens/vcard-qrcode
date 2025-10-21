@@ -93,7 +93,53 @@
   <footer>
     <div class="container">
       <p>&copy; 2025 QRvCard. All rights reserved.</p>
+      <!-- ADDED: Privacy link + Cookie settings control -->
+      <p>
+        <a href="privacy.html">Privacy &amp; Terms</a>
+        &nbsp;•&nbsp;
+        <button type="button" id="manage-consent" style="background:none;border:0;color:#87d7ff;cursor:pointer;text-decoration:underline">
+          Cookie settings
+        </button>
+      </p>
     </div>
   </footer>
+
+  <!-- CONSENT BAR (temporary — swap for Google CMP after AdSense approval) -->
+  <div id="consent" style="position:fixed;left:0;right:0;bottom:0;background:#111;color:#fff;padding:12px;border-top:1px solid #262626;display:none;z-index:9999">
+    We use essential cookies and optional analytics/ads. You choose.
+    <label style="margin:0 8px"><input id="c-ana" type="checkbox"> Analytics</label>
+    <label style="margin-right:8px"><input id="c-ads" type="checkbox"> Ads</label>
+    <button id="c-yes">Accept all</button>
+    <button id="c-save" style="margin-left:6px">Save</button>
+    <a href="/privacy.html" style="margin-left:8px">Privacy</a>
+  </div>
+
+  <script>
+  // Footer control: reopen cookie settings (simple reset + reload)
+  document.getElementById('manage-consent')?.addEventListener('click', ()=>{
+    localStorage.removeItem('qrvcard_consent_v1');
+    location.reload();
+  });
+
+  // Consent bar logic (prior consent for analytics/ads)
+  (()=>{const KEY='qrvcard_consent_v1', bar=document.getElementById('consent'),
+  ana=document.getElementById('c-ana'), ads=document.getElementById('c-ads');
+  let st; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){st={}}
+  function runHeld(cat){
+    document.querySelectorAll(`script[type="text/plain"][data-cookie-category="${cat}"]`).forEach(src=>{
+      const s=document.createElement('script');
+      if(src.src) s.src=src.src;
+      s.text=src.textContent;
+      if(src.async) s.async=true;
+      if(src.defer) s.defer=true;
+      src.replaceWith(s);
+    });
+  }
+  function apply(){ if(st.analytics) runHeld('analytics'); if(st.ads) runHeld('ads'); }
+  if(!st.set){ bar.style.display='block'; } else { apply(); }
+  document.getElementById('c-yes').onclick=()=>{st={set:1,analytics:true,ads:true}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+  document.getElementById('c-save').onclick=()=>{st={set:1,analytics:!!ana?.checked,ads:!!ads?.checked}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+  })();
+  </script>
 </body>
 </html>
