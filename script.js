@@ -1,4 +1,4 @@
-// script.js — QRvCard.io generator (complete)
+// script.js — QRvCard.io generator (complete, with vertical brand strip)
 
 document.addEventListener("DOMContentLoaded", function () {
   // --- DOM refs ---
@@ -34,9 +34,6 @@ document.addEventListener("DOMContentLoaded", function () {
   let zipBlob = null;
   let zipFilename = "QRvCard.zip";
 
-  // Expose for download click handler
-  window.__qrvc_zip_state__ = { get blob() { return zipBlob; }, get name() { return zipFilename; } };
-
   // --- Helpers ---
   function getFieldValue(el) {
     if (!el || el.offsetParent === null) return "";
@@ -49,9 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (field) {
         const clean = field.value.trim();
         field.value = "";
-        // force reflow so mobile keyboards commit autofill properly
-        // eslint-disable-next-line no-unused-expressions
-        field.offsetHeight;
+        field.offsetHeight; // force reflow for mobile autofill
         field.value = clean;
         field.dispatchEvent(new Event("input", { bubbles: true }));
         field.dispatchEvent(new Event("change", { bubbles: true }));
@@ -84,25 +79,30 @@ EMAIL:${email}`;
     if (twitter) v += `\nitem2.URL:${twitter}`;
     if (facebook) v += `\nitem3.URL:${facebook}`;
     if (instagram) v += `\nitem4.URL:${instagram}`;
-    if (bluesky) {
-      // Add BlueSky as generic URL; many readers treat numbered items as extra URLs
-      v += `\nitem5.URL:${bluesky}`;
-    }
+    if (bluesky) v += `\nitem5.URL:${bluesky}`;
     v += `\nNOTE:Connections made easy by https://QRvCard.io
 END:VCARD`;
     return v;
   }
 
-  // Create a QR code using qrcodejs, then return a CANVAS with optional label + logo applied
-  function makeQRCanvas({ text, size = 512, colorDark = "#000000", colorLight = "#ffffff", label, labelFontFamily, logoImage }) {
+  // --- QR rendering (with optional label, logo, and vertical brand strip) ---
+  function makeQRCanvas({
+    text,
+    size = 512,
+    colorDark = "#000000",
+    colorLight = "#ffffff",
+    label,
+    labelFontFamily,
+    logoImage,
+    brandText = "QRVCARD.IO",
+    brandStripWidth = 84,
+    brandBg = "#111111",
+    brandColor = "#ffffff",
+    brandLeft = false // set to true if you want strip on the left
+  }) {
     return new Promise((resolve) => {
-      // 1) Generate QR into a temporary element
       const temp = document.createElement("div");
-      // Clean any prior children just in case
-      while (temp.firstChild) temp.removeChild(temp.firstChild);
 
-      // qrcodejs sometimes renders <canvas>, sometimes <img> (older forks). Handle both.
-      // Correct level H for better logo placement tolerance.
       // eslint-disable-next-line no-undef
       const qr = new QRCode(temp, {
         text,
@@ -113,17 +113,17 @@ END:VCARD`;
         correctLevel: QRCode.CorrectLevel.H,
       });
 
-      // Wait one frame so qrcodejs can append its element
       requestAnimationFrame(() => {
         let qrCanvas = temp.querySelector("canvas");
         let img = temp.querySelector("img");
 
         const finishWithCanvas = (sourceCanvas) => {
-          // 2) Prepare final canvas with optional label area
-          const padding = 24; // outer padding
+          const padding = 24;
           const labelMargin = label ? 20 : 0;
-          const labelHeight = label ? 48 : 0; // will be adjusted by font size
-          const finalWidth = size + padding * 2;
+          const labelHeight = label ? 48 : 0;
+          const strip = brandText ? brandStripWidth : 0;
+
+          const finalWidth  = size + padding * 2 + strip;
           const finalHeight = size + padding * 2 + labelMargin + labelHeight;
 
           const out = document.createElement("canvas");
@@ -131,87 +131,79 @@ END:VCARD`;
           out.height = finalHeight;
           const ctx = out.getContext("2d");
 
-          // Fill background with page background color to avoid transparent PNG on some apps
-          ctx.fillStyle = "#ffffff";
-          // If you want the background to reflect selected bg color behind label too, use colorLight
+          // background
           ctx.fillStyle = colorLight || "#ffffff";
           ctx.fillRect(0, 0, out.width, out.height);
 
-          // Draw QR
-          const qrX = padding;
+          // where to draw QR (shift if strip is on the left)
+          const qrX = brandLeft ? padding + strip : padding;
           const qrY = padding;
           ctx.drawImage(sourceCanvas, qrX, qrY);
 
-          // Optional logo overlay: draw in center of QR (15–20% of QR size)
+          // optional center logo
           if (logoImage) {
             const logoMax = Math.floor(size * 0.2);
-            let w = logoImage.naturalWidth || logoImage.width;
-            let h = logoImage.naturalHeight || logoImage.height;
-            if (!w || !h) { w = logoMax; h = logoMax; }
-
-            // scale to fit
+            let w = logoImage.naturalWidth || logoImage.width || logoMax;
+            let h = logoImage.naturalHeight || logoImage.height || logoMax;
             const scale = Math.min(logoMax / w, logoMax / h);
             const drawW = Math.floor(w * scale);
             const drawH = Math.floor(h * scale);
             const cx = qrX + Math.floor(size / 2) - Math.floor(drawW / 2);
             const cy = qrY + Math.floor(size / 2) - Math.floor(drawH / 2);
-
-            // Optional white behind logo for contrast
             ctx.fillStyle = "#ffffff";
             const pad = 6;
             ctx.fillRect(cx - pad, cy - pad, drawW + pad * 2, drawH + pad * 2);
-
             ctx.drawImage(logoImage, cx, cy, drawW, drawH);
           }
 
-          // Optional label below
+          // optional label below
           if (label) {
-            const font = `${24}px ${labelFontFamily || "Arial"}`;
-            ctx.font = font;
+            ctx.font = `24px ${labelFontFamily || "Arial"}`;
             ctx.fillStyle = "#000000";
             ctx.textAlign = "center";
             ctx.textBaseline = "top";
-
             const textY = padding + size + labelMargin;
             const textX = Math.floor(out.width / 2);
-
             ctx.fillText(label, textX, textY);
+          }
+
+          // vertical brand strip
+          if (strip) {
+            const sx = brandLeft ? 0 : out.width - strip;
+            ctx.fillStyle = brandBg;
+            ctx.fillRect(sx, 0, strip, out.height);
+
+            ctx.save();
+            ctx.fillStyle = brandColor;
+            ctx.textAlign = "center";
+            ctx.textBaseline = "middle";
+            const cx = sx + strip / 2;
+            const cy = out.height / 2;
+            ctx.translate(cx, cy);
+            ctx.rotate(-Math.PI / 2);
+
+            const fontSize = Math.max(14, Math.min(22, Math.floor(strip * 0.24)));
+            ctx.font = `600 ${fontSize}px ${labelFontFamily || "Arial"}`;
+            ctx.fillText(brandText, 0, 0);
+            ctx.restore();
           }
 
           resolve(out);
         };
 
         if (qrCanvas) {
-          // Already have canvas
           finishWithCanvas(qrCanvas);
         } else if (img) {
-          // Convert IMG to canvas once it's loaded
           const c = document.createElement("canvas");
-          c.width = size;
-          c.height = size;
+          c.width = size; c.height = size;
           const ctx = c.getContext("2d");
-
-          if (img.complete) {
-            ctx.drawImage(img, 0, 0, size, size);
-            finishWithCanvas(c);
-          } else {
-            img.onload = () => {
-              ctx.drawImage(img, 0, 0, size, size);
-              finishWithCanvas(c);
-            };
-            img.onerror = () => {
-              // Fallback: make empty canvas to avoid complete failure
-              finishWithCanvas(c);
-            };
-          }
+          const drawAndFinish = () => { ctx.drawImage(img, 0, 0, size, size); finishWithCanvas(c); };
+          img.complete ? drawAndFinish() : (img.onload = drawAndFinish, img.onerror = drawAndFinish);
         } else {
-          // Fallback (shouldn't happen)
           const c = document.createElement("canvas");
-          c.width = size;
-          c.height = size;
+          c.width = size; c.height = size;
           const ctx = c.getContext("2d");
-          ctx.fillStyle = "#ccc";
-          ctx.fillRect(0, 0, size, size);
+          ctx.fillStyle = "#ccc"; ctx.fillRect(0, 0, size, size);
           finishWithCanvas(c);
         }
       });
@@ -238,7 +230,6 @@ END:VCARD`;
       if (canvas.toBlob) {
         canvas.toBlob((blob) => resolve(blob), type, quality);
       } else {
-        // toBlob polyfill via dataURL
         const dataURL = canvas.toDataURL(type, quality);
         const byteString = atob(dataURL.split(",")[1]);
         const ab = new ArrayBuffer(byteString.length);
@@ -251,25 +242,20 @@ END:VCARD`;
 
   async function proceedToGenerate() {
     try {
-      // Clear old preview & hide download
       qrcodeContainer.innerHTML = "";
       downloadZipBtn.style.display = "none";
       zipBlob = null;
 
-      // Build vCard text
       const vcard = buildVCard();
 
-      // Get customisation inputs
       const colorDark = (colorInputs.fg && colorInputs.fg.value) || "#000000";
       const colorLight = (colorInputs.bg && colorInputs.bg.value) || "#ffffff";
       const label = labelText ? labelText.value.trim() : "";
       const labelFontFamily = labelFont ? labelFont.value : "Arial";
 
-      // Load optional logo
       const logoFile = logoUpload && logoUpload.files && logoUpload.files[0] ? logoUpload.files[0] : null;
       const logoImg = await readLogoFile(logoFile);
 
-      // Make QR canvas (text = vCard content)
       const canvas = await makeQRCanvas({
         text: vcard,
         size: 512,
@@ -278,9 +264,16 @@ END:VCARD`;
         label,
         labelFontFamily,
         logoImage: logoImg,
+
+        // Brand strip config
+        brandText: "QRVCARD.IO",
+        brandStripWidth: 84,
+        brandBg: "#111111",
+        brandColor: "#ffffff",
+        brandLeft: false // set true to move strip to the left
       });
 
-      // Show preview
+      // Preview
       const preview = document.createElement("img");
       preview.alt = "QR code preview";
       preview.style.maxWidth = "100%";
@@ -288,22 +281,19 @@ END:VCARD`;
       preview.src = canvas.toDataURL("image/png");
       qrcodeContainer.appendChild(preview);
 
-      // Convert to blob
-      const pngBlob = await canvasToBlob(canvas, "image/png");
-
-      // Bundle into ZIP: QRCode.png + Contact.vcf (+ README.txt)
+      // Build ZIP
       // eslint-disable-next-line no-undef
       const zip = new JSZip();
+      const pngBlob = await canvasToBlob(canvas, "image/png");
       zip.file("QRCode.png", pngBlob);
       zip.file("Contact.vcf", vcard);
-      const readme = `QRvCard.io bundle
+      zip.file("README.txt", `QRvCard.io bundle
 
 Files:
 - QRCode.png  : Your QR code image
 - Contact.vcf : vCard contact file
 
-Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts app.`;
-      zip.file("README.txt", readme);
+Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts app.`);
 
       const blob = await zip.generateAsync({ type: "blob" });
       finalize(blob);
@@ -318,20 +308,22 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
     zipBlob = zipBlobResult;
     zipFilename = "QRvCard.zip";
 
-    // Show download button
     downloadZipBtn.style.display = "inline-block";
     countdownMsg.textContent = "Your QR & vCard are ready.";
     generateBtn.disabled = false;
 
-    // Optional: stop pulse on download btn after first click
-    // (keeps pulsing until user downloads once)
-    downloadZipBtn.addEventListener(
-      "click",
-      () => {
-        downloadZipBtn.classList.remove("pulse");
-      },
-      { once: true }
-    );
+    downloadZipBtn.addEventListener("click", () => {
+      if (zipBlob && zipFilename) {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(zipBlob);
+        a.download = zipFilename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+      }
+      downloadZipBtn.classList.remove("pulse");
+    }, { once: true });
   }
 
   // --- UI events ---
@@ -359,7 +351,6 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
       }
     }, 1000);
 
-    // Safety timeout
     setTimeout(() => {
       if (countdownMsg.textContent.includes("Generating your QR code")) {
         countdownMsg.textContent = "Sorry! Something went wrong. Please try again.";
@@ -376,11 +367,9 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
-      // revoke after a tick
       setTimeout(() => URL.revokeObjectURL(a.href), 1500);
     }
   });
 
-  // Normalize once UI is ready
   window.addEventListener("load", normalizeFields);
 });
