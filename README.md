@@ -69,7 +69,7 @@ You can reset your choice anytime via **Cookie settings** in the footer.
 
 ## 🖼️ Screenshot
 
-The preview image at the top is `assets/screenshot.png`.  
+The preview image at the top is `screenshot.jpg`.  
 If you update the UI, replace that file to refresh the README thumbnail.
 
 ---
