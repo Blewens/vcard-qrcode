@@ -11,15 +11,23 @@
   <link rel="manifest" href="/site.webmanifest">
 
   <!-- Essential libraries (functional, not tracking) -->
-  <script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.0/jszip.min.js"></script>
+  <!-- Using reliable CDNJS links to avoid 404s -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" referrerpolicy="no-referrer"></script>
+
+  <!-- Quick sanity check so missing libs don't fail silently -->
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (typeof QRCode === 'undefined') alert('QR library failed to load. Check the QRCode.js script URL.');
+      if (typeof JSZip === 'undefined') alert('JSZip failed to load. Check the JSZip script URL.');
+    });
+  </script>
 </head>
 <body>
   <header>
     <div class="container">
       <a href="index.html"><img src="QRVCard.PNG" alt="QR vCard Logo" class="logo"/></a>
       <h1>Generate, Save, Connect</h1>
-      <!-- UPDATED to match responsible monetisation stance -->
       <p class="intro">Create your digital business card as a downloadable QR code. We don’t store your contact details. Optional analytics/ads run only with your consent.</p>
 
       <section class="section">
@@ -109,7 +117,6 @@
   <footer>
     <div class="container">
       <p>&copy; 2025 QRvCard. All rights reserved.</p>
-      <!-- Added: Privacy link + Cookie settings control -->
       <p>
         <a href="privacy.html">Privacy &amp; Terms</a>
         &nbsp;•&nbsp;
@@ -120,7 +127,7 @@
     </div>
   </footer>
 
-  <!-- Your custom script file -->
+  <!-- Your custom script file (must remain a normal script; do NOT gate it) -->
   <script src="script.js"></script>
 
   <!-- OPTIONAL placeholders (wrap any future third-party scripts so they don't run before consent) -->
