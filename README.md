@@ -9,12 +9,17 @@
 
 Create and download a **digital business card as a QR code** — fast, simple, and privacy-first.  
 Everything happens securely **in your browser**; no contact details are stored or shared.
+# QRvCard.io — QR vCard Generator
+
+Create and download a **digital business card as a QR code** — fast, simple, and privacy-first.  
+Everything happens securely **in your browser**; no data is stored or shared.
 
 ---
 
 ## 🔐 Privacy First
 
 QRvCard uses a strict **client-side only** model.  
+QRvCard is designed with a strict **client-side only** model.  
 Your details are processed locally in your browser, not sent to any server.
 
 We **don’t store, sell, or share** your contact information.  
@@ -55,6 +60,14 @@ QRvCard includes a lightweight consent bar that:
 After AdSense approval, enable Google’s **Privacy & Messaging (CMP)** and place their snippet in the `ads` placeholder; EU/UK/CH visitors will see a certified consent prompt.
 
 You can reset your choice anytime via **Cookie settings** in the footer.
+QRvCard includes a small consent bar that:
+- Appears on first visit  
+- Lets users choose whether to enable **analytics** and/or **ads**  
+- Remembers preferences locally (no server storage)  
+
+If AdSense is enabled, Google’s **Privacy & Messaging (CMP)** will replace this banner automatically.
+
+You can reset your choice anytime via the **Cookie settings** link in the footer.
 
 ---
 
@@ -71,6 +84,7 @@ You can reset your choice anytime via **Cookie settings** in the footer.
 
 The preview image at the top is `screenshot.jpg`.  
 If you update the UI, replace that file to refresh the README thumbnail.
+- **Formspree** – Optional contact form handler  
 
 ---
 
@@ -78,3 +92,5 @@ If you update the UI, replace that file to refresh the README thumbnail.
 
 MIT License — free to reuse or remix with attribution.  
 © 2025 [QRvCard.io](https://qrvcard.io)
+© 2025 [QRvCard.io](https://qrvcard.io)  
+Built for secure, simple, and responsible digital sharing.
