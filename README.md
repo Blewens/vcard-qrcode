@@ -1,4 +1,4 @@
-![QRvCard.io Preview](assets/screenshot.png)
+![QRvCard.io Preview](screenshot.jpg)
 
 # QRvCard.io — QR vCard Generator
 
