@@ -14,11 +14,7 @@
       flex-direction: column;
       gap: 1rem;
     }
-
-    .contact-form label {
-      font-weight: bold;
-    }
-
+    .contact-form label { font-weight: bold; }
     .contact-form input,
     .contact-form textarea {
       width: 100%;
@@ -29,40 +25,17 @@
       background-color: #222;
       color: #fff;
     }
-
-    .contact-form textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-
-    .contact-form button {
-      align-self: flex-start;
-    }
-
+    .contact-form textarea { min-height: 150px; resize: vertical; }
+    .contact-form button { align-self: flex-start; }
     #formStatus {
-      opacity: 0;
-      transform: scale(0.95);
+      opacity: 0; transform: scale(0.95);
       transition: opacity 0.6s ease, transform 0.4s ease;
-      color: #2dd4bf;
-      text-align: center;
-      font-size: 0.95em;
-      margin-top: 1rem;
-      pointer-events: none;
+      color: #2dd4bf; text-align: center; font-size: 0.95em; margin-top: 1rem; pointer-events: none;
     }
-
-    #formStatus.show {
-      opacity: 1;
-      transform: scale(1);
-    }
-
+    #formStatus.show { opacity: 1; transform: scale(1); }
     @media (max-width: 600px) {
-      .contact-form {
-        padding: 1rem;
-      }
-
-      .contact-form textarea {
-        min-height: 120px;
-      }
+      .contact-form { padding: 1rem; }
+      .contact-form textarea { min-height: 120px; }
     }
   </style>
 </head>
@@ -71,7 +44,8 @@
     <div class="container">
       <a href="index.html"><img src="QRVCard.PNG" alt="QR vCard Logo" class="logo"/></a>
       <h1>Contact Us</h1>
-      <p class="intro">If you’ve run into trouble or have feedback, we’d love to hear from you. Please fill out the form below and we’ll get back to you shortly.</p>
+      <!-- Optional copy tweak to match your stance -->
+      <p class="intro">Questions or feedback? Send us a message below. We don’t store your contact details on our servers; messages are delivered securely so we can reply.</p>
       <div class="nav-buttons">
         <a href="index.html" class="navBtn small">Home</a>
         <a href="how-to.html" class="navBtn small">How To</a>
@@ -99,8 +73,8 @@
 
       <p id="formStatus">✅ Message sent! We’ll be in touch soon.</p>
 
-      <p style="text-align:center; margin-top:1.5rem; font-size: 0.9em;">
-        You’ll receive a reply within 1–2 business days. Your email address is never shared.
+      <p style="text-align:center; margin-top:1.0rem; font-size: 0.9em;">
+        Messages are delivered via Formspree so we can respond to you. Your email address is used only to reply to your message and isn’t sold or shared.
       </p>
     </div>
   </main>
@@ -108,6 +82,14 @@
   <footer>
     <div class="container">
       <p>&copy; 2025 QRvCard. All rights reserved.</p>
+      <!-- Added: Privacy link + Cookie settings control -->
+      <p>
+        <a href="privacy.html">Privacy &amp; Terms</a>
+        &nbsp;•&nbsp;
+        <button type="button" id="manage-consent" style="background:none;border:0;color:#87d7ff;cursor:pointer;text-decoration:underline">
+          Cookie settings
+        </button>
+      </p>
     </div>
   </footer>
 
@@ -117,7 +99,6 @@
 
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-
       const formData = new FormData(form);
       try {
         const response = await fetch(form.action, {
@@ -137,9 +118,46 @@
         status.textContent = "⚠️ Network error. Please try again later.";
         status.classList.add("show");
       }
-
       setTimeout(() => status.classList.remove("show"), 5000);
     });
+
+    // Footer control: reopen cookie settings (simple reset + reload)
+    document.getElementById('manage-consent')?.addEventListener('click', ()=>{
+      localStorage.removeItem('qrvcard_consent_v1');
+      location.reload();
+    });
+  </script>
+
+  <!-- CONSENT BAR (temporary — replace with Google CMP after AdSense approval) -->
+  <div id="consent" style="position:fixed;left:0;right:0;bottom:0;background:#111;color:#fff;padding:12px;border-top:1px solid #262626;display:none;z-index:9999">
+    We use essential cookies and optional analytics/ads. You choose.
+    <label style="margin:0 8px"><input id="c-ana" type="checkbox"> Analytics</label>
+    <label style="margin-right:8px"><input id="c-ads" type="checkbox"> Ads</label>
+    <button id="c-yes">Accept all</button>
+    <button id="c-save" style="margin-left:6px">Save</button>
+    <a href="/privacy.html" style="margin-left:8px">Privacy</a>
+  </div>
+
+  <script>
+  // Consent bar logic (prior consent for analytics/ads)
+  (()=>{const KEY='qrvcard_consent_v1', bar=document.getElementById('consent'),
+  ana=document.getElementById('c-ana'), ads=document.getElementById('c-ads');
+  let st; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){st={}}
+  function runHeld(cat){
+    document.querySelectorAll(`script[type="text/plain"][data-cookie-category="${cat}"]`).forEach(src=>{
+      const s=document.createElement('script');
+      if(src.src) s.src=src.src;
+      s.text=src.textContent;
+      if(src.async) s.async=true;
+      if(src.defer) s.defer=true;
+      src.replaceWith(s);
+    });
+  }
+  function apply(){ if(st.analytics) runHeld('analytics'); if(st.ads) runHeld('ads'); }
+  if(!st.set){ bar.style.display='block'; } else { apply(); }
+  document.getElementById('c-yes').onclick=()=>{st={set:1,analytics:true,ads:true}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+  document.getElementById('c-save').onclick=()=>{st={set:1,analytics:!!ana?.checked,ads:!!ads?.checked}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+  })();
   </script>
 </body>
 </html>
