@@ -17,7 +17,11 @@
         <img src="QRVCard.PNG" alt="QR vCard Logo" class="logo" />
       </a>
       <h1>Your Data. Your Device</h1>
-      <p class="intro">Create your digital business card as a downloadable QR code. Fully private. No data stored.</p>
+      <!-- UPDATED copy to reflect responsible monetisation stance -->
+      <p class="intro">
+        Create your digital business card as a downloadable QR code.
+        We don’t store your contact details. Optional analytics/ads run only with your consent.
+      </p>
 
       <section class="section">
         <div class="nav-buttons">
@@ -39,38 +43,36 @@
 
       <p>Your privacy matters. QRvCard is designed to run entirely in your browser. That means:</p>
       <ul>
-        <li><strong>No personal data</strong> is collected, stored, or transmitted.</li>
+        <li><strong>No contact details stored by us:</strong> the information you enter to build a vCard is processed locally in your browser and not sent to our servers.</li>
         <li><strong>No accounts</strong> are required to use the site.</li>
         <li><strong>No server-side storage</strong> — your vCard data and QR code are created locally in your browser.</li>
-        <li><strong>No tracking</strong> — we do not use cookies, analytics, or session storage for behavioral tracking.</li>
+        <li><strong>No tracking by default</strong> — optional analytics or advertising will run only after you consent and can be turned off at any time via “Cookie settings.”</li>
       </ul>
 
-      <p><strong>Cookies:</strong> While we do not use cookies ourselves, third-party services such as Google AdSense may use cookies or similar technologies to serve relevant ads and measure performance.</p>
+      <p><strong>Cookies:</strong> We may use essential cookies strictly necessary to operate the site. Optional tools — such as analytics or advertising — may use cookies <em>only</em> if you enable them. You can make your choice when the cookie notice appears and change it anytime via the <em>Cookie settings</em> link in the footer.</p>
 
-      <p>You can control or disable cookies through your browser settings. Learn more at <a href="https://www.aboutads.info/choices" target="_blank" rel="noopener">aboutads.info/choices</a>.</p>
+      <p>You can also control or disable cookies in your browser. Learn more at <a href="https://www.aboutads.info/choices" target="_blank" rel="noopener">aboutads.info/choices</a>.</p>
     </section>
 
     <section class="section">
       <h3>Third-Party Services</h3>
-      <p>QRvCard uses Google AdSense to support free access to the service. Google may collect and process data (including cookies or web beacons) to:</p>
+      <p>To support free access and improve QRvCard, we may use third-party services:</p>
       <ul>
-        <li>Deliver personalized or non-personalized ads</li>
-        <li>Measure ad performance</li>
-        <li>Detect fraud or abuse</li>
+        <li><strong>Advertising (Google AdSense):</strong> may show contextual or personalised ads depending on your consent. Cookies may be used for ad delivery, measurement, and fraud prevention.</li>
+        <li><strong>Analytics (e.g., Google Analytics):</strong> optional, used to understand aggregate usage. Not loaded unless you consent.</li>
       </ul>
-      <p>These activities are governed by Google’s privacy practices:</p>
+      <p>These services operate under their own privacy policies:</p>
       <ul>
         <li><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google Privacy Policy</a></li>
-        <li><a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">How Google uses ads and cookies</a></li>
+        <li><a href="https://policies.google.com/technologies/ads" target="_blank" rel="noopener">How Google uses ads & cookies</a></li>
       </ul>
-
-      <p>If you are located in the EEA, UK, or Switzerland, Google may display a consent banner allowing you to choose your ad preferences.</p>
+      <p><strong>EEA/UK/CH:</strong> When advertising is enabled, we will present a certified consent message (CMP) to capture your choices and respect them for ad serving. You can change your choice anytime via “Cookie settings.”</p>
     </section>
 
     <section class="section">
       <h3>Your Rights (GDPR & CCPA)</h3>
-      <p>If you are a resident of the European Union or California, you may have certain rights under GDPR or CCPA, including the right to access, correct, or delete your personal data.</p>
-      <p>Since QRvCard does not collect, process, or store personal data, there is no information retained by us. For any questions or privacy concerns, you may still <a href="contact.html">contact us</a>.</p>
+      <p>If you are a resident of the European Union or California, you may have certain rights under GDPR or CCPA (e.g., access, correction, deletion).</p>
+      <p>QRvCard does not collect or store your contact details. If you have questions about data handled by third parties (e.g., Google ads or analytics), please review their privacy documentation or contact them directly. You can always <a href="contact.html">contact us</a> with any concerns.</p>
     </section>
 
     <section class="section">
@@ -78,10 +80,10 @@
       <p>By using QRvCard, you agree to the following terms:</p>
       <ul>
         <li>This website is provided “as is” without warranties of any kind.</li>
-        <li>All QR code and vCard generation is handled locally in your browser — no data is stored or transmitted.</li>
+        <li>All QR code and vCard generation is handled locally in your browser — no data is stored or transmitted to our servers.</li>
         <li>You are responsible for the information you choose to include and share via your QR vCard.</li>
         <li>QRvCard is intended for personal or business use. Do not use it to create content that is illegal, harmful, or misleading.</li>
-        <li>We reserve the right to update these terms at any time.</li>
+        <li>We may update these terms or this policy; changes will be posted on this page.</li>
       </ul>
       <p>For inquiries, please <a href="contact.html">contact us</a>.</p>
     </section>
@@ -98,7 +100,63 @@
   <footer>
     <div class="container">
       <p>&copy; 2025 QRvCard. All rights reserved.</p>
+      <!-- ADDED: Privacy link (current page) + Cookie settings control -->
+      <p>
+        <a href="privacy.html">Privacy &amp; Terms</a>
+        &nbsp;•&nbsp;
+        <button type="button" id="manage-consent" style="background:none;border:0;color:#87d7ff;cursor:pointer;text-decoration:underline">
+          Cookie settings
+        </button>
+      </p>
     </div>
   </footer>
+
+  <!-- OPTIONAL placeholders (wrap any future third-party scripts so they don't run before consent) -->
+  <!--
+  <script type="text/plain" data-cookie-category="analytics">
+    // e.g., GA4 loader (only runs after consent)
+  </script>
+  <script type="text/plain" data-cookie-category="ads">
+    // e.g., AdSense / Funding Choices snippet after approval
+  </script>
+  -->
+
+  <!-- CONSENT BAR (temporary — replace with Google CMP after AdSense approval) -->
+  <div id="consent" style="position:fixed;left:0;right:0;bottom:0;background:#111;color:#fff;padding:12px;border-top:1px solid #262626;display:none;z-index:9999">
+    We use essential cookies and optional analytics/ads. You choose.
+    <label style="margin:0 8px"><input id="c-ana" type="checkbox"> Analytics</label>
+    <label style="margin-right:8px"><input id="c-ads" type="checkbox"> Ads</label>
+    <button id="c-yes">Accept all</button>
+    <button id="c-save" style="margin-left:6px">Save</button>
+    <a href="/privacy.html" style="margin-left:8px">Privacy</a>
+  </div>
+
+  <script>
+  // Footer control: reopen cookie settings (simple reset + reload)
+  document.getElementById('manage-consent')?.addEventListener('click', ()=>{
+    localStorage.removeItem('qrvcard_consent_v1');
+    location.reload();
+  });
+
+  // Consent bar logic (prior consent for analytics/ads)
+  (()=>{const KEY='qrvcard_consent_v1', bar=document.getElementById('consent'),
+  ana=document.getElementById('c-ana'), ads=document.getElementById('c-ads');
+  let st; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){st={}}
+  function runHeld(cat){
+    document.querySelectorAll(`script[type="text/plain"][data-cookie-category="${cat}"]`).forEach(src=>{
+      const s=document.createElement('script');
+      if(src.src) s.src=src.src;
+      s.text=src.textContent;
+      if(src.async) s.async=true;
+      if(src.defer) s.defer=true;
+      src.replaceWith(s);
+    });
+  }
+  function apply(){ if(st.analytics) runHeld('analytics'); if(st.ads) runHeld('ads'); }
+  if(!st.set){ bar.style.display='block'; } else { apply(); }
+  document.getElementById('c-yes').onclick=()=>{st={set:1,analytics:true,ads:true}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+  document.getElementById('c-save').onclick=()=>{st={set:1,analytics:!!ana?.checked,ads:!!ads?.checked}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+  })();
+  </script>
 </body>
 </html>
