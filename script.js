@@ -1,7 +1,7 @@
-// script.js — QRvCard.io generator (complete, with vertical brand strip)
+// script.js — restored generator with brand strip, BlueSky, ZIP
 
 document.addEventListener("DOMContentLoaded", function () {
-  // --- DOM refs ---
+  // --- Fields (your IDs) ---
   const fields = {
     fullName: document.getElementById("fullName"),
     phone: document.getElementById("phone"),
@@ -30,14 +30,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const downloadZipBtn = document.getElementById("downloadZip");
   const qrcodeContainer = document.getElementById("qrcode");
 
-  // --- ZIP state ---
   let zipBlob = null;
   let zipFilename = "QRvCard.zip";
 
-  // --- Helpers ---
-  function getFieldValue(el) {
-    if (!el || el.offsetParent === null) return "";
-    return el.value.trim().replace(/\r?\n|\r/g, " ").replace(/,/g, "\\,").replace(/;/g, "\\;");
+  // --- Helpers (your originals) ---
+  function getFieldValue(field) {
+    if (!field || field.offsetParent === null) return "";
+    return field.value.trim().replace(/\r?\n|\r/g, " ").replace(/,/g, "\\,").replace(/;/g, "\\;");
   }
 
   function normalizeFields() {
@@ -46,7 +45,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (field) {
         const clean = field.value.trim();
         field.value = "";
-        field.offsetHeight; // force reflow for mobile autofill
+        field.offsetHeight; // Force reflow (mobile autofill commit)
         field.value = clean;
         field.dispatchEvent(new Event("input", { bubbles: true }));
         field.dispatchEvent(new Event("change", { bubbles: true }));
@@ -67,25 +66,25 @@ document.addEventListener("DOMContentLoaded", function () {
     const instagram = getFieldValue(fields.instagram);
     const bluesky = getFieldValue(fields.bluesky);
 
-    let v = `BEGIN:VCARD
+    let vcard = `BEGIN:VCARD
 VERSION:3.0
 FN:${fullName}
 EMAIL:${email}`;
-    if (phone) v += `\nTEL:${phone}`;
-    if (organization) v += `\nORG:${organization}`;
-    if (jobTitle) v += `\nTITLE:${jobTitle}`;
-    if (website) v += `\nURL:${website}`;
-    if (linkedin) v += `\nitem1.URL:${linkedin}`;
-    if (twitter) v += `\nitem2.URL:${twitter}`;
-    if (facebook) v += `\nitem3.URL:${facebook}`;
-    if (instagram) v += `\nitem4.URL:${instagram}`;
-    if (bluesky) v += `\nitem5.URL:${bluesky}`;
-    v += `\nNOTE:Connections made easy by https://QRvCard.io
+    if (phone) vcard += `\nTEL:${phone}`;
+    if (organization) vcard += `\nORG:${organization}`;
+    if (jobTitle) vcard += `\nTITLE:${jobTitle}`;
+    if (website) vcard += `\nURL:${website}`;
+    if (linkedin) vcard += `\nitem1.URL:${linkedin}`;
+    if (twitter) vcard += `\nitem2.URL:${twitter}`;
+    if (facebook) vcard += `\nitem3.URL:${facebook}`;
+    if (instagram) vcard += `\nitem4.URL:${instagram}`;
+    if (bluesky) vcard += `\nitem5.URL:${bluesky}`;
+    vcard += `\nNOTE:Connections made easy by https://QRvCard.io
 END:VCARD`;
-    return v;
+    return vcard;
   }
 
-  // --- QR rendering (with optional label, logo, and vertical brand strip) ---
+  // --- QR drawing: label, logo, and right-side QRVCARD.IO strip baked into PNG ---
   function makeQRCanvas({
     text,
     size = 512,
@@ -98,13 +97,13 @@ END:VCARD`;
     brandStripWidth = 84,
     brandBg = "#111111",
     brandColor = "#ffffff",
-    brandLeft = false // set to true if you want strip on the left
+    brandLeft = false
   }) {
     return new Promise((resolve) => {
       const temp = document.createElement("div");
 
       // eslint-disable-next-line no-undef
-      const qr = new QRCode(temp, {
+      new QRCode(temp, {
         text,
         width: size,
         height: size,
@@ -131,16 +130,16 @@ END:VCARD`;
           out.height = finalHeight;
           const ctx = out.getContext("2d");
 
-          // background
+          // Background
           ctx.fillStyle = colorLight || "#ffffff";
           ctx.fillRect(0, 0, out.width, out.height);
 
-          // where to draw QR (shift if strip is on the left)
+          // QR position (shift if strip on left)
           const qrX = brandLeft ? padding + strip : padding;
           const qrY = padding;
           ctx.drawImage(sourceCanvas, qrX, qrY);
 
-          // optional center logo
+          // Optional center logo
           if (logoImage) {
             const logoMax = Math.floor(size * 0.2);
             let w = logoImage.naturalWidth || logoImage.width || logoMax;
@@ -156,7 +155,7 @@ END:VCARD`;
             ctx.drawImage(logoImage, cx, cy, drawW, drawH);
           }
 
-          // optional label below
+          // Optional label
           if (label) {
             ctx.font = `24px ${labelFontFamily || "Arial"}`;
             ctx.fillStyle = "#000000";
@@ -167,7 +166,7 @@ END:VCARD`;
             ctx.fillText(label, textX, textY);
           }
 
-          // vertical brand strip
+          // Brand strip (right side by default)
           if (strip) {
             const sx = brandLeft ? 0 : out.width - strip;
             ctx.fillStyle = brandBg;
@@ -181,7 +180,6 @@ END:VCARD`;
             const cy = out.height / 2;
             ctx.translate(cx, cy);
             ctx.rotate(-Math.PI / 2);
-
             const fontSize = Math.max(14, Math.min(22, Math.floor(strip * 0.24)));
             ctx.font = `600 ${fontSize}px ${labelFontFamily || "Arial"}`;
             ctx.fillText(brandText, 0, 0);
@@ -264,16 +262,14 @@ END:VCARD`;
         label,
         labelFontFamily,
         logoImage: logoImg,
-
-        // Brand strip config
         brandText: "QRVCARD.IO",
         brandStripWidth: 84,
         brandBg: "#111111",
         brandColor: "#ffffff",
-        brandLeft: false // set true to move strip to the left
+        brandLeft: false
       });
 
-      // Preview
+      // Preview image
       const preview = document.createElement("img");
       preview.alt = "QR code preview";
       preview.style.maxWidth = "100%";
@@ -307,7 +303,6 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
   function finalize(zipBlobResult) {
     zipBlob = zipBlobResult;
     zipFilename = "QRvCard.zip";
-
     downloadZipBtn.style.display = "inline-block";
     countdownMsg.textContent = "Your QR & vCard are ready.";
     generateBtn.disabled = false;
@@ -326,7 +321,7 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
     }, { once: true });
   }
 
-  // --- UI events ---
+  // --- Your original click logic (with countdown) ---
   generateBtn.addEventListener("click", function () {
     normalizeFields();
     downloadZipBtn.style.display = "none";
