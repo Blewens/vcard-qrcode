@@ -1,4 +1,5 @@
-// script.js — QR generator with LEFT white strip, stacked "BY QRVCARD.IO", larger bottom label
+// QR generator with LEFT white strip, stacked "BY QRVCARD.IO",
+// and bottom label centered under the QR (not whole canvas)
 
 document.addEventListener("DOMContentLoaded", function () {
   // --- DOM refs ---
@@ -33,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let zipBlob = null;
   let zipFilename = "QRvCard.zip";
 
-  // --- helpers ---
+  // ---- helpers ----
   function getFieldValue(el) {
     if (!el || el.offsetParent === null) return "";
     return el.value.trim().replace(/\r?\n|\r/g, " ").replace(/,/g, "\\,").replace(/;/g, "\\;");
@@ -86,27 +87,19 @@ END:VCARD`;
     return v;
   }
 
-  /**
-   * Build a QR canvas with:
-   *  - LEFT white vertical strip (same as colorLight)
-   *  - stacked vertical text: "BY", blank line, then "QRVCARD.IO"
-   *  - larger, centered bottom label (similar size to strip characters)
-   *  - optional center logo
-   */
+  // ---- canvas builder (LEFT white strip + centered bottom label under QR) ----
   function makeQRCanvas({
     text,
     size = 512,
     colorDark = "#000000",
     colorLight = "#ffffff",
     label,
-    labelFontFamily
-    ,
+    labelFontFamily,
     logoImage,
-    // Strip config
     brandText = "BY QRVCARD.IO",
-    brandStripWidth = 96,      // wider so letters breathe
-    brandBg = null,            // null -> will use colorLight (white)
-    brandColor = "#000000",    // black text on white strip
+    brandStripWidth = 96,    // adjust to taste
+    brandBg = null,          // null => use colorLight (white)
+    brandColor = "#000000"   // black text on white strip
   }) {
     return new Promise((resolve) => {
       const temp = document.createElement("div");
@@ -128,15 +121,15 @@ END:VCARD`;
         const finishWithCanvas = (sourceCanvas) => {
           const padding = 24;
 
-          // --- Bottom label sizing: similar to side letters ---
-          const baseSideFont = Math.floor(brandStripWidth * 0.9); // initial guess
+          // Bottom label sizing to feel similar to side characters
+          const baseSideFont = Math.floor(brandStripWidth * 0.9);
           const bottomLabelFontSize = label ? Math.max(22, Math.min(40, baseSideFont)) : 0;
           const labelMargin = label ? 20 : 0;
           const labelHeight = label ? bottomLabelFontSize + 16 : 0;
 
-          // --- Final canvas size (LEFT strip) ---
+          // Final canvas (LEFT strip)
           const strip = brandStripWidth;
-          const finalWidth  = size + padding * 2 + strip;      // strip on LEFT
+          const finalWidth  = size + padding * 2 + strip;
           const finalHeight = size + padding * 2 + labelMargin + labelHeight;
 
           const out = document.createElement("canvas");
@@ -144,24 +137,24 @@ END:VCARD`;
           out.height = finalHeight;
           const ctx = out.getContext("2d");
 
-          // background = colorLight everywhere
+          // Background
           const bg = colorLight || "#ffffff";
           ctx.fillStyle = bg;
           ctx.fillRect(0, 0, out.width, out.height);
 
-          // draw strip (LEFT), full height (fills vertical margins)
+          // Left strip (fills full height)
           const stripX = 0;
           const stripW = strip;
           const stripH = out.height;
-          ctx.fillStyle = brandBg || bg; // white to match bottom label area
+          ctx.fillStyle = brandBg || bg; // white to match bottom area
           ctx.fillRect(stripX, 0, stripW, stripH);
 
-          // draw QR (shifted right by strip width)
+          // Draw QR shifted right of strip
           const qrX = padding + stripW;
           const qrY = padding;
           ctx.drawImage(sourceCanvas, qrX, qrY);
 
-          // optional center logo
+          // Optional center logo
           if (logoImage) {
             const logoMax = Math.floor(size * 0.2);
             let w = logoImage.naturalWidth || logoImage.width || logoMax;
@@ -171,34 +164,29 @@ END:VCARD`;
             const drawH = Math.floor(h * scale);
             const cx = qrX + Math.floor(size / 2) - Math.floor(drawW / 2);
             const cy = qrY + Math.floor(size / 2) - Math.floor(drawH / 2);
-
-            // white pad behind logo for contrast on dark QR
             ctx.fillStyle = "#ffffff";
             const pad = 6;
             ctx.fillRect(cx - pad, cy - pad, drawW + pad * 2, drawH + pad * 2);
             ctx.drawImage(logoImage, cx, cy, drawW, drawH);
           }
 
-          // --- Bottom label (bigger, centered) ---
+          // Bottom label centered under QR (not whole canvas)
           if (label) {
             ctx.font = `${bottomLabelFontSize}px ${labelFontFamily || "Arial"}`;
             ctx.fillStyle = "#000000";
             ctx.textAlign = "center";
             ctx.textBaseline = "top";
+            const textX = qrX + size / 2;                     // center under QR
             const textY = padding + size + labelMargin;
-            const textX = Math.floor(out.width / 2);
             ctx.fillText(label, textX, textY);
           }
 
-          // --- LEFT vertical stacked text: "BY" (gap) "QRVCARD.IO" ---
-          // Convert "BY QRVCARD.IO" into an array with a blank spacer between words
+          // Left stacked text: "BY QRVCARD.IO" (one char per line; blank for space)
           const chars = [];
-          for (const ch of brandText) {
-            if (ch === " ") { chars.push(""); } else { chars.push(ch); }
-          }
-          // Compute font to fit both width (strip) and height (all lines)
-          // Start with width-based font size
-          let fontSize = Math.floor(stripW * 0.75);  // wide, but we’ll clamp by height next
+          for (const ch of brandText) chars.push(ch === " " ? "" : ch);
+
+          // Fit to width/height of strip
+          let fontSize = Math.floor(stripW * 0.75);
           let lineHeight = Math.floor(fontSize * 1.05);
           const topPad = 16, bottomPad = 16;
           const totalNeeded = chars.length * lineHeight;
@@ -241,7 +229,7 @@ END:VCARD`;
     });
   }
 
-  // --- file/image helpers ---
+  // ---- file helpers ----
   function readLogoFile(file) {
     return new Promise((resolve) => {
       if (!file) return resolve(null);
@@ -272,7 +260,7 @@ END:VCARD`;
     });
   }
 
-  // --- main flow ---
+  // ---- main flow ----
   async function proceedToGenerate() {
     try {
       qrcodeContainer.innerHTML = "";
@@ -297,12 +285,10 @@ END:VCARD`;
         label,
         labelFontFamily,
         logoImage: logoImg,
-
-        // LEFT strip config per your spec
         brandText: "BY QRVCARD.IO",
         brandStripWidth: 96,
-        brandBg: null,          // null = use colorLight (white)
-        brandColor: "#000000",  // black text for contrast
+        brandBg: null,
+        brandColor: "#000000",
       });
 
       // Preview
@@ -357,7 +343,7 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
     }, { once: true });
   }
 
-  // --- UI events (unchanged) ---
+  // ---- UI events ----
   generateBtn.addEventListener("click", function () {
     normalizeFields();
     downloadZipBtn.style.display = "none";
@@ -387,17 +373,18 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
         countdownMsg.textContent = "Sorry! Something went wrong. Please try again.";
         generateBtn.disabled = false;
       }
-    }, 7000);
+    }, 10000);
   });
 
   downloadZipBtn.addEventListener("click", function () {
     if (zipBlob && zipFilename) {
-      const zipLink = document.createElement("a");
-      zipLink.href = URL.createObjectURL(zipBlob);
-      zipLink.download = zipFilename;
-      document.body.appendChild(zipLink);
-      zipLink.click();
-      document.body.removeChild(zipLink);
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(zipBlob);
+      a.download = zipFilename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(() => URL.revokeObjectURL(a.href), 1500);
     }
   });
 
