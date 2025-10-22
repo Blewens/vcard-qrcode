@@ -182,37 +182,37 @@ END:VCARD`;
           }
 
           // --- Left stacked text: "BY QRVCARD.IO", aligned to QR height ---
-const chars = [];
-for (const ch of brandText) chars.push(ch === " " ? "" : ch);
+          const chars = [];
+          for (const ch of brandText) chars.push(ch === " " ? "" : ch);
 
-// Available vertical space = QR area height only
-const textTop = qrY;
-const textBottom = qrY + size;
-const availableHeight = textBottom - textTop;
+          // Available vertical space = QR area height only
+          const textTop = qrY;
+          const textBottom = qrY + size;
+          const availableHeight = textBottom - textTop;
 
-let fontSize = Math.floor(stripW * 0.75);
-let lineHeight = Math.floor(fontSize * 1.05);
-const totalNeeded = chars.length * lineHeight;
-const scaleH = Math.min(1, availableHeight / totalNeeded);
-fontSize = Math.floor(fontSize * scaleH);
-lineHeight = Math.floor(lineHeight * scaleH);
+          let fontSize = Math.floor(stripW * 0.75);
+          let lineHeight = Math.floor(fontSize * 1.05);
+          const totalNeeded = chars.length * lineHeight;
+          const scaleH = Math.min(1, availableHeight / totalNeeded);
+          fontSize = Math.floor(fontSize * scaleH);
+          lineHeight = Math.floor(lineHeight * scaleH);
 
-ctx.fillStyle = brandColor;
-ctx.textAlign = "center";
-ctx.textBaseline = "alphabetic";
-ctx.font = `600 ${fontSize}px ${labelFontFamily || "Arial"}`;
+          ctx.fillStyle = brandColor;
+          ctx.textAlign = "center";
+          ctx.textBaseline = "alphabetic";
+          ctx.font = `600 ${fontSize}px ${labelFontFamily || "Arial"}`;
 
-const centerX = stripX + Math.floor(stripW / 2);
+          const centerX = stripX + Math.floor(stripW / 2);
 
-// Center block vertically alongside QR
-const blockTotal = chars.length * lineHeight;
-let yStart = textTop + (availableHeight - blockTotal) / 2 + fontSize * 0.8;
+          // Center block vertically alongside QR
+          const blockTotal = chars.length * lineHeight;
+          let yStart = textTop + (availableHeight - blockTotal) / 2 + fontSize * 0.8;
 
-for (let i = 0; i < chars.length; i++) {
-  const ch = chars[i];
-  if (ch) ctx.fillText(ch, centerX, yStart);
-  yStart += lineHeight;
-}
+          for (let i = 0; i < chars.length; i++) {
+          const ch = chars[i];
+          if (ch) ctx.fillText(ch, centerX, yStart);
+          yStart += lineHeight;
+        }
 
           resolve(out);
         };
