@@ -36,6 +36,7 @@
   <main>
     <div class="container">
       <form id="vcardForm" autocomplete="on">
+        <!-- Your Info -->
         <section class="section">
           <h2>Your Info</h2>
           <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
@@ -43,6 +44,7 @@
           <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
         </section>
 
+        <!-- Additional Info -->
         <section class="section">
           <h2>Additional Info</h2>
           <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
@@ -55,6 +57,7 @@
           <input type="url" id="bluesky" placeholder="BlueSky" autocomplete="url" />
         </section>
 
+        <!-- QR Customization -->
         <section class="section">
           <h2>QR Customization</h2>
           <label for="foreground">Foreground:</label>
@@ -65,6 +68,7 @@
           <input type="file" id="logoUpload" accept="image/*" />
         </section>
 
+        <!-- QR Code Label -->
         <section class="section">
           <h2>QR Code Label (Optional)</h2>
           <input type="text" id="qrLabelText" placeholder="e.g. John Doe - Personal" autocomplete="off" />
@@ -76,6 +80,7 @@
           </select>
         </section>
 
+        <!-- Generate -->
         <section class="section">
           <h2>Generate</h2>
           <div id="countdownMessage"></div>
@@ -106,6 +111,6 @@
   </footer>
 
   <!-- Core app logic -->
-  <script src="script.js?v=side-left-label"></script>
+  <script src="script-leftstrip-v3.js"></script>
 </body>
 </html>
