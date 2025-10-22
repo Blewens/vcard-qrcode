@@ -1,5 +1,5 @@
-// QR generator with LEFT white strip, stacked "BY QRVCARD.IO",
-// and bottom label centered under the QR (not whole canvas)
+// QR generator with LEFT white strip, "BY QRVCARD•IO",
+// text scaled/aligned to QR height, and a bottom label centered under the QR.
 
 document.addEventListener("DOMContentLoaded", function () {
   // --- DOM refs ---
@@ -87,7 +87,7 @@ END:VCARD`;
     return v;
   }
 
-  // ---- canvas builder (LEFT white strip + centered bottom label under QR) ----
+  // ---- canvas builder (LEFT white strip + QR-aligned sidebar text + centered bottom label) ----
   function makeQRCanvas({
     text,
     size = 512,
@@ -96,10 +96,10 @@ END:VCARD`;
     label,
     labelFontFamily,
     logoImage,
-    brandText = "BY QRVCARD.IO",
-    brandStripWidth = 96,    // adjust to taste
-    brandBg = null,          // null => use colorLight (white)
-    brandColor = "#000000"   // black text on white strip
+    brandText = "BY QRVCARD.IO",  // we’ll render as "BY QRVCARD•IO"
+    brandStripWidth = 96,         // tweak if you want larger/smaller side text
+    brandBg = null,               // null => use colorLight (white)
+    brandColor = "#000000"        // black text on white strip
   }) {
     return new Promise((resolve) => {
       const temp = document.createElement("div");
@@ -121,7 +121,7 @@ END:VCARD`;
         const finishWithCanvas = (sourceCanvas) => {
           const padding = 24;
 
-          // Bottom label sizing to feel similar to side characters
+          // Bottom label sizing tied to strip feel
           const baseSideFont = Math.floor(brandStripWidth * 0.9);
           const bottomLabelFontSize = label ? Math.max(22, Math.min(40, baseSideFont)) : 0;
           const labelMargin = label ? 20 : 0;
@@ -142,14 +142,14 @@ END:VCARD`;
           ctx.fillStyle = bg;
           ctx.fillRect(0, 0, out.width, out.height);
 
-          // Left strip (fills full height)
+          // Left strip fills full height
           const stripX = 0;
           const stripW = strip;
           const stripH = out.height;
-          ctx.fillStyle = brandBg || bg; // white to match bottom area
+          ctx.fillStyle = brandBg || bg;
           ctx.fillRect(stripX, 0, stripW, stripH);
 
-          // Draw QR shifted right of strip
+          // Draw QR (shifted to the right of the strip)
           const qrX = padding + stripW;
           const qrY = padding;
           ctx.drawImage(sourceCanvas, qrX, qrY);
@@ -170,28 +170,31 @@ END:VCARD`;
             ctx.drawImage(logoImage, cx, cy, drawW, drawH);
           }
 
-          // Bottom label centered under QR (not whole canvas)
+          // Bottom label centered under the QR block (not whole canvas)
           if (label) {
-            ctx.font = `${bottomLabelFontSize}px ${labelFontFamily || "Arial"}`;
+            ctx.font = `700 ${bottomLabelFontSize}px ${labelFontFamily || "Arial"}`;
             ctx.fillStyle = "#000000";
             ctx.textAlign = "center";
             ctx.textBaseline = "top";
-            const textX = qrX + size / 2;                     // center under QR
+            const textX = qrX + size / 2;              // center under QR
             const textY = padding + size + labelMargin;
             ctx.fillText(label, textX, textY);
           }
 
-          // --- Left stacked text: "BY QRVCARD.IO", aligned to QR height ---
+          // --- Left stacked text aligned to QR height ---
+          // Replace '.' with '•' for clarity
+          const displayText = brandText.replace(/\./g, "•");
           const chars = [];
-          for (const ch of brandText) chars.push(ch === " " ? "" : ch);
+          for (const ch of displayText) chars.push(ch === " " ? "" : ch);
 
-          // Available vertical space = QR area height only
+          // Available vertical space = QR area only
           const textTop = qrY;
           const textBottom = qrY + size;
           const availableHeight = textBottom - textTop;
 
+          // Start from strip width; then scale by height to fit all lines
           let fontSize = Math.floor(stripW * 0.75);
-          let lineHeight = Math.floor(fontSize * 1.05);
+          let lineHeight = Math.floor(fontSize * 1.2); // extra breathing room
           const totalNeeded = chars.length * lineHeight;
           const scaleH = Math.min(1, availableHeight / totalNeeded);
           fontSize = Math.floor(fontSize * scaleH);
@@ -200,19 +203,18 @@ END:VCARD`;
           ctx.fillStyle = brandColor;
           ctx.textAlign = "center";
           ctx.textBaseline = "alphabetic";
-          ctx.font = `600 ${fontSize}px ${labelFontFamily || "Arial"}`;
+          ctx.font = `700 ${fontSize}px ${labelFontFamily || "Arial"}`;
 
-          const centerX = stripX + Math.floor(stripW / 2);
-
-          // Center block vertically alongside QR
+          // Center the block vertically alongside the QR
           const blockTotal = chars.length * lineHeight;
+          const centerX = stripX + Math.floor(stripW / 2);
           let yStart = textTop + (availableHeight - blockTotal) / 2 + fontSize * 0.8;
 
           for (let i = 0; i < chars.length; i++) {
-          const ch = chars[i];
-          if (ch) ctx.fillText(ch, centerX, yStart);
-          yStart += lineHeight;
-        }
+            const ch = chars[i];
+            if (ch) ctx.fillText(ch, centerX, yStart);
+            yStart += lineHeight;
+          }
 
           resolve(out);
         };
