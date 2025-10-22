@@ -10,10 +10,8 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
 
-  <!-- QR Code Generator Library (reliable CDNJS) -->
+  <!-- Reliable CDNs -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
-
-  <!-- JSZip Library for zipping files (reliable CDNJS) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" referrerpolicy="no-referrer"></script>
 </head>
 <body>
@@ -80,16 +78,11 @@
 
         <section class="section">
           <h2>Generate</h2>
-
-          <!-- Countdown Message -->
           <div id="countdownMessage"></div>
-
-          <!-- Generate Button -->
           <div style="text-align: center;">
             <button type="button" id="generateBtn" class="navBtn pulse">Generate QR vCard</button>
           </div>
 
-          <!-- Ad Space -->
           <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; text-align: center;">
             <p><strong>Ad space:</strong> Your promotion here</p>
           </div>
@@ -99,7 +92,6 @@
       <!-- Output Area -->
       <div id="qrcode" class="qrcode-preview"></div>
       <div style="text-align: center;">
-        <!-- Download ZIP with QR, VCF & README -->
         <a id="downloadZip" class="navBtn pulse" style="display:none;">
           Download QR & Contact (ZIP)
         </a>
@@ -113,7 +105,7 @@
     </div>
   </footer>
 
-  <!-- Your custom script file -->
-  <script src="script.js?v=restore1"></script>
+  <!-- Core app logic -->
+  <script src="script.js?v=side-left-label"></script>
 </body>
 </html>
