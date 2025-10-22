@@ -1,7 +1,6 @@
-// script.js — restored generator with brand strip, BlueSky, ZIP
+// script.js — restored working generator with brand strip and ZIP
 
 document.addEventListener("DOMContentLoaded", function () {
-  // --- Fields (your IDs) ---
   const fields = {
     fullName: document.getElementById("fullName"),
     phone: document.getElementById("phone"),
@@ -16,24 +15,22 @@ document.addEventListener("DOMContentLoaded", function () {
     bluesky: document.getElementById("bluesky"),
   };
 
-  const colorInputs = {
-    fg: document.getElementById("foreground"),
-    bg: document.getElementById("background"),
-  };
-
-  const logoUpload = document.getElementById("logoUpload");
-  const labelText = document.getElementById("qrLabelText");
-  const labelFont = document.getElementById("qrLabelFont");
-
   const generateBtn = document.getElementById("generateBtn");
   const countdownMsg = document.getElementById("countdownMessage");
   const downloadZipBtn = document.getElementById("downloadZip");
   const qrcodeContainer = document.getElementById("qrcode");
 
+  const colorInputs = {
+    fg: document.getElementById("foreground"),
+    bg: document.getElementById("background"),
+  };
+  const logoUpload = document.getElementById("logoUpload");
+  const labelText = document.getElementById("qrLabelText");
+  const labelFont = document.getElementById("qrLabelFont");
+
   let zipBlob = null;
   let zipFilename = "QRvCard.zip";
 
-  // --- Helpers (your originals) ---
   function getFieldValue(field) {
     if (!field || field.offsetParent === null) return "";
     return field.value.trim().replace(/\r?\n|\r/g, " ").replace(/,/g, "\\,").replace(/;/g, "\\;");
@@ -45,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (field) {
         const clean = field.value.trim();
         field.value = "";
-        field.offsetHeight; // Force reflow (mobile autofill commit)
+        field.offsetHeight; // Force reflow
         field.value = clean;
         field.dispatchEvent(new Event("input", { bubbles: true }));
         field.dispatchEvent(new Event("change", { bubbles: true }));
@@ -53,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function buildVCard() {
+  function generateVCard() {
     const fullName = getFieldValue(fields.fullName);
     const email = getFieldValue(fields.email);
     const phone = getFieldValue(fields.phone);
@@ -84,7 +81,7 @@ END:VCARD`;
     return vcard;
   }
 
-  // --- QR drawing: label, logo, and right-side QRVCARD.IO strip baked into PNG ---
+  // Build final QR canvas with optional label/logo and the right-hand QRVCARD.IO strip
   function makeQRCanvas({
     text,
     size = 512,
@@ -96,8 +93,7 @@ END:VCARD`;
     brandText = "QRVCARD.IO",
     brandStripWidth = 84,
     brandBg = "#111111",
-    brandColor = "#ffffff",
-    brandLeft = false
+    brandColor = "#ffffff"
   }) {
     return new Promise((resolve) => {
       const temp = document.createElement("div");
@@ -130,16 +126,16 @@ END:VCARD`;
           out.height = finalHeight;
           const ctx = out.getContext("2d");
 
-          // Background
+          // background
           ctx.fillStyle = colorLight || "#ffffff";
           ctx.fillRect(0, 0, out.width, out.height);
 
-          // QR position (shift if strip on left)
-          const qrX = brandLeft ? padding + strip : padding;
+          // draw QR
+          const qrX = padding;
           const qrY = padding;
           ctx.drawImage(sourceCanvas, qrX, qrY);
 
-          // Optional center logo
+          // optional center logo
           if (logoImage) {
             const logoMax = Math.floor(size * 0.2);
             let w = logoImage.naturalWidth || logoImage.width || logoMax;
@@ -149,13 +145,15 @@ END:VCARD`;
             const drawH = Math.floor(h * scale);
             const cx = qrX + Math.floor(size / 2) - Math.floor(drawW / 2);
             const cy = qrY + Math.floor(size / 2) - Math.floor(drawH / 2);
+
+            // white pad for contrast
             ctx.fillStyle = "#ffffff";
             const pad = 6;
             ctx.fillRect(cx - pad, cy - pad, drawW + pad * 2, drawH + pad * 2);
             ctx.drawImage(logoImage, cx, cy, drawW, drawH);
           }
 
-          // Optional label
+          // optional label below
           if (label) {
             ctx.font = `24px ${labelFontFamily || "Arial"}`;
             ctx.fillStyle = "#000000";
@@ -166,9 +164,9 @@ END:VCARD`;
             ctx.fillText(label, textX, textY);
           }
 
-          // Brand strip (right side by default)
+          // right-side brand strip
           if (strip) {
-            const sx = brandLeft ? 0 : out.width - strip;
+            const sx = out.width - strip;
             ctx.fillStyle = brandBg;
             ctx.fillRect(sx, 0, strip, out.height);
 
@@ -181,7 +179,7 @@ END:VCARD`;
             ctx.translate(cx, cy);
             ctx.rotate(-Math.PI / 2);
             const fontSize = Math.max(14, Math.min(22, Math.floor(strip * 0.24)));
-            ctx.font = `600 ${fontSize}px ${labelFontFamily || "Arial"}`;
+            ctx.font = `600 ${fontSize}px Arial`;
             ctx.fillText(brandText, 0, 0);
             ctx.restore();
           }
@@ -244,18 +242,22 @@ END:VCARD`;
       downloadZipBtn.style.display = "none";
       zipBlob = null;
 
-      const vcard = buildVCard();
+      // Build vCard
+      const vCardData = generateVCard();
 
+      // Theme & label
       const colorDark = (colorInputs.fg && colorInputs.fg.value) || "#000000";
       const colorLight = (colorInputs.bg && colorInputs.bg.value) || "#ffffff";
       const label = labelText ? labelText.value.trim() : "";
       const labelFontFamily = labelFont ? labelFont.value : "Arial";
 
-      const logoFile = logoUpload && logoUpload.files && logoUpload.files[0] ? logoUpload.files[0] : null;
+      // Logo (optional)
+      const logoFile = logoUpload?.files?.[0] || null;
       const logoImg = await readLogoFile(logoFile);
 
+      // Make QR canvas (with brand strip)
       const canvas = await makeQRCanvas({
-        text: vcard,
+        text: vCardData,
         size: 512,
         colorDark,
         colorLight,
@@ -265,11 +267,10 @@ END:VCARD`;
         brandText: "QRVCARD.IO",
         brandStripWidth: 84,
         brandBg: "#111111",
-        brandColor: "#ffffff",
-        brandLeft: false
+        brandColor: "#ffffff"
       });
 
-      // Preview image
+      // Preview
       const preview = document.createElement("img");
       preview.alt = "QR code preview";
       preview.style.maxWidth = "100%";
@@ -277,12 +278,12 @@ END:VCARD`;
       preview.src = canvas.toDataURL("image/png");
       qrcodeContainer.appendChild(preview);
 
-      // Build ZIP
+      // Build ZIP: QRCode.png + Contact.vcf + README.txt
       // eslint-disable-next-line no-undef
       const zip = new JSZip();
       const pngBlob = await canvasToBlob(canvas, "image/png");
       zip.file("QRCode.png", pngBlob);
-      zip.file("Contact.vcf", vcard);
+      zip.file("Contact.vcf", vCardData);
       zip.file("README.txt", `QRvCard.io bundle
 
 Files:
@@ -303,10 +304,13 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
   function finalize(zipBlobResult) {
     zipBlob = zipBlobResult;
     zipFilename = "QRvCard.zip";
+
+    // Show Download button
     downloadZipBtn.style.display = "inline-block";
     countdownMsg.textContent = "Your QR & vCard are ready.";
     generateBtn.disabled = false;
 
+    // Stop pulsing after first download
     downloadZipBtn.addEventListener("click", () => {
       if (zipBlob && zipFilename) {
         const a = document.createElement("a");
@@ -321,7 +325,7 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
     }, { once: true });
   }
 
-  // --- Your original click logic (with countdown) ---
+  // === Events (your originals) ===
   generateBtn.addEventListener("click", function () {
     normalizeFields();
     downloadZipBtn.style.display = "none";
@@ -331,7 +335,7 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
       return;
     }
 
-    let countdown = 3;
+    let countdown = 5;
     countdownMsg.textContent = `Generating in ${countdown}...`;
     generateBtn.disabled = true;
 
@@ -351,18 +355,17 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
         countdownMsg.textContent = "Sorry! Something went wrong. Please try again.";
         generateBtn.disabled = false;
       }
-    }, 10000);
+    }, 7000);
   });
 
   downloadZipBtn.addEventListener("click", function () {
     if (zipBlob && zipFilename) {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(zipBlob);
-      a.download = zipFilename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(a.href), 1500);
+      const zipLink = document.createElement("a");
+      zipLink.href = URL.createObjectURL(zipBlob);
+      zipLink.download = zipFilename;
+      document.body.appendChild(zipLink);
+      zipLink.click();
+      document.body.removeChild(zipLink);
     }
   });
 
