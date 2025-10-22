@@ -10,18 +10,18 @@
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="manifest" href="/site.webmanifest">
 
-  <!-- Essential libraries (functional, not tracking) -->
+  <!-- QR Code Generator Library (reliable CDNJS) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" referrerpolicy="no-referrer"></script>
+
+  <!-- JSZip Library for zipping files (reliable CDNJS) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" referrerpolicy="no-referrer"></script>
 </head>
 <body>
   <header>
     <div class="container">
-      <a href="index.html">
-        <img src="QRVCard.PNG" alt="QR vCard Logo" class="logo"/>
-      </a>
+      <a href="index.html"><img src="QRVCard.PNG" alt="QR vCard Logo" class="logo"/></a>
       <h1>Generate, Save, Connect</h1>
-      <p class="intro">Create your digital business card as a downloadable QR code. We don’t store your contact details. Optional analytics/ads run only with your consent.</p>
+      <p class="intro">Create your digital business card as a downloadable QR code. Fully private. No data stored.</p>
 
       <section class="section">
         <div class="nav-buttons">
@@ -38,7 +38,6 @@
   <main>
     <div class="container">
       <form id="vcardForm" autocomplete="on">
-        <!-- === Your Info === -->
         <section class="section">
           <h2>Your Info</h2>
           <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
@@ -46,7 +45,6 @@
           <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
         </section>
 
-        <!-- === Additional Info === -->
         <section class="section">
           <h2>Additional Info</h2>
           <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
@@ -59,7 +57,6 @@
           <input type="url" id="bluesky" placeholder="BlueSky" autocomplete="url" />
         </section>
 
-        <!-- === QR Customization === -->
         <section class="section">
           <h2>QR Customization</h2>
           <label for="foreground">Foreground:</label>
@@ -70,7 +67,6 @@
           <input type="file" id="logoUpload" accept="image/*" />
         </section>
 
-        <!-- === QR Code Label === -->
         <section class="section">
           <h2>QR Code Label (Optional)</h2>
           <input type="text" id="qrLabelText" placeholder="e.g. John Doe - Personal" autocomplete="off" />
@@ -82,15 +78,18 @@
           </select>
         </section>
 
-        <!-- === Generate === -->
         <section class="section">
           <h2>Generate</h2>
+
+          <!-- Countdown Message -->
           <div id="countdownMessage"></div>
 
+          <!-- Generate Button -->
           <div style="text-align: center;">
             <button type="button" id="generateBtn" class="navBtn pulse">Generate QR vCard</button>
           </div>
 
+          <!-- Ad Space -->
           <div id="adSquare" style="border: 1px solid #ccc; padding: 10px; text-align: center;">
             <p><strong>Ad space:</strong> Your promotion here</p>
           </div>
@@ -100,6 +99,7 @@
       <!-- Output Area -->
       <div id="qrcode" class="qrcode-preview"></div>
       <div style="text-align: center;">
+        <!-- Download ZIP with QR, VCF & README -->
         <a id="downloadZip" class="navBtn pulse" style="display:none;">
           Download QR & Contact (ZIP)
         </a>
@@ -110,75 +110,10 @@
   <footer>
     <div class="container">
       <p>&copy; 2025 QRvCard. All rights reserved.</p>
-      <p>
-        <a href="privacy.html">Privacy &amp; Terms</a>
-        &nbsp;•&nbsp;
-        <button type="button" id="manage-consent" style="background:none;border:0;color:#87d7ff;cursor:pointer;text-decoration:underline">
-          Cookie settings
-        </button>
-      </p>
     </div>
   </footer>
 
-  <!-- Core app logic -->
-  <script src="script.js"></script>
-
-  <!-- CONSENT BAR (temporary) -->
-  <div id="consent" style="position:fixed;left:0;right:0;bottom:0;background:#111;color:#fff;padding:12px;border-top:1px solid #262626;display:none;z-index:9999">
-    We use essential cookies and optional analytics/ads. You choose.
-    <label style="margin:0 8px"><input id="c-ana" type="checkbox"> Analytics</label>
-    <label style="margin-right:8px"><input id="c-ads" type="checkbox"> Ads</label>
-    <button id="c-yes">Accept all</button>
-    <button id="c-save" style="margin-left:6px">Save</button>
-    <a href="/privacy.html" style="margin-left:8px">Privacy</a>
-  </div>
-
-  <script>
-    // === Consent Logic (simple localStorage handler) ===
-    document.getElementById('manage-consent')?.addEventListener('click', ()=>{
-      localStorage.removeItem('qrvcard_consent_v1');
-      location.reload();
-    });
-
-    (() => {
-      const KEY = 'qrvcard_consent_v1';
-      const bar = document.getElementById('consent');
-      const ana = document.getElementById('c-ana');
-      const ads = document.getElementById('c-ads');
-      let st;
-      try { st = JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { st = {}; }
-
-      function runHeld(cat) {
-        document.querySelectorAll(`script[type="text/plain"][data-cookie-category="${cat}"]`).forEach(src => {
-          const s = document.createElement('script');
-          if (src.src) s.src = src.src;
-          s.text = src.textContent;
-          if (src.async) s.async = true;
-          if (src.defer) s.defer = true;
-          src.replaceWith(s);
-        });
-      }
-
-      function apply() {
-        if (st.analytics) runHeld('analytics');
-        if (st.ads) runHeld('ads');
-      }
-
-      if (!st.set) bar.style.display = 'block';
-      else apply();
-
-      document.getElementById('c-yes').onclick = () => {
-        st = { set: 1, analytics: true, ads: true };
-        localStorage.setItem(KEY, JSON.stringify(st));
-        bar.remove(); apply();
-      };
-
-      document.getElementById('c-save').onclick = () => {
-        st = { set: 1, analytics: !!ana?.checked, ads: !!ads?.checked };
-        localStorage.setItem(KEY, JSON.stringify(st));
-        bar.remove(); apply();
-      };
-    })();
-  </script>
+  <!-- Your custom script file -->
+  <script src="script.js?v=restore1"></script>
 </body>
 </html>
