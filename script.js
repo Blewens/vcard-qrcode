@@ -1,5 +1,8 @@
-// QR generator with LEFT white strip, "BY QRVCARD•IO",
-// text scaled/aligned to QR height, and a bottom label centered under the QR.
+// build 2025-10-22b — left white strip, BY QRVCARD•IO aligned to QR height,
+// bottom label centered under QR, BlueSky + ZIP, duplicate download listener removed.
+
+console.log("QRvCard build 2025-10-22b");
+console.log("Libs loaded? QRCode:", !!window.QRCode, "JSZip:", !!window.JSZip);
 
 document.addEventListener("DOMContentLoaded", function () {
   // --- DOM refs ---
@@ -96,7 +99,7 @@ END:VCARD`;
     label,
     labelFontFamily,
     logoImage,
-    brandText = "BY QRVCARD.IO",  // we’ll render as "BY QRVCARD•IO"
+    brandText = "BY QRVCARD.IO",  // will render as BY QRVCARD•IO
     brandStripWidth = 96,         // tweak if you want larger/smaller side text
     brandBg = null,               // null => use colorLight (white)
     brandColor = "#000000"        // black text on white strip
@@ -338,6 +341,7 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
     countdownMsg.textContent = "Your QR & vCard are ready.";
     generateBtn.disabled = false;
 
+    // Single, safe download handler (no duplicates)
     downloadZipBtn.addEventListener("click", () => {
       if (zipBlob && zipFilename) {
         const a = document.createElement("a");
@@ -354,6 +358,7 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
 
   // ---- UI events ----
   generateBtn.addEventListener("click", function () {
+    console.log("Generate button clicked");
     normalizeFields();
     downloadZipBtn.style.display = "none";
 
@@ -383,18 +388,6 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
         generateBtn.disabled = false;
       }
     }, 10000);
-  });
-
-  downloadZipBtn.addEventListener("click", function () {
-    if (zipBlob && zipFilename) {
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(zipBlob);
-      a.download = zipFilename;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      setTimeout(() => URL.revokeObjectURL(a.href), 1500);
-    }
   });
 
   window.addEventListener("load", normalizeFields);
