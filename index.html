@@ -3,7 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>QR vCard Generator</title>
+  <title>QRvCard.io — Private QR vCard Generator</title>
+
+  <!-- Canonical + SEO -->
+  <link rel="canonical" href="https://www.qrvcard.io/">
+  <meta name="description" content="Create your digital business card as a QR code — fully private and downloadable instantly. No contact details stored.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Social (Open Graph / Twitter) -->
+  <meta property="og:title" content="QRvCard.io — Private QR vCard Generator">
+  <meta property="og:description" content="Generate and download your QR vCard instantly. Fully private. No contact details stored.">
+  <meta property="og:url" content="https://www.qrvcard.io/">
+  <meta property="og:image" content="https://www.qrvcard.io/QRVCard.PNG">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="QRvCard.io — Private QR vCard Generator">
+  <meta name="twitter:description" content="Generate and download your QR vCard instantly. Fully private. No contact details stored.">
+  <meta name="twitter:image" content="https://www.qrvcard.io/QRVCard.PNG">
+
+  <!-- Styles & Icons -->
   <link rel="stylesheet" href="style.css" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -19,7 +36,6 @@
       </a>
       <h1><i>Welcome to QRvCard.io!</i></h1>
 
-      <!-- UPDATED copy to reflect "responsible monetisation, no contact details stored" -->
       <p class="intro">
         Create your digital business card as a downloadable QR code.
         We don’t store your contact details. Optional analytics/ads run only with your consent.
@@ -64,9 +80,7 @@
 
     <section class="section">
       <h2>Get Started</h2>
-      <p>
-        Ready to create your own QR vCard? Click the button below to begin:
-      </p>
+      <p>Ready to create your own QR vCard? Click the button below to begin:</p>
       <div class="generate-wrapper">
         <a href="generate.html" class="navBtn full">Generate Your QR vCard</a>
       </div>
@@ -77,8 +91,6 @@
     <div class="container">
       <div class="footer-content">
         <p>&copy; 2025 QRvCard. All rights reserved.</p>
-
-        <!-- ADDED: quick links for transparency + cookie settings control -->
         <p>
           <a href="privacy.html">Privacy &amp; Terms</a>
           &nbsp;•&nbsp;
@@ -90,27 +102,13 @@
     </div>
   </footer>
 
-  <!-- OPTIONAL: If/when you add analytics or ads, wrap them like this so they don't run before consent.
-       You can leave these blocks out for now if you have no third-party scripts yet. -->
-
-  <!-- HOLD analytics until consent -->
-  <!--
-  <script type="text/plain" data-cookie-category="analytics">
-    // Example GA4 (replace G-XXXXXXX). This will only run after consent is given:
-    (function(){ var s=document.createElement('script'); s.async=true; s.src='https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX'; document.head.appendChild(s);
-      window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date()); gtag('config', 'G-XXXXXXX'); })();
+  <!-- AdSense (placeholder; disabled until CMP consent & approval) -->
+  <script type="text/plain" data-cookie-category="ads" data-adsense-placeholder="true">
+    <!-- Replace X's with your client ID once approved; this block will be activated by your CMP -->
+    <!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
   </script>
-  -->
 
-  <!-- HOLD ads until consent (add AdSense / Funding Choices snippet here after approval) -->
-  <!--
-  <script type="text/plain" data-cookie-category="ads">
-    // Your AdSense / Funding Choices script from AdSense → Privacy & messaging
-  </script>
-  -->
-
-  <!-- CONSENT BAR (temporary — swap to Google CMP after AdSense approval) -->
+  <!-- CONSENT BAR (temporary — replace with Google CMP/Funding Choices after approval) -->
   <div id="consent" style="position:fixed;left:0;right:0;bottom:0;background:#111;color:#fff;padding:12px;border-top:1px solid #262626;display:none;z-index:9999">
     We use essential cookies and optional analytics/ads. You choose.
     <label style="margin:0 8px"><input id="c-ana" type="checkbox"> Analytics</label>
