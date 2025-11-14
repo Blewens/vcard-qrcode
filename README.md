@@ -1,4 +1,4 @@
-![QRvCard.io Preview](screenshot.jpg)
+![QRvCard.io Preview](screenshot.png)
 
 # QRvCard.io — Privacy-First QR vCard Generator
 
