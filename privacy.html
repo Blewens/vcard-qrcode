@@ -40,9 +40,12 @@
       </p>
 
       <section class="section">
+        <!-- UPDATED NAVIGATION -->
         <div class="nav-buttons">
           <a href="index.html" class="navBtn small">Home</a>
           <a href="how-to.html" class="navBtn small">How To</a>
+          <a href="about.html" class="navBtn small">About</a>
+          <a href="contact.html" class="navBtn small">Contact</a>
         </div>
 
         <div class="generate-wrapper">
@@ -65,7 +68,7 @@
         <li><strong>No tracking by default</strong> — optional analytics or advertising will run only after you consent and can be turned off at any time via “Cookie settings.”</li>
       </ul>
 
-      <p><strong>Cookies:</strong> We may use essential cookies strictly necessary to operate the site. Optional tools — such as analytics or advertising — may use cookies <em>only</em> if you enable them. You can make your choice when the cookie notice appears and change it anytime via the <em>Cookie settings</em> link in the footer.</p>
+      <p><strong>Cookies:</strong> We may use essential cookies strictly necessary to operate the site. Optional tools — such as analytics or advertising — may use cookies <em>only</em> if you enable them. You can make your choice when the cookie notice appears and change it any time via the <em>Cookie settings</em> link in the footer.</p>
 
       <p>You can also control or disable cookies in your browser. Learn more at <a href="https://www.aboutads.info/choices" target="_blank" rel="noopener">aboutads.info/choices</a>.</p>
     </section>
@@ -126,7 +129,7 @@
     </div>
   </footer>
 
-  <!-- CONSENT BAR (temporary — replace with Google CMP after AdSense approval) -->
+  <!-- CONSENT BAR -->
   <div id="consent" style="position:fixed;left:0;right:0;bottom:0;background:#111;color:#fff;padding:12px;border-top:1px solid #262626;display:none;z-index:9999">
     We use essential cookies and optional analytics/ads. You choose.
     <label style="margin:0 8px"><input id="c-ana" type="checkbox"> Analytics</label>
@@ -137,13 +140,11 @@
   </div>
 
   <script>
-  // Footer control: reopen cookie settings (simple reset + reload)
   document.getElementById('manage-consent')?.addEventListener('click', ()=>{
     localStorage.removeItem('qrvcard_consent_v1');
     location.reload();
   });
 
-  // Consent bar logic (prior consent for analytics/ads)
   (()=>{const KEY='qrvcard_consent_v1', bar=document.getElementById('consent'),
   ana=document.getElementById('c-ana'), ads=document.getElementById('c-ads');
   let st; try{st=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(_){st={}}
@@ -159,8 +160,10 @@
   }
   function apply(){ if(st.analytics) runHeld('analytics'); if(st.ads) runHeld('ads'); }
   if(!st.set){ bar.style.display='block'; } else { apply(); }
-  document.getElementById('c-yes').onclick=()=>{st={set:1,analytics:true,ads:true}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
-  document.getElementById('c-save').onclick=()=>{st={set:1,analytics:!!ana?.checked,ads:!!ads?.checked}; localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+  document.getElementById('c-yes').onclick=()=>{st={set:1,analytics:true,ads:true};
+    localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
+  document.getElementById('c-save').onclick=()=>{st={set:1,analytics:!!ana?.checked,ads:!!ads?.checked};
+    localStorage.setItem(KEY,JSON.stringify(st)); bar.remove(); apply();};
   })();
   </script>
 </body>
