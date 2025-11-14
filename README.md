@@ -92,3 +92,42 @@ All processing happens client-side.
 ---
 
 ## 📁 Project Structure
+
+/
+├── index.html
+├── about.html
+├── how-to.html
+├── generate.html
+├── privacy.html
+├── contact.html
+├── style.css
+├── script.js
+├── favicon-32x32.png
+├── favicon-16x16.png
+├── apple-touch-icon.png
+├── site.webmanifest
+├── ads.txt
+├── robots.txt
+├── sitemap.xml
+└── screenshot.jpg
+
+---
+
+## 🖼️ Screenshot
+
+`screenshot.jpg` is displayed at the top of this README.  
+Update it whenever the UI changes to keep this page current.
+
+---
+
+## 📄 License
+
+This project is open-source under the **MIT License**.  
+You’re free to use, adapt, or remix it with attribution.
+
+© 2025 [QRvCard.io](https://qrvcard.io)
+
+---
+
+QRvCard.io is built to make contact sharing simple, fast, and truly private — without compromises.
+
