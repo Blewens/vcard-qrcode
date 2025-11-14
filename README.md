@@ -1,96 +1,94 @@
 ![QRvCard.io Preview](screenshot.jpg)
 
-# QRvCard.io — QR vCard Generator
+# QRvCard.io — Privacy-First QR vCard Generator
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
 [![Privacy-First](https://img.shields.io/badge/Privacy-Client--side%20only-2bb673.svg)](#-privacy-first)
 [![Cookie Consent](https://img.shields.io/badge/Consent-Opt--in%20analytics%2Fads-8a63d2.svg)](#-consent--cookies)
 [![Built with JS](https://img.shields.io/badge/Built%20with-HTML%20%7C%20CSS%20%7C%20JS-000000.svg)](#-technologies)
 
-Create and download a **digital business card as a QR code** — fast, simple, and privacy-first.  
-Everything happens securely **in your browser**; no contact details are stored or shared.
-# QRvCard.io — QR vCard Generator
-
-Create and download a **digital business card as a QR code** — fast, simple, and privacy-first.  
-Everything happens securely **in your browser**; no data is stored or shared.
+QRvCard.io lets you **generate and download a digital business card as a QR code** — fast, simple, and privacy-first.  
+All contact details are processed **locally in your browser**, never uploaded or stored.
 
 ---
 
 ## 🔐 Privacy First
 
-QRvCard uses a strict **client-side only** model.  
-QRvCard is designed with a strict **client-side only** model.  
-Your details are processed locally in your browser, not sent to any server.
+QRvCard.io is built on a clear principle: **your contact details belong to you**.
 
-We **don’t store, sell, or share** your contact information.  
-Optional tools (like analytics or ads) only run **after you give consent** via the on-site cookie banner.
+- 100% **client-side processing**  
+- **No accounts or sign-ups**  
+- **No server-side storage**  
+- **No tracking by default**  
+- Optional analytics/ads load **only after explicit consent**
 
-**Responsible monetisation** — minimal, transparent, and privacy-respecting.
+Your vCard is generated directly inside your device’s browser and never sent anywhere.
 
 ---
 
-## 📂 Pages Included
+## 📄 Pages Included
 
-- `index.html` – Home and introduction  
-- `how-to.html` – Step-by-step usage guide  
-- `generate.html` – The main QR vCard generator tool  
-- `privacy.html` – Privacy Policy & Terms of Use  
-- `contact.html` – Contact and feedback form  
+QRvCard.io is a static, self-contained website consisting of:
+
+- `index.html` — Homepage & introduction  
+- `about.html` — Mission, how it works, roadmap  
+- `how-to.html` — Step-by-step guide  
+- `generate.html` — Interactive QR vCard generator  
+- `privacy.html` — Privacy Policy & Terms  
+- `contact.html` — Contact & feedback form  
+- `ads.txt` — Required for authorised ads (if enabled)  
+- `sitemap.xml` — Search engine indexing  
+- `robots.txt` — Crawl rules  
 
 ---
 
 ## 🚀 Usage
 
-1. Go to [generate.html](./generate.html)  
-2. Enter your details (minimum: Full Name & Email)  
-3. Customise your QR code (colors, logo, label)  
-4. Click **Generate**  
-5. Download your ZIP (includes QR image and vCard file)
+1. Open **generate.html**  
+2. Enter your details  
+   - *Full Name* and *Email* are required  
+   - All other fields are optional  
+3. Customise your QR code  
+   - Colour options  
+   - Logo upload  
+   - Optional label text  
+4. Click **Generate QR vCard**  
+5. Download the ZIP file containing:
+   - `QRCode.png` — your QR image  
+   - `Contact.vcf` — your vCard contact file  
+
+All generation is done locally. Nothing is sent to any server.
 
 ---
 
 ## 🍪 Consent & Cookies
 
-QRvCard includes a lightweight consent bar that:
-- Appears on first visit  
-- Lets users choose whether to enable **analytics** and/or **ads**  
-- Only then “releases” any held third-party scripts  
-- Remembers preferences locally (no server storage)
+QRvCard.io includes a lightweight, privacy-respecting consent system:
 
-After AdSense approval, enable Google’s **Privacy & Messaging (CMP)** and place their snippet in the `ads` placeholder; EU/UK/CH visitors will see a certified consent prompt.
+- Shown on first visit  
+- Allows enabling **analytics** and/or **ads**  
+- Keeps third-party scripts blocked until consent is provided  
+- Stores preferences using localStorage  
 
-You can reset your choice anytime via **Cookie settings** in the footer.
-QRvCard includes a small consent bar that:
-- Appears on first visit  
-- Lets users choose whether to enable **analytics** and/or **ads**  
-- Remembers preferences locally (no server storage)  
+When Google AdSense is approved, you can replace the banner with Google’s **Privacy & Messaging (CMP)**.  
+EU/UK/CH visitors will automatically see a certified consent prompt.
 
-If AdSense is enabled, Google’s **Privacy & Messaging (CMP)** will replace this banner automatically.
-
-You can reset your choice anytime via the **Cookie settings** link in the footer.
+Users can reset their choices anytime via **Cookie settings** in the footer.
 
 ---
 
 ## 🧱 Technologies
 
-- **HTML / CSS / JavaScript** (no framework)  
-- **QRCode.js** – Generate QR codes  
-- **JSZip** – Bundle QR + vCard files for download  
-- **Formspree** – Optional contact form handler
+QRvCard.io is built without frameworks using small, reliable libraries:
+
+- **HTML5 / CSS3 / Vanilla JavaScript**  
+- **QRCode.js** — QR code generation  
+- **JSZip** — Bundles contact + QR into a zip  
+- **Formspree** — Handles the contact form  
+- **LocalStorage** — Saves consent preferences  
+
+All processing happens client-side.
 
 ---
 
-## 🖼️ Screenshot
-
-The preview image at the top is `screenshot.jpg`.  
-If you update the UI, replace that file to refresh the README thumbnail.
-- **Formspree** – Optional contact form handler  
-
----
-
-## 📄 License
-
-MIT License — free to reuse or remix with attribution.  
-© 2025 [QRvCard.io](https://qrvcard.io)
-© 2025 [QRvCard.io](https://qrvcard.io)  
-Built for secure, simple, and responsible digital sharing.
+## 📁 Project Structure
