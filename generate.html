@@ -68,18 +68,26 @@
       </p>
     </section>
 
-    <form id="vcardForm" autocomplete="on">
-      <!-- Your Info -->
-      <section class="section">
-        <h2>Your Info</h2>
-        <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
-        <input type="tel" id="phone" placeholder="Phone" autocomplete="tel" />
-        <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
-      </section>
+<form id="vcardForm" autocomplete="on">
+  <!-- Your Info -->
+  <section class="section">
+    <h2>Your Info</h2>
+    <p>
+      Enter the contact details you want people to save when they scan your QR code.
+      Only your Full Name and Email are required; the rest is optional.
+    </p>
+    <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
+    <input type="tel" id="phone" placeholder="Phone" autocomplete="tel" />
+    <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
+  </section>
 
         <!-- Additional Info -->
-        <section class="section">
-          <h2>Additional Info</h2>
+<section class="section">
+  <h2>Additional Info</h2>
+  <p>
+    Add any extra details you’d like to include in your vCard, such as your job title,
+    organisation, website, or social profiles. These fields are optional.
+  </p>
           <input type="text" id="jobTitle" placeholder="Job Title" autocomplete="organization-title" />
           <input type="text" id="organization" placeholder="Organization" autocomplete="organization" />
           <input type="url" id="website" placeholder="Website" autocomplete="url" />
@@ -92,7 +100,11 @@
 
         <!-- QR Customization -->
         <section class="section">
-          <h2>QR Customization</h2>
+  <h2>QR Customization</h2>
+  <p>
+    Personalise the look of your QR code with your own colours and optional logo.
+    This helps your QR vCard feel more on-brand when used on business cards, websites, or printed materials.
+  </p>
           <label for="foreground">Foreground:</label>
           <input type="color" name="foreground" id="foreground" value="#000000" />
           <label for="background">Background:</label>
@@ -103,7 +115,11 @@
 
         <!-- QR Code Label -->
         <section class="section">
-          <h2>QR Code Label (Optional)</h2>
+  <h2>QR Code Label (Optional)</h2>
+  <p>
+    You can add a short label beneath your QR code, such as your name, company,
+    or purpose. This is useful when printing or sharing the QR code in different contexts.
+  </p>
           <input type="text" id="qrLabelText" placeholder="e.g. John Doe - Personal" autocomplete="off" />
           <select id="qrLabelFont">
             <option value="Arial">Arial</option>
@@ -115,7 +131,11 @@
 
         <!-- Generate -->
         <section class="section">
-          <h2>Generate</h2>
+  <h2>Generate</h2>
+  <p>
+    When you’re ready, generate your QR vCard and download it as a ZIP file.
+    Your QR image and contact file are prepared locally in your browser.
+  </p>
           <div id="countdownMessage"></div>
           <div style="text-align: center;">
             <button type="button" id="generateBtn" class="navBtn pulse">Generate QR vCard</button>
@@ -125,7 +145,19 @@
             <p><strong>Ad space:</strong> Your promotion here</p>
           </div>
         </section>
-      </form>
+            </form>
+
+      <section class="section">
+        <h2>What You’ll Download</h2>
+        <p>
+          Your download includes a QR code image and a vCard file, bundled together in a ZIP.
+          This makes it easy to save, print, share, or upload your QR vCard wherever you need it.
+        </p>
+        <ul>
+          <li><strong>QRCode.png</strong> — your generated QR code image</li>
+          <li><strong>Contact.vcf</strong> — your contact details in standard vCard format</li>
+        </ul>
+      </section>
 
       <!-- Output Area -->
       <div id="qrcode" class="qrcode-preview"></div>
