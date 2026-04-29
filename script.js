@@ -338,7 +338,7 @@ Tip: On iOS, open Contact.vcf to add to Contacts. On Android, open with Contacts
     zipBlob = zipBlobResult;
     zipFilename = "QRvCard.zip";
     downloadZipBtn.style.display = "inline-block";
-    countdownMsg.textContent = "Your QR & vCard are ready below. Please scroll down to view and download it.";
+    countdownMsg.textContent = "Your QR & vCard are ready below. Please scroll down to view and download.";
     generateBtn.disabled = false;
 
     // Single, safe download handler (no duplicates)
