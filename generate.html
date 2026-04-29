@@ -52,16 +52,30 @@
     </div>
   </header>
 
-  <main>
-    <div class="container">
-      <form id="vcardForm" autocomplete="on">
-        <!-- Your Info -->
-        <section class="section">
-          <h2>Your Info</h2>
-          <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
-          <input type="tel" id="phone" placeholder="Phone" autocomplete="tel" />
-          <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
-        </section>
+<main>
+  <div class="container">
+
+    <section class="section" style="margin-top: 2rem;">
+      <h2>What This Generator Does</h2>
+      <p>
+        This page lets you create a downloadable QR vCard directly in your browser.
+        Your contact details are turned into a QR code and a vCard file without being stored on our servers.
+      </p>
+      <p>
+        New to QRvCard.io? Visit the <a href="how-to.html">How To</a> page for step-by-step guidance,
+        learn more <a href="about.html">About</a> the project, or read our
+        <a href="privacy.html">Privacy &amp; Terms</a>.
+      </p>
+    </section>
+
+    <form id="vcardForm" autocomplete="on">
+      <!-- Your Info -->
+      <section class="section">
+        <h2>Your Info</h2>
+        <input type="text" id="fullName" placeholder="Full Name*" required autocomplete="name" />
+        <input type="tel" id="phone" placeholder="Phone" autocomplete="tel" />
+        <input type="email" id="email" placeholder="Email*" required autocomplete="email" />
+      </section>
 
         <!-- Additional Info -->
         <section class="section">
